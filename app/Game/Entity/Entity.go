@@ -1,17 +1,32 @@
 package Entity
-import "math/rand"
+
+import (
+	"github.com/RugiSerl/simulisation/app/math"
+)
 
 type Entity struct {
-	Age uint8
+	Age  uint8
+	Dead bool
+	X    float32
+	Y    float32
 }
 
 func NewEntity() *Entity {
-	
+
 	e := new(Entity)
-	e.Age = 0 
+	e.Age = 0
+	e.Dead = false
+
+	return e
 }
 
 func (e *Entity) Update() {
 	e.Age += 5
-	if e.Age
+	if e.Age == uint8(math.RandomRange(50, 90)) {
+		e.Dead = true
+	}
+}
+
+func (e *Entity) Mouvement() {
+
 }
