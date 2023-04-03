@@ -1,5 +1,9 @@
 package Entity
 
-type Entity(){
-	name
+type Entity struct {
+	Name string
+}
+
+func New(){
+	
 }
