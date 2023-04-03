@@ -6,6 +6,7 @@ func Run() {
 	load()
 
 	for !rl.WindowShouldClose() {
+		rl.DrawText("ceci est un test", 0, 0, 20, rl.Black)
 
 	}
 	quit()
