@@ -1,19 +1,36 @@
 package app
 
-import "github.com/gen2brain/raylib-go/raylib"
+import rl "github.com/gen2brain/raylib-go/raylib"
 
 func Run() {
-	rl.InitWindow(800, 450, "raylib [core] example - basic window")
-	rl.SetTargetFPS(60)
+	load()
 
 	for !rl.WindowShouldClose() {
-		rl.BeginDrawing()
 
-		rl.ClearBackground(rl.RayWhite)
-		rl.DrawText("On n'a pas encore commencé", 190, 200, 20, rl.LightGray)
-
-		rl.EndDrawing()
 	}
+	quit()
+
+}
+
+func load() {
+
+	rl.InitWindow(800, 450, "Simulisation")
+	rl.SetTargetFPS(-1)
+
+}
+
+func update() {
+	rl.BeginDrawing()
+
+	rl.ClearBackground(rl.Blue)
+	rl.DrawText("On n'a pas encore commencé", 190, 200, 20, rl.Red)
+
+	rl.EndDrawing()
+
+}
+
+func quit() {
 
 	rl.CloseWindow()
+
 }
