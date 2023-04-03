@@ -5,4 +5,6 @@ type Map struct {
 }
 
 
-func 
+func NewMap() {
+	
+}
