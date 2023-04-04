@@ -1,12 +1,19 @@
 package app
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+import (
+	game "github.com/RugiSerl/simulisation/app/Game"
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
+
+var (
+	Game *game.Game
+)
 
 func Run() {
 	load()
 
 	for !rl.WindowShouldClose() {
-		rl.DrawText("ceci est un test", 0, 0, 20, rl.Black)
+		update()
 
 	}
 	quit()
@@ -17,6 +24,7 @@ func load() {
 
 	rl.InitWindow(800, 450, "Simulisation")
 	rl.SetTargetFPS(-1)
+	Game = game.NewGame() //beaucoup de "game"
 
 }
 

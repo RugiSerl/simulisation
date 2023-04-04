@@ -10,11 +10,15 @@ type Game struct {
 	entities []*gameComponents.Entity
 }
 
-func newGame() *Game {
+const POPULATION_AT_THE_STAART = 10
+
+func NewGame() *Game {
 	g := new(Game)
 
 	g.entities = []*gameComponents.Entity{}
 	g.gameMap = gameComponents.NewMap()
+
+	g.SpawnEntities(POPULATION_AT_THE_STAART)
 
 	return g
 }
