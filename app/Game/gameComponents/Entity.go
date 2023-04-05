@@ -21,7 +21,7 @@ func NewEntity() *Entity {
 	return e
 }
 
-// Cette fonction est appelée à chaque tour, et mets à jours les statistiques de l'entité
+// Cette fonction est appelée à chaque tour, et met à jour les statistiques de l'entité
 func (e *Entity) Update() {
 	e.Age += 5
 	if e.Age == uint8(math.RandomRange(50, 90)) {
@@ -29,6 +29,6 @@ func (e *Entity) Update() {
 	}
 }
 
-func (e *Entity) Mouvement() {
+func (e *Entity) Movement() {
 
 }
