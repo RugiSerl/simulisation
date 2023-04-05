@@ -1,0 +1,10 @@
+Entité: 
+-besoin de se nourrir --> champs
+-déplacements: -conditions de mouvements
+               -déplacement en groupe/seul
+-conditions création de maison
+-conditions apparition nouvelles entités
+
+
+fait:
+-mort aléatoire entre 50 et 90 tick
