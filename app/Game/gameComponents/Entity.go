@@ -37,13 +37,6 @@ func NewEntity() *Entity {
 	return e
 }
 
-// Les prochaines fonctions sont appelées à chaque tour de manière à mettre à jour les statistiques de l'entité selon les actions dans la simulation
-
-// Cette fonction détermine si l'entité continue à vivre ou non 
-func (e *Entity) Update() {
-
-}
-
 // Cette fonction permet de déplacer l'entité
 func (e *Entity) Movement(newX uint8,newY uint8) {
 
@@ -52,3 +45,14 @@ func (e *Entity) Movement(newX uint8,newY uint8) {
 
 }
 
+//
+func (e *Entity) NewVoisin() {
+
+}
+
+
+func (e *Entity) EvaluateMoralDiff(otherEntity *Entity) int{
+	return math.AbsoluteValue()
+
+
+}

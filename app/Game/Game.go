@@ -23,14 +23,11 @@ func NewGame() *Game {
 	return g
 }
 
-// Cette fonction est appellée lorsqu'une entité est censée apparaître, et en fait apparaître une
-func (g *Game) SpawnEntities(amount int) {
-	for i := 0; i < amount; i++ {
-		g.entities = append(g.entities, gameComponents.NewEntity())
-
+// Cette fonction est appellée lorsqu'une entité est censée apparaître
+func (g *Game) SpawnEntities() {
+	minEcartMoral := 0
+	for i, entity := range entities {
+		
+		
 	}
-
 }
-
-//
-func 
