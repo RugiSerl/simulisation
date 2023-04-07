@@ -10,7 +10,7 @@ type Game struct {
 	entities []*gameComponents.Entity
 }
 
-const POPULATION_AT_THE_STAART = 10
+const POPULATION_AT_THE_START = 10
 
 func NewGame() *Game {
 	g := new(Game)
@@ -18,11 +18,12 @@ func NewGame() *Game {
 	g.entities = []*gameComponents.Entity{}
 	g.gameMap = gameComponents.NewMap()
 
-	g.SpawnEntities(POPULATION_AT_THE_STAART)
+	g.SpawnEntities(POPULATION_AT_THE_START)
 
 	return g
 }
 
+// Cette fonction est appellée lorsqu'une entité est censée apparaître, et en fait apparaître une
 func (g *Game) SpawnEntities(amount int) {
 	for i := 0; i < amount; i++ {
 		g.entities = append(g.entities, gameComponents.NewEntity())
