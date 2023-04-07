@@ -31,3 +31,6 @@ func (g *Game) SpawnEntities(amount int) {
 	}
 
 }
+
+//
+func 
