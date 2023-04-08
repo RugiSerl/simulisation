@@ -1,6 +1,8 @@
 package game
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/Game/gameComponents"
 )
 
@@ -18,16 +20,28 @@ func NewGame() *Game {
 	g.entities = []*gameComponents.Entity{}
 	g.gameMap = gameComponents.NewMap()
 
-	g.SpawnEntities(POPULATION_AT_THE_START)
+	g.SpawnEntities()
+	g.SpawnEntities()
 
 	return g
 }
 
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
 func (g *Game) SpawnEntities() {
-	minEcartMoral := 0
-	for i, entity := range entities {
-		
-		
+
+	var minEcartMoral uint8 = 128
+	var minEcartMoralIndex int = 0
+
+	e := gameComponents.NewEntity()
+
+	for i, entity := range g.entities {
+		if e.DistanceMorale(entity) < minEcartMoral {
+			minEcartMoralIndex = i
+		}
+		fmt.Println(i)
+
 	}
+
+	g.entities = append(g.entities, e)
+	fmt.Println(minEcartMoralIndex)
 }

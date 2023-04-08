@@ -1,17 +1,16 @@
 package gameComponents
 
+import rl "github.com/gen2brain/raylib-go/raylib"
+
 type Map struct {
-
-	textures map[string]rl.Texture2d
+	textures map[string]rl.Texture2D
 	// Tableau contenant les informations sur les cellules de la map (champ, maison, ...)
-	cells [GRID_SIZE][GRID_SIZE]
-
-
-
+	cells [GRID_SIZE][GRID_SIZE]string
 }
 
 // Taille d'une cellule de la grille
 const GRID_CELL_SIZE = 24
+
 // Taille de la grille
 const GRID_SIZE = 40
 
@@ -20,7 +19,7 @@ func NewMap() *Map {
 
 	m := new(Map)
 
-	m.textures = make(map[string]rl.Texture2d)
+	m.textures = make(map[string]rl.Texture2D)
 	m.textures["field"] = rl.LoadTexture("assets/field.png")
 	m.textures["lake"] = rl.LoadTexture("assets/lake.png")
 	m.textures["house"] = rl.LoadTexture("assets/house.png")
@@ -29,5 +28,3 @@ func NewMap() *Map {
 	return m
 
 }
-
-

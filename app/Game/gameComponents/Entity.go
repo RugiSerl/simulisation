@@ -9,7 +9,6 @@ const NB_VOISINS_MAX = 6
 
 // Définition de la classe "Entity"
 type Entity struct {
-
 	ValeurMorale uint8 // Valeur aléatoire qui va déterminer le groupe que l'entité rejoindra
 
 	X uint8 // cordonnée x de l'entité sur la map
@@ -18,8 +17,8 @@ type Entity struct {
 	renderX float32 // cordonnée x de l'entité sur la map pour affichage
 	renderY float32 // cordonnée y de l'entité sur la map pour affichage
 
-	Voisins [NB_VOISINS_MAX]*Entity // Tableau des voisins avec lequels l'entité est en lien
-	LiensVoisins [NB_VOISINS_MAX]uint8 // Tableau des forces de liaisons avec les voisins
+	Voisins      [NB_VOISINS_MAX]*Entity // Tableau des voisins avec lequels l'entité est en lien
+	LiensVoisins [NB_VOISINS_MAX]uint8   // Tableau des forces de liaisons avec les voisins
 }
 
 // Initialisation des valeurs de l'entité
@@ -32,27 +31,25 @@ func NewEntity() *Entity {
 	e.Y = uint8(math.RandomRange(0, 39))
 	e.renderX = 0
 	e.renderY = 0
-	e.Voisins = []
 
 	return e
 }
 
 // Cette fonction permet de déplacer l'entité
-func (e *Entity) Movement(newX uint8,newY uint8) {
+func (e *Entity) Movement(newX uint8, newY uint8) {
 
 	e.X = newX
 	e.Y = newY
 
 }
 
-//
-func (e *Entity) NewVoisin() {
+// la valeur morale est "cyclique", ce qui signifie que celle entre 5 et 254 est 6 par exemple
+func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
+	distance := e.ValeurMorale - otherEntity.ValeurMorale
+	if distance > 128 {
+		return 255 - distance
+	}
 
-}
-
-
-func (e *Entity) EvaluateMoralDiff(otherEntity *Entity) int{
-	return math.AbsoluteValue()
-
+	return distance
 
 }
