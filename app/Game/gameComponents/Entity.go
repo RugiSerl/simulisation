@@ -1,47 +1,58 @@
 package gameComponents
 
 import (
+	"log"
+
 	"github.com/RugiSerl/simulisation/app/math"
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 // Constante du nombre de voisins maximum
 const NB_VOISINS_MAX = 6
 
+var (
+	//texture utilisée pour afficher l'entité sur la fenêtre
+	TextureEntite rl.Texture2D
+)
+
 // Définition de la classe "Entity"
 type Entity struct {
 	ValeurMorale uint8 // Valeur aléatoire qui va déterminer le groupe que l'entité rejoindra
 
-	X uint8 // cordonnée x de l'entité sur la map
-	Y uint8 // cordonnée y de l'entité sur la map
+	X float32 // cordonnée x de l'entité sur la map
+	Y float32 // cordonnée y de l'entité sur la map
 
-	renderX float32 // cordonnée x de l'entité sur la map pour affichage
-	renderY float32 // cordonnée y de l'entité sur la map pour affichage
-
-	Voisins      [NB_VOISINS_MAX]*Entity // Tableau des voisins avec lequels l'entité est en lien
-	LiensVoisins [NB_VOISINS_MAX]uint8   // Tableau des forces de liaisons avec les voisins
-	NbVoisins    uint8                   // nombre de voisins de l'entité
+	Voisins      []*Entity // Tableau des voisins avec lequels l'entité est en lien
+	LiensVoisins []uint8   // Tableau des forces de liaisons avec les voisins
+	NbVoisins    uint8     // nombre de voisins de l'entité
 }
 
 // Initialisation d'une instance entité
 func NewEntity() *Entity {
 
 	e := new(Entity)
-
 	e.ValeurMorale = uint8(math.RandomRange(0, 255))
-	e.X = uint8(math.RandomRange(0, 39))
-	e.Y = uint8(math.RandomRange(0, 39))
-	e.renderX = 0
-	e.renderY = 0
 	e.NbVoisins = 0
 
 	return e
 }
 
 // Cette fonction permet de déplacer l'entité
-func (e *Entity) Mouvement(newX uint8, newY uint8) {
+func (e *Entity) Mouvement(newX float32, newY float32) {
 
 	e.X = newX
 	e.Y = newY
+
+}
+
+// Cette fonction
+func (e *Entity) Update() {
+	e.render()
+}
+
+// Cette fonction s'occupe d'afficher visuellement l'entité
+func (e *Entity) render() {
+	rl.DrawTextureEx(TextureEntite, rl.NewVector2(e.X, e.Y), 0, 1, rl.White)
 
 }
 
@@ -56,9 +67,22 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 
 }
 
+// création d'un lien avec une autre entité
 func (e *Entity) NouveauLien(entiteVoisine *Entity) {
-	e.
-	e.LiensVoisins[e.NbVoisins] = 
-	e.NbVoisins++
-	
+	if len(e.LiensVoisins) < NB_VOISINS_MAX {
+		forceDuLien := 128 - e.DistanceMorale(entiteVoisine)
+
+		e.Voisins = append(e.Voisins, entiteVoisine)
+		e.LiensVoisins = append(e.LiensVoisins, forceDuLien)
+
+		entiteVoisine.Voisins = append(entiteVoisine.Voisins, e)
+		entiteVoisine.LiensVoisins = append(entiteVoisine.LiensVoisins, forceDuLien)
+
+		e.X = entiteVoisine.X
+		e.Y = entiteVoisine.Y + 20
+
+	} else {
+		log.Fatal("l'entité a déjà atteint le nombre maximal de voisins")
+	}
+
 }
