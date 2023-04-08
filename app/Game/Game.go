@@ -26,19 +26,29 @@ func NewGame() *Game {
 	return g
 }
 
+func (g *Game) SpawnMultipleEntities(amount int) {
+	for i := 0; i < amount; i++ {
+		g.SpawnEntities()
+	}
+}
+
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
 func (g *Game) SpawnEntities() {
 
 	var minEcartMoral uint8 = 128
-	var minEcartMoralIndex int = 0
+	var minEcartMoralIndex int = -1
 
 	e := gameComponents.NewEntity()
 
 	for i, entity := range g.entities {
-		if e.DistanceMorale(entity) < minEcartMoral {
+		if e.DistanceMorale(entity) < minEcartMoral && entity.NbVoisins < gameComponents.NB_VOISINS_MAX {
 			minEcartMoralIndex = i
 		}
 		fmt.Println(i)
+
+	}
+
+	if minEcartMoralIndex != -1 { // l'entité peut aussi naître sans aucun voisin, ex: la toute première entité
 
 	}
 

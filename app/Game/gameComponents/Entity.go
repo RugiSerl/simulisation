@@ -19,9 +19,10 @@ type Entity struct {
 
 	Voisins      [NB_VOISINS_MAX]*Entity // Tableau des voisins avec lequels l'entité est en lien
 	LiensVoisins [NB_VOISINS_MAX]uint8   // Tableau des forces de liaisons avec les voisins
+	NbVoisins    uint8                   // nombre de voisins de l'entité
 }
 
-// Initialisation des valeurs de l'entité
+// Initialisation d'une instance entité
 func NewEntity() *Entity {
 
 	e := new(Entity)
@@ -31,12 +32,13 @@ func NewEntity() *Entity {
 	e.Y = uint8(math.RandomRange(0, 39))
 	e.renderX = 0
 	e.renderY = 0
+	e.NbVoisins = 0
 
 	return e
 }
 
 // Cette fonction permet de déplacer l'entité
-func (e *Entity) Movement(newX uint8, newY uint8) {
+func (e *Entity) Mouvement(newX uint8, newY uint8) {
 
 	e.X = newX
 	e.Y = newY
@@ -52,4 +54,11 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 
 	return distance
 
+}
+
+func (e *Entity) NouveauLien(entiteVoisine *Entity) {
+	e.
+	e.LiensVoisins[e.NbVoisins] = 
+	e.NbVoisins++
+	
 }
