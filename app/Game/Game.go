@@ -1,7 +1,10 @@
 package game
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/Game/gameComponents"
+	"github.com/RugiSerl/simulisation/app/graphic"
 )
 
 // Classe qui contient le déroulement principal du jeu
@@ -29,6 +32,7 @@ func NewGame() *Game {
 func (g *Game) Update() {
 	for _, entity := range g.entities {
 		entity.Update()
+
 	}
 
 }
@@ -37,6 +41,7 @@ func (g *Game) Update() {
 func (g *Game) SpawnMultipleEntities(amount int) {
 	for i := 0; i < amount; i++ {
 		g.SpawnEntity()
+		fmt.Println(len(g.entities[i].Voisins))
 	}
 }
 
@@ -49,7 +54,7 @@ func (g *Game) SpawnEntity() {
 	e := gameComponents.NewEntity()
 
 	for i, entity := range g.entities {
-		if e.DistanceMorale(entity) < minEcartMoral && entity.NbVoisins < gameComponents.NB_VOISINS_MAX {
+		if e.DistanceMorale(entity) < minEcartMoral && len(entity.Voisins) < gameComponents.NB_VOISINS_MAX {
 			minEcartMoralIndex = i
 			minEcartMoral = e.DistanceMorale(entity)
 		}
@@ -60,8 +65,7 @@ func (g *Game) SpawnEntity() {
 		e.NouveauLien(g.entities[minEcartMoralIndex])
 
 	} else { // l'entité peut aussi naître sans aucun voisin, ex: la toute première entité, et il faut donc lui rajouter une position dans le jeu
-		e.X = 0
-		e.Y = 0
+		e.Position = graphic.NewVector2(0, 0)
 	}
 
 	g.entities = append(g.entities, e)
