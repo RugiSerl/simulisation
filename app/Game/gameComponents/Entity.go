@@ -55,7 +55,7 @@ func (e *Entity) UnCollide(entities []*Entity) {
 
 	for _, entity := range entities {
 		if entity.HitBox.DetectCircleCollision(e.HitBox) && entity.HitBox.CenterPosition != e.HitBox.CenterPosition {
-			e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius))
+			e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
 
 		}
 
