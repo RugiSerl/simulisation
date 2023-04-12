@@ -34,6 +34,10 @@ func (v Vector2) Scale(scale float32) Vector2 {
 	return NewVector2(v.X*scale, v.Y*scale)
 }
 
+func (v Vector2) ScaleToNorm(norm float32) Vector2 {
+	return v.Scale(norm / v.GetNorm())
+}
+
 func (v Vector2) ToRaylibVector2() rl.Vector2 {
 	return rl.NewVector2(v.X, v.Y)
 

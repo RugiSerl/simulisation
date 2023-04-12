@@ -18,7 +18,7 @@ var (
 type Entity struct {
 	ValeurMorale uint8 // Valeur aléatoire qui va déterminer le groupe que l'entité rejoindra
 
-	Position graphic.Vector2 // cordonnées de l'entité sur la map
+	HitBox graphic.Circle
 }
 
 // Initialisation d'une instance entité
@@ -26,7 +26,7 @@ func NewEntity(position graphic.Vector2) *Entity {
 
 	e := new(Entity)
 	e.ValeurMorale = uint8(math.RandomRange(0, 255))
-	e.Position = position
+	e.HitBox = graphic.NewCircle(64*SCALE, position.X, position.Y)
 
 	return e
 }
@@ -42,27 +42,36 @@ func (e *Entity) Move(otherEntities []*Entity) {
 	for _, entity := range otherEntities {
 		weight = float32(e.DistanceMorale(entity)) / 255
 		weightSum += weight
-		sum = sum.Add(entity.Position.Scale(weight))
+		sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))
 	}
 
 	average := sum.Scale(1 / weightSum) // division par l'effectif pour faire la moyenne
 
-	e.Position = e.Position.Add(average.Substract(e.Position).Scale(0.01)) // déplacement vers cette position
+	e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(average.Substract(e.HitBox.CenterPosition).Scale(0.01)) // déplacement vers cette position
 }
 
 // cette fonction est là pour éviter que les entités se chevauchent, en les "repoussant" assez loin
-func (e *Entity) UnCollide() {
+func (e *Entity) UnCollide(entities []*Entity) {
+
+	for _, entity := range entities {
+		if entity.HitBox.DetectCircleCollision(e.HitBox) && entity.HitBox.CenterPosition != e.HitBox.CenterPosition {
+			e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius))
+
+		}
+
+	}
 
 }
 
 func (e *Entity) Update(otherEntities []*Entity) {
 	e.render()
 	e.Move(otherEntities)
+	e.UnCollide(otherEntities)
 }
 
 // Cette fonction s'occupe d'afficher visuellement l'entité
 func (e *Entity) render() {
-	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.Position.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.25))), 0, SCALE, rl.White)
+	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.25))), 0, SCALE, rl.White)
 
 }
 
