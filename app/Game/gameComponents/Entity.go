@@ -1,6 +1,8 @@
 package gameComponents
 
 import (
+	"log"
+
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -22,7 +24,6 @@ type Entity struct {
 	ValeurMorale uint8 // Valeur aléatoire qui va déterminer le groupe que l'entité rejoindra
 
 	Position graphic.Vector2 // cordonnées de l'entité sur la map
-
 }
 
 // Initialisation d'une instance entité
@@ -60,5 +61,24 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 	}
 
 	return distance
+
+}
+
+// création d'un lien avec une autre entité
+func (e *Entity) NouveauLien(entiteVoisine *Entity) {
+	if len(e.Voisins) < NB_VOISINS_MAX {
+		forceDuLien := 128 - e.DistanceMorale(entiteVoisine)
+
+		e.Voisins = append(e.Voisins, entiteVoisine)
+		e.LiensVoisins = append(e.LiensVoisins, forceDuLien)
+
+		entiteVoisine.Voisins = append(entiteVoisine.Voisins, e)
+		entiteVoisine.LiensVoisins = append(entiteVoisine.LiensVoisins, forceDuLien)
+
+		e.Position = entiteVoisine.Position
+		e.Position.Y += 50
+	} else {
+		log.Fatal("l'entité a déjà atteint le nombre maximal de voisins")
+	}
 
 }
