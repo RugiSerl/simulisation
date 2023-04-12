@@ -56,7 +56,7 @@ func (e *Entity) render() {
 // la valeur morale est "cyclique", ce qui signifie que celle entre 5 et 254 est 6 par exemple
 func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 	distance := e.ValeurMorale - otherEntity.ValeurMorale
-	if distance > 128 {
+	if distance > 128  {
 		return 255 - distance
 	}
 
