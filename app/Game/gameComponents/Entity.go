@@ -57,7 +57,6 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 	if distance > 128 {
 		return 255 - distance
 	}
-
 	return distance
 
 }
