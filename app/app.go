@@ -22,11 +22,13 @@ func Run() {
 }
 
 func load() {
+	rl.SetConfigFlags(rl.FlagWindowResizable)
 
 	rl.InitWindow(800, 450, "Simulisation")
 	rl.SetTargetFPS(-1)
 	myGame = game.NewGame() //beaucoup de "game"
 	gameComponents.TextureEntite = rl.LoadTexture("assets/person.png")
+	rl.SetTextureFilter(gameComponents.TextureEntite, rl.FilterBilinear)
 
 }
 

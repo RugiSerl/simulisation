@@ -1,13 +1,9 @@
 fonctionnement:
 Une entité possède une valeur morale abstraite : qui est représenté par un simple entier
 
-chaque entité s'associe naturellement avec d'autres entités, en ayant une préférence pour les autres entités qui possède une valeur morale proche de la leur
+chaque entité va se rapprocher naturellement avec d'autres entités, en ayant une préférence pour les autres entités qui possède une valeur morale proche de la leur
 
-chaque liaison formée entre les entités peux être plus ou moins forte, cela est déterminé à la fois aléatoirement et à la fois en fonction de la similarité de valeurs
-
-cela va faire apparaître des cellules qui ont plus de liaisons fortes que les autres, qui vont être ainsi plus influentes
-
-ces cellules "influentes" vont donc pouvoir se déplacer, et amener ses cellules qui lui sont associées, quant aux autres, elles vont suivre le groupe
+chaque entité va pouvoir avoir une influence plus ou moins élevée qui va pouvoir attirer 
 
 cela va finir par former plusieurs groupes, et si ils rentrent en collision, il y a trois cas de figure:
 
