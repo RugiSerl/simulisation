@@ -25,6 +25,7 @@ func load() {
 	rl.SetConfigFlags(rl.FlagWindowResizable)
 
 	rl.InitWindow(800, 450, "Simulisation")
+	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
 	rl.SetTargetFPS(-1)
 	myGame = game.NewGame() //beaucoup de "game"
 	gameComponents.TextureEntite = rl.LoadTexture("assets/person.png")

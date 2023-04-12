@@ -22,14 +22,16 @@ func (v Vector2) GetNorm() float32 {
 
 }
 
-func (v Vector2) Add(otherVector *Vector2) {
-	v.X += otherVector.X
-	v.Y += otherVector.Y
+func (v Vector2) Add(otherVector Vector2) Vector2 {
+	return NewVector2(v.X+otherVector.X, v.Y+otherVector.Y)
 }
 
-func (v Vector2) Substract(otherVector *Vector2) {
-	v.X -= otherVector.X
-	v.Y -= otherVector.Y
+func (v Vector2) Substract(otherVector Vector2) Vector2 {
+	return NewVector2(v.X-otherVector.X, v.Y-otherVector.Y)
+}
+
+func (v Vector2) Scale(scale float32) Vector2 {
+	return NewVector2(v.X*scale, v.Y*scale)
 }
 
 func (v Vector2) ToRaylibVector2() rl.Vector2 {

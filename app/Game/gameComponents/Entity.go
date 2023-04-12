@@ -6,9 +6,6 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// Constante du nombre de voisins maximum
-const NB_VOISINS_MAX = 6
-
 // échelle qui correspond à la taille des entité (1 => 128; 0.5 => 64; ...)
 const SCALE = 0.5
 
@@ -25,29 +22,47 @@ type Entity struct {
 }
 
 // Initialisation d'une instance entité
-func NewEntity() *Entity {
+func NewEntity(position graphic.Vector2) *Entity {
 
 	e := new(Entity)
 	e.ValeurMorale = uint8(math.RandomRange(0, 255))
+	e.Position = position
 
 	return e
 }
 
-// Cette fonction permet de déplacer l'entité
-func (e *Entity) Mouvement(newX float32, newY float32) {
+// Cette fonction permet de déplacer l'entité et de rapprocher l'entité des entités similaires.
+// Elle choisit une destination qui est la 'moyenne' des position pondérée à l'aide des 'distances morales'
+func (e *Entity) Move(otherEntities []*Entity) {
 
-	e.Position.X = newX
-	e.Position.Y = newY
+	var sum graphic.Vector2 = graphic.NewVector2(0, 0)
+	var weight float32
+	var weightSum float32 = 0
+
+	for _, entity := range otherEntities {
+		weight = float32(e.DistanceMorale(entity)) / 255
+		weightSum += weight
+		sum = sum.Add(entity.Position.Scale(weight))
+	}
+
+	average := sum.Scale(1 / weightSum) // division par l'effectif pour faire la moyenne
+
+	e.Position = e.Position.Add(average.Substract(e.Position).Scale(0.01)) // déplacement vers cette position
+}
+
+// cette fonction est là pour éviter que les entités se chevauchent, en les "repoussant" assez loin
+func (e *Entity) UnCollide() {
 
 }
 
-func (e *Entity) Update() {
+func (e *Entity) Update(otherEntities []*Entity) {
 	e.render()
+	e.Move(otherEntities)
 }
 
 // Cette fonction s'occupe d'afficher visuellement l'entité
 func (e *Entity) render() {
-	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.Position), 0, SCALE, rl.White)
+	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.Position.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.25))), 0, SCALE, rl.White)
 
 }
 
