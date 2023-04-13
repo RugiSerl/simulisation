@@ -24,6 +24,6 @@ func (c *Circle) DetectCircleCollision(otherCircle Circle) bool {
 }
 
 func (c *Circle) Fill(color color.RGBA) {
-	rl.DrawCircle(int32(c.CenterPosition.X), int32(c.CenterPosition.Y), c.Radius, color)
+	rl.DrawCircleV(rl.Vector2(c.CenterPosition), c.Radius, color)
 
 }

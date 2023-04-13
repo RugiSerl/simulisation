@@ -11,6 +11,6 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -soit ils ont ont des valeurs très différentes, et alors il se font la guerre et les cellules proches des deux camps s'entretuent
 -soit ils ont des valeurs ni opposées, ni similaire, et dans ce cas-là les groupes continuent leur chemin
 
--spawn à la souris à réparer
--rayon d'analyse des autres entités
+-spawn à la souris à réparer - FAIT
+-rayon d'analyse des autres entités - FAIT
 -cercle chromatique pour les niveaux de valeur morales

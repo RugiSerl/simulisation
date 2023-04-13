@@ -46,7 +46,7 @@ func (g *Game) Update() {
 	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeySpace) {
-		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Add(graphic.Vector2(g.camera.Target)))
+		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.camera.Zoom).Add(graphic.Vector2(g.camera.Target)))
 	}
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
 		gameComponents.ShowValeurMorale = !gameComponents.ShowValeurMorale
@@ -78,9 +78,6 @@ func (g *Game) UpdateCamera() {
 	if g.camera.Zoom < 1 { //1 est le minimum possible
 		g.camera.Zoom = 1
 	}
-
-	g.camera.Offset.X = float32(rl.GetScreenWidth()) / 2
-	g.camera.Offset.Y = float32(rl.GetScreenHeight()) / 2
 
 }
 

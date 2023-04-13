@@ -37,7 +37,6 @@ func update() {
 	rl.BeginDrawing()
 
 	rl.ClearBackground(rl.White)
-	//rl.DrawText("On n'a pas encore commencé", 190, 200, 20, rl.Red)
 	myGame.Update()
 
 	rl.EndDrawing()
