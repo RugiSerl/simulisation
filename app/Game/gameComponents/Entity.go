@@ -7,11 +7,12 @@ import (
 )
 
 // échelle qui correspond à la taille des entité (1 => 128; 0.5 => 64; ...)
-const SCALE = 0.5
+const SCALE = 0.05
 
 var (
 	//texture utilisée pour afficher l'entité sur la fenêtre
-	TextureEntite rl.Texture2D
+	TextureEntite    rl.Texture2D
+	ShowValeurMorale bool = false
 )
 
 // Définition de la classe "Entity"
@@ -64,15 +65,19 @@ func (e *Entity) UnCollide(entities []*Entity) {
 }
 
 func (e *Entity) Update(otherEntities []*Entity) {
-	e.render()
 	e.Move(otherEntities)
 	e.UnCollide(otherEntities)
+	e.render()
+
 }
 
 // Cette fonction s'occupe d'afficher visuellement l'entité
 func (e *Entity) render() {
-	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.25))), 0, SCALE, rl.White)
+	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
+	if ShowValeurMorale {
+		e.HitBox.Fill(rl.NewColor(e.ValeurMorale, e.ValeurMorale, e.ValeurMorale, 255))
 
+	}
 }
 
 // la valeur morale est "cyclique", ce qui signifie que celle entre 5 et 254 est 6 par exemple

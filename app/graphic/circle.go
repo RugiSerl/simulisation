@@ -1,8 +1,19 @@
 package graphic
 
+import (
+	"image/color"
+
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
+
 type Circle struct {
 	CenterPosition Vector2
 	Radius         float32
+}
+
+func NewCircle(radius float32, x float32, y float32) Circle {
+	return Circle{Radius: radius, CenterPosition: NewVector2(x, y)}
+
 }
 
 // detect if two circles overlap
@@ -12,7 +23,7 @@ func (c *Circle) DetectCircleCollision(otherCircle Circle) bool {
 
 }
 
-func NewCircle(radius float32, x float32, y float32) Circle {
-	return Circle{Radius: radius, CenterPosition: NewVector2(x, y)}
+func (c *Circle) Fill(color color.RGBA) {
+	rl.DrawCircle(int32(c.CenterPosition.X), int32(c.CenterPosition.Y), c.Radius, color)
 
 }
