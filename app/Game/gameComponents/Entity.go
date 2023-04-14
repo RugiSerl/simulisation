@@ -18,6 +18,7 @@ var (
 
 	//bool utilisé pour savoir si l'on affiche une représentation graphique de la valeur morale de l'entité
 	ShowValeurMorale bool = false
+
 )
 
 // Définition de la classe "Entity"
