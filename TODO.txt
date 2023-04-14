@@ -14,3 +14,9 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -spawn à la souris à réparer - FAIT
 -rayon d'analyse des autres entités - FAIT
 -cercle chromatique pour les niveaux de valeur morales
+-afficher le compteur des entités
+-faire mourir les entités après un délai
+-faire naitre d'autres entités en fonction du nombre d'entités dans le rayon d'une entité
+-faire déplacer les cellules
+-afficher les stats du jeu
+-faire une interface graphique pour les paramètres du jeu

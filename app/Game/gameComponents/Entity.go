@@ -7,7 +7,7 @@ import (
 )
 
 // échelle qui correspond à la taille des entité (1 => 128px; 0.5 => 64px; ...)
-const SCALE = 0.1
+const SCALE = 0.01
 
 // rayon dans lequel une entité "voit" les autres entités
 const RADIUS_SENSIVITY = SCALE * 1e3
@@ -88,7 +88,7 @@ func (e *Entity) Update(otherEntities []*Entity) {
 func (e *Entity) render() {
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 	if ShowValeurMorale {
-		e.HitBox.Fill(rl.NewColor(e.ValeurMorale, e.ValeurMorale, e.ValeurMorale, 255))
+		e.HitBox.Fill(graphic.NewColorAbsvalue(e.ValeurMorale))
 
 	}
 }

@@ -28,7 +28,7 @@ func NewGame() *Game {
 
 	g.entities = []*gameComponents.Entity{}
 	g.gameMap = gameComponents.NewMap() //need to remove
-	g.camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 1)
+	g.camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 
 	g.SpawnMultipleEntities(POPULATION_AT_THE_START, graphic.NewVector2(0, 0))
 
@@ -94,4 +94,8 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 	e := gameComponents.NewEntity(position)
 
 	g.entities = append(g.entities, e)
+}
+
+func (g *Game) GetEntityAmount() int {
+	return len(g.entities)
 }
