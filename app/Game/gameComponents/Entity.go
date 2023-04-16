@@ -10,7 +10,7 @@ import (
 const SCALE = 0.01
 
 // rayon dans lequel une entité "voit" les autres entités
-const RADIUS_SENSIVITY = 0.1 * 30 //px
+const RADIUS_SENSIVITY = 0.1 * 100 //px
 
 var (
 	//texture utilisée pour afficher l'entité sur la fenêtre
@@ -38,9 +38,9 @@ func NewEntity(position graphic.Vector2) *Entity {
 }
 
 func (e *Entity) Update(otherEntities []*Entity) {
-	e.Move(otherEntities)             //on déplace l'entité
-	e.UnCollidePassive(otherEntities) //On évite que les entités se stack
-	e.render()                        //on affiche l'entité
+	e.MoveToWeightedAverage(otherEntities) //on déplace l'entité
+	e.UnCollidePassive(otherEntities)      //On évite que les entités se stack
+	e.render()                             //on affiche l'entité
 
 }
 
@@ -50,7 +50,7 @@ func (e *Entity) Update(otherEntities []*Entity) {
 // Cette fonction permet de déplacer l'entité et de rapprocher l'entité des entités similaires.
 // Elle choisit une destination qui est la 'moyenne' des position pondérée à l'aide des 'distances morales'
 // Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)
-func (e *Entity) Move(otherEntities []*Entity) {
+func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 	var sum graphic.Vector2 = graphic.NewVector2(0, 0)
 	var weight float32
