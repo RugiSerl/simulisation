@@ -10,7 +10,7 @@ import (
 const SCALE = 0.01
 
 // rayon dans lequel une entité "voit" les autres entités
-const RADIUS_SENSIVITY = SCALE * 1e3
+const RADIUS_SENSIVITY = 0.1 * 30 //px
 
 var (
 	//texture utilisée pour afficher l'entité sur la fenêtre
@@ -37,9 +37,19 @@ func NewEntity(position graphic.Vector2) *Entity {
 	return e
 }
 
+func (e *Entity) Update(otherEntities []*Entity) {
+	e.Move(otherEntities)             //on déplace l'entité
+	e.UnCollidePassive(otherEntities) //On évite que les entités se stack
+	e.render()                        //on affiche l'entité
+
+}
+
+//--------------------------------------------------
+//fonctions de déplacement
+
 // Cette fonction permet de déplacer l'entité et de rapprocher l'entité des entités similaires.
 // Elle choisit une destination qui est la 'moyenne' des position pondérée à l'aide des 'distances morales'
-// Elle ne peut que voir les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)
+// Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)
 func (e *Entity) Move(otherEntities []*Entity) {
 
 	var sum graphic.Vector2 = graphic.NewVector2(0, 0)
@@ -64,27 +74,32 @@ func (e *Entity) Move(otherEntities []*Entity) {
 
 }
 
-// cette fonction est là pour éviter que les entités se chevauchent, en les "repoussant" assez loin
-func (e *Entity) UnCollide(entities []*Entity) {
+// --------------------------------------------------
+// fonctions de détection de collisions
+
+// L'entité balaye toutes les autres entités sur son chemin
+func (e *Entity) UnCollideAgressive(entities []*Entity) {
 
 	for _, entity := range entities {
 
 		if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
-			//e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
 			entity.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
-
 		}
-
 	}
-
 }
 
-func (e *Entity) Update(otherEntities []*Entity) {
-	e.Move(otherEntities)
-	e.UnCollide(otherEntities)
-	e.render()
+// l'entité se déplace lorsqu'elle est en collision avec une autre
+func (e *Entity) UnCollidePassive(entities []*Entity) {
+	for _, entity := range entities {
 
+		if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
+			e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+		}
+	}
 }
+
+//--------------------------------------------------
+//fonction d'affichage
 
 // Cette fonction s'occupe d'afficher visuellement l'entité
 func (e *Entity) render() {
@@ -94,6 +109,9 @@ func (e *Entity) render() {
 
 	}
 }
+
+//--------------------------------------------------
+//autre
 
 // la valeur morale est "cyclique", ce qui signifie que celle entre 5 et 254 est 6 par exemple
 func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
