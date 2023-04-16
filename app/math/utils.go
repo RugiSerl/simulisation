@@ -2,6 +2,7 @@ package math
 
 import (
 	"log"
+	"math"
 	"math/rand"
 )
 
@@ -11,4 +12,8 @@ func RandomRange(min int, max int) int {
 		log.Fatal("le minimum est plus grand que le maximum")
 	}
 	return rand.Intn(max-min) + min
+}
+
+func Exp(x float64) float64 {
+	return math.Exp(x)
 }

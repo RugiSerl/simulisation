@@ -30,8 +30,6 @@ func NewGame() *Game {
 	g.gameMap = gameComponents.NewMap() //need to remove
 	g.camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 
-	g.SpawnMultipleEntities(POPULATION_AT_THE_START, graphic.NewVector2(0, 0))
-
 	return g
 }
 

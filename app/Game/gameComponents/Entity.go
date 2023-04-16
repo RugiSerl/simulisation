@@ -18,7 +18,6 @@ var (
 
 	//bool utilisé pour savoir si l'on affiche une représentation graphique de la valeur morale de l'entité
 	ShowValeurMorale bool = false
-
 )
 
 // Définition de la classe "Entity"
@@ -50,6 +49,7 @@ func (e *Entity) Move(otherEntities []*Entity) {
 	for _, entity := range otherEntities {
 		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
 			weight = float32(e.DistanceMorale(entity)) / 255
+			weight = float32(math.Exp(float64(weight)))
 			weightSum += weight
 			sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))
 		}
@@ -70,7 +70,8 @@ func (e *Entity) UnCollide(entities []*Entity) {
 	for _, entity := range entities {
 
 		if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
-			e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+			//e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+			entity.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
 
 		}
 
@@ -89,7 +90,7 @@ func (e *Entity) Update(otherEntities []*Entity) {
 func (e *Entity) render() {
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 	if ShowValeurMorale {
-		e.HitBox.Fill(graphic.NewColorAbsvalue(e.ValeurMorale))
+		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 255.0 * 360.0))
 
 	}
 }
