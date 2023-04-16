@@ -10,14 +10,14 @@ import (
 type Game struct {
 	gameMap  *gameComponents.Map
 	entities []*gameComponents.Entity
-	camera   rl.Camera2D
+	Camera   rl.Camera2D
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
 const POPULATION_AT_THE_START = 10
 
 // vitesse à laquelle la caméra du jeu se déplace lorsque l'utilisateur appuie sur les flèches directionnelles
-const CAMERA_SPEED = 500
+const CAMERA_SPEED = 200
 
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
 const CAMERA_ZOOM_AMOUNT = 0.2
@@ -28,7 +28,7 @@ func NewGame() *Game {
 
 	g.entities = []*gameComponents.Entity{}
 	g.gameMap = gameComponents.NewMap() //need to remove
-	g.camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
+	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 
 	return g
 }
@@ -37,14 +37,14 @@ func NewGame() *Game {
 func (g *Game) Update() {
 	g.UpdateCamera()
 
-	rl.BeginMode2D(g.camera)
+	rl.BeginMode2D(g.Camera)
 	for _, entity := range g.entities {
 		entity.Update(g.entities)
 
 	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeySpace) {
-		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.camera.Zoom).Add(graphic.Vector2(g.camera.Target)))
+		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target)))
 	}
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
 		gameComponents.ShowValeurMorale = !gameComponents.ShowValeurMorale
@@ -59,22 +59,22 @@ func (g *Game) UpdateCamera() {
 
 	//déplacement éventuel de la caméra
 	if rl.IsKeyDown(rl.KeyLeft) {
-		g.camera.Target.X -= CAMERA_SPEED * rl.GetFrameTime()
+		g.Camera.Target.X -= CAMERA_SPEED * rl.GetFrameTime()
 	}
 	if rl.IsKeyDown(rl.KeyRight) {
-		g.camera.Target.X += CAMERA_SPEED * rl.GetFrameTime()
+		g.Camera.Target.X += CAMERA_SPEED * rl.GetFrameTime()
 	}
 	if rl.IsKeyDown(rl.KeyUp) {
-		g.camera.Target.Y -= CAMERA_SPEED * rl.GetFrameTime()
+		g.Camera.Target.Y -= CAMERA_SPEED * rl.GetFrameTime()
 	}
 	if rl.IsKeyDown(rl.KeyDown) {
-		g.camera.Target.Y += CAMERA_SPEED * rl.GetFrameTime()
+		g.Camera.Target.Y += CAMERA_SPEED * rl.GetFrameTime()
 	}
 
 	//met à jour le zoom de la caméra
-	g.camera.Zoom += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
-	if g.camera.Zoom < 1 { //1 est le minimum possible
-		g.camera.Zoom = 1
+	g.Camera.Zoom += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
+	if g.Camera.Zoom < 1 { //1 est le minimum possible
+		g.Camera.Zoom = 1
 	}
 
 }

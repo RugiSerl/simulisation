@@ -5,24 +5,21 @@ const ANCHOR_RIGHT int8 = 1
 const ANCHOR_TOP int8 = 2
 const ANCHOR_BOTTOM int8 = 3
 
-func GetObjectCoordinatesWithAnchor(x int32, y int32, anchorX int8, anchorY int8, objectWidth int32, objectHeight int32, surfaceRect *Rect) (int32, int32) {
-	var (
-		newX int32
-		newY int32
-	)
+func GetRectCoordinatesWithAnchor(position Vector2, anchorX int8, anchorY int8, size Vector2, surfaceRect Rect) Vector2 {
+	var DestVector Vector2
 
 	if anchorX == ANCHOR_LEFT {
-		newX = x + int32(surfaceRect.X)
+		DestVector.X = position.X + surfaceRect.X
 	} else if anchorX == ANCHOR_RIGHT {
-		newX = int32(surfaceRect.Width) + int32(surfaceRect.X) - x - objectWidth
+		DestVector.X = surfaceRect.Width + surfaceRect.X - position.X - size.X
 	}
 
 	if anchorY == ANCHOR_TOP {
-		newY = y + int32(surfaceRect.Y)
+		DestVector.Y = position.Y + surfaceRect.Y
 	} else if anchorY == ANCHOR_BOTTOM {
-		newY = int32(surfaceRect.Height) + int32(surfaceRect.Y) - y - objectHeight
+		DestVector.Y = surfaceRect.Height + surfaceRect.Y - position.Y - size.Y
 
 	}
-	return newX, newY
+	return DestVector
 
 }

@@ -13,22 +13,28 @@ type Rect struct {
 	Height float32
 }
 
-func NewRect(x float32, y float32, width float32, height float32) *Rect {
-	r := new(Rect)
+func NewRect(x float32, y float32, width float32, height float32) Rect {
+	r := Rect{}
 	r.X, r.Y, r.Width, r.Height = x, y, width, height
 	return r
 }
 
-func GetWindowRect() *Rect {
+func NewRectFromVector(position rl.Vector2, size rl.Vector2) Rect {
+
+	return Rect{X: position.X, Y: position.Y, Width: size.X, Height: size.Y}
+
+}
+
+func GetWindowRect() Rect {
 	return NewRect(0, 0, float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight()))
 }
 
-func GetRectAdjustedToWindow(rectRatio float32) *Rect {
+func GetRectAdjustedToWindow(rectRatio float32) Rect {
 
 	winW, winH := float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight())
 	winRatio := winW / winH
 
-	r := new(Rect)
+	r := Rect{}
 
 	if rectRatio > winRatio { //change Height
 		r.Width = winW
@@ -54,9 +60,9 @@ func GetRectAdjustedToWindow(rectRatio float32) *Rect {
 }
 
 // Get rect centered to window center
-func GetRectFromWindowCenter(width float32, height float32) *Rect {
+func GetRectFromWindowCenter(width float32, height float32) Rect {
 
-	r := new(Rect)
+	r := Rect{}
 	r.Width, r.Height = width, height
 	r.X = float32(rl.GetScreenWidth())/2 - width/2
 	r.Y = float32(rl.GetScreenHeight())/2 - height/2
@@ -66,7 +72,7 @@ func GetRectFromWindowCenter(width float32, height float32) *Rect {
 }
 
 // Get a rect within another, with padding
-func GetInnerRect(sourceRect *Rect, padding float32) *Rect {
+func GetInnerRect(sourceRect Rect, padding float32) Rect {
 	sourceRect.X += padding
 	sourceRect.Y += padding
 	sourceRect.Width -= padding * 2
@@ -75,12 +81,12 @@ func GetInnerRect(sourceRect *Rect, padding float32) *Rect {
 }
 
 // convert to raylib's Rect object
-func (r *Rect) ToRaylibRect() rl.Rectangle {
+func (r Rect) ToRaylibRect() rl.Rectangle {
 	return rl.NewRectangle(r.X, r.Y, r.Width, r.Height)
 }
 
 // draw the rectangle
-func (r *Rect) Fill(color color.RGBA, roundness float32) {
+func (r Rect) Fill(color color.RGBA, roundness float32) {
 	rectangle := rl.NewRectangle(r.X, r.Y, r.Width, r.Height)
 
 	rl.DrawRectangleRounded(rectangle, roundness, 5, color)
@@ -88,7 +94,7 @@ func (r *Rect) Fill(color color.RGBA, roundness float32) {
 }
 
 // draw the lines of a rectangle
-func (r *Rect) DrawLines(color color.RGBA, roundness float32, thickness float32) {
+func (r Rect) DrawLines(color color.RGBA, roundness float32, thickness float32) {
 	rectangle := rl.NewRectangle(r.X, r.Y, r.Width, r.Height)
 
 	rl.DrawRectangleRoundedLines(rectangle, roundness, 5, thickness, color)
@@ -104,7 +110,7 @@ func DetectRectCollision(rect1 Rect, rect2 Rect) bool {
 }
 
 // return the rect of the mouse, used for collisions
-func GetMouseRect() *Rect {
+func GetMouseRect() Rect {
 	return NewRect(rl.GetMousePosition().X, rl.GetMousePosition().Y, 1, 1)
 
 }
