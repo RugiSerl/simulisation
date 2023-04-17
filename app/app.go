@@ -32,7 +32,7 @@ func load() {
 
 	rl.InitWindow(800, 450, "Simulisation")
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
-	rl.SetTargetFPS(-1)
+	rl.SetTargetFPS(60)
 	myGame = game.NewGame() //beaucoup de "game"
 	gameComponents.TextureEntite = rl.LoadTexture("assets/person.png")
 	rl.SetTextureFilter(gameComponents.TextureEntite, rl.FilterBilinear)
@@ -59,7 +59,8 @@ func showStats() {
 	stats.ShowStats("Entity amount : ", strconv.FormatInt(int64(myGame.GetEntityAmount()), 10), rl.NewVector2(0, 30), graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 
 	size := stats.ShowStats("Camera Y : ", strconv.FormatFloat(float64(myGame.Camera.Target.Y), 'f', 1, 64), rl.NewVector2(0, 0), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM)
-	stats.ShowStats("Camera X : ", strconv.FormatFloat(float64(myGame.Camera.Target.X), 'f', 1, 64), rl.NewVector2(0, size.Y), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM)
+	size = size.Add(stats.ShowStats("Camera X : ", strconv.FormatFloat(float64(myGame.Camera.Target.X), 'f', 1, 64), rl.NewVector2(0, size.Y), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM))
+	stats.ShowStats("Camera Zoom : ", strconv.FormatFloat(float64(myGame.Camera.Zoom), 'f', 1, 64), rl.NewVector2(0, size.Y), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM)
 
 }
 

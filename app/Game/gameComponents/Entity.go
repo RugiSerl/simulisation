@@ -14,7 +14,9 @@ const SCALE = 0.01
 // vitesse à laquelle se déplacent les entités
 const SPEED = 20
 
-// écart de différence maximum entre une entité et son enfant
+const MAXIMUM_AGE_ENTITY = 60
+
+// écart de différence morale maximum entre une entité et son enfant
 const CHILD_MAXIMUM_DIFFERENCE = 5
 
 // rayon dans lequel une entité "voit" les autres entités
@@ -52,7 +54,7 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 	e.MoveToWeightedAverage(*otherEntities) //on déplace l'entité
 
 	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
-	e.Reproduce(otherEntities)
+	//e.Reproduce(otherEntities)
 	e.render() //on affiche l'entité
 
 }
