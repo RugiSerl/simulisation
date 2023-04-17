@@ -14,6 +14,10 @@ func RandomRange(min int, max int) int {
 	return rand.Intn(max-min) + min
 }
 
+func RandomProbability(probability float64) bool {
+	return rand.Float32() < float32(probability)
+}
+
 func Exp(x float64) float64 {
 	return math.Exp(x)
 }

@@ -1,6 +1,8 @@
 package gameComponents
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -8,6 +10,12 @@ import (
 
 // échelle qui correspond à la taille des entité (1 => 128px; 0.5 => 64px; ...)
 const SCALE = 0.01
+
+// vitesse à laquelle se déplacent les entités
+const SPEED = 20
+
+// écart de différence maximum entre une entité et son enfant
+const CHILD_MAXIMUM_DIFFERENCE = 5
 
 // rayon dans lequel une entité "voit" les autres entités
 const RADIUS_SENSIVITY = 0.1 * 100 //px
@@ -17,7 +25,8 @@ var (
 	TextureEntite rl.Texture2D
 
 	//bool utilisé pour savoir si l'on affiche une représentation graphique de la valeur morale de l'entité
-	ShowValeurMorale bool = false
+	ShowValeurMorale       bool = false
+	ShowEntityRadiusVision      = false
 )
 
 // Définition de la classe "Entity"
@@ -25,22 +34,26 @@ type Entity struct {
 	ValeurMorale uint8 // Valeur aléatoire qui va déterminer le groupe que l'entité rejoindra
 
 	HitBox graphic.Circle
+	ID     int
 }
 
 // Initialisation d'une instance entité
-func NewEntity(position graphic.Vector2) *Entity {
+func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 
 	e := new(Entity)
-	e.ValeurMorale = uint8(math.RandomRange(0, 255))
+	e.ValeurMorale = valeurMorale
 	e.HitBox = graphic.NewCircle(64*SCALE, position.X, position.Y)
+	e.ID = id
 
 	return e
 }
 
-func (e *Entity) Update(otherEntities []*Entity) {
-	e.MoveToWeightedAverage(otherEntities) //on déplace l'entité
-	e.UnCollidePassive(otherEntities)      //On évite que les entités se stack
-	e.render()                             //on affiche l'entité
+func (e *Entity) Update(otherEntities *[]*Entity) {
+	e.MoveToWeightedAverage(*otherEntities) //on déplace l'entité
+
+	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
+	e.Reproduce(otherEntities)
+	e.render() //on affiche l'entité
 
 }
 
@@ -57,21 +70,40 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 	var weightSum float32 = 0
 
 	for _, entity := range otherEntities {
-		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
-			weight = float32(e.DistanceMorale(entity)) / 255
-			weight = float32(math.Exp(float64(weight)))
-			weightSum += weight
-			sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))
+		if entity.ID != e.ID {
+			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
+				weight = float32(e.DistanceMorale(entity)) / 255
+				weight = float32(math.Exp(float64(weight)))
+				weightSum += weight
+				sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))
+			}
 		}
 
 	}
 	if weightSum != 0 { // éviter la division par 0, si jamais l'entité n'a aucune entité dans son rayon RADIUS_SENSIVITY
 		average := sum.Scale(1 / weightSum) // division par l'effectif pour faire la moyenne
 
-		e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(average.Substract(e.HitBox.CenterPosition).Scale(0.01)) // déplacement vers cette position
+		e.GotoLinear(average) // déplacement vers cette position
 
 	}
 
+}
+
+// aller à un point de manière linéaire
+func (e *Entity) GotoLinear(point graphic.Vector2) {
+
+	if e.HitBox.CenterPosition.Substract(point).GetNorm() > SPEED*rl.GetFrameTime() {
+		e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(point.Substract(e.HitBox.CenterPosition).ScaleToNorm(SPEED * rl.GetFrameTime()))
+
+	} else {
+		e.HitBox.CenterPosition = point
+	}
+
+}
+
+// aller à un point en divisant la distance par une certaine valeur
+func (e *Entity) GotoDivide(point graphic.Vector2) {
+	e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(point.Substract(e.HitBox.CenterPosition).Scale(0.1 / SPEED))
 }
 
 // --------------------------------------------------
@@ -81,21 +113,51 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 func (e *Entity) UnCollideAgressive(entities []*Entity) {
 
 	for _, entity := range entities {
-
-		if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
-			entity.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+		if entity.ID != e.ID {
+			if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
+				entity.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+			}
 		}
+
 	}
 }
 
 // l'entité se déplace lorsqu'elle est en collision avec une autre
 func (e *Entity) UnCollidePassive(entities []*Entity) {
 	for _, entity := range entities {
+		if entity.ID != e.ID {
+			if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
+				e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+			}
+		}
 
-		if entity.HitBox.DetectCircleCollision(e.HitBox) && e.HitBox.CenterPosition != entity.HitBox.CenterPosition {
-			e.HitBox.CenterPosition = entity.HitBox.CenterPosition.Add(e.HitBox.CenterPosition.Substract(entity.HitBox.CenterPosition).ScaleToNorm(entity.HitBox.Radius + e.HitBox.Radius))
+	}
+}
+
+// --------------------------------------------------
+// fonction pour faire se reproduire les entités
+// les nouvelles cellules sont proches "moralement" de celles qui les ont engendré
+func (e *Entity) Reproduce(othersEntities *[]*Entity) {
+	var entityClose int32 = 0
+	for _, entity := range *othersEntities {
+		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY && entity.ID != e.ID {
+			entityClose += 1
 		}
 	}
+	fmt.Println(entityClose)
+
+	if entityClose > 5 {
+		entityClose = 5
+	}
+
+	var probability float64 = float64(entityClose) / 1000
+
+	if math.RandomProbability(probability) {
+		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1)), len(*othersEntities), uint8(math.RandomRange(int(e.ValeurMorale)-CHILD_MAXIMUM_DIFFERENCE, (int(e.ValeurMorale)+CHILD_MAXIMUM_DIFFERENCE)%255))))
+	}
+
+	fmt.Println(probability)
+
 }
 
 //--------------------------------------------------
@@ -103,11 +165,16 @@ func (e *Entity) UnCollidePassive(entities []*Entity) {
 
 // Cette fonction s'occupe d'afficher visuellement l'entité
 func (e *Entity) render() {
+
+	if ShowEntityRadiusVision {
+		rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), RADIUS_SENSIVITY, rl.NewColor(0, 0, 0, 100))
+	}
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 	if ShowValeurMorale {
 		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 255.0 * 360.0))
 
 	}
+
 }
 
 //--------------------------------------------------

@@ -44,8 +44,9 @@ func load() {
 func update() {
 	rl.BeginDrawing()
 
-	rl.ClearBackground(rl.White)
+	rl.ClearBackground(rl.LightGray)
 	myGame.Update()
+
 	showStats()
 
 	rl.EndDrawing()

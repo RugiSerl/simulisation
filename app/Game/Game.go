@@ -3,6 +3,7 @@ package game
 import (
 	"github.com/RugiSerl/simulisation/app/Game/gameComponents"
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/math"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -17,7 +18,7 @@ type Game struct {
 const POPULATION_AT_THE_START = 10
 
 // vitesse à laquelle la caméra du jeu se déplace lorsque l'utilisateur appuie sur les flèches directionnelles
-const CAMERA_SPEED = 200
+const CAMERA_SPEED = 100
 
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
 const CAMERA_ZOOM_AMOUNT = 0.2
@@ -33,13 +34,14 @@ func NewGame() *Game {
 	return g
 }
 
-// Cette fonction est appelée à chaque image et s'occupe de montrer graphiquement l'état du jeu, ainsi que de mettre à jour les entités
+// Cette fonction est appelée à chaque frame et s'occupe de montrer graphiquement l'état du jeu, ainsi que de mettre à jour les entités
 func (g *Game) Update() {
 	g.UpdateCamera()
 
 	rl.BeginMode2D(g.Camera)
+
 	for _, entity := range g.entities {
-		entity.Update(g.entities)
+		entity.Update(&g.entities)
 
 	}
 
@@ -73,7 +75,7 @@ func (g *Game) UpdateCamera() {
 
 	//met à jour le zoom de la caméra
 	g.Camera.Zoom += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
-	if g.Camera.Zoom < 1 { //1 est le minimum possible
+	if g.Camera.Zoom < 1 { //1 est le minimum
 		g.Camera.Zoom = 1
 	}
 
@@ -89,7 +91,7 @@ func (g *Game) SpawnMultipleEntities(amount int, position graphic.Vector2) {
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
 func (g *Game) SpawnEntity(position graphic.Vector2) {
 
-	e := gameComponents.NewEntity(position)
+	e := gameComponents.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
 
 	g.entities = append(g.entities, e)
 }
