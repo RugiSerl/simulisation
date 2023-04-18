@@ -53,7 +53,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 func (e *Entity) Update(otherEntities *[]*Entity) {
 	e.MoveToWeightedAverage(*otherEntities) //on déplace l'entité
 
-	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
+	e.UnCollidePassive(*otherEntities) //On évite que les entités se stackent
 	//e.Reproduce(otherEntities)
 	e.render() //on affiche l'entité
 
