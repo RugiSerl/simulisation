@@ -1,8 +1,6 @@
 package gameComponents
 
 import (
-	"fmt"
-
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -54,7 +52,7 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 	e.MoveToWeightedAverage(*otherEntities) //on déplace l'entité
 
 	e.UnCollidePassive(*otherEntities) //On évite que les entités se stackent
-	//e.Reproduce(otherEntities)
+	e.Reproduce(otherEntities)
 	e.render() //on affiche l'entité
 
 }
@@ -74,8 +72,8 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
 			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
-				weight = float32(e.DistanceMorale(entity)) / 255
-				weight = float32(math.Exp(float64(weight)))
+				//weight = float32(e.DistanceMorale(entity)) / 255
+				weight = 1
 				weightSum += weight
 				sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))
 			}
@@ -85,7 +83,7 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 	if weightSum != 0 { // éviter la division par 0, si jamais l'entité n'a aucune entité dans son rayon RADIUS_SENSIVITY
 		average := sum.Scale(1 / weightSum) // division par l'effectif pour faire la moyenne
 
-		e.GotoLinear(average) // déplacement vers cette position
+		e.GotoDivide(average) // déplacement vers cette position
 
 	}
 
@@ -105,7 +103,7 @@ func (e *Entity) GotoLinear(point graphic.Vector2) {
 
 // aller à un point en divisant la distance par une certaine valeur
 func (e *Entity) GotoDivide(point graphic.Vector2) {
-	e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(point.Substract(e.HitBox.CenterPosition).Scale(0.1 / SPEED))
+	e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(point.Substract(e.HitBox.CenterPosition).Scale(.1))
 }
 
 // --------------------------------------------------
@@ -146,19 +144,16 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 			entityClose += 1
 		}
 	}
-	fmt.Println(entityClose)
 
 	if entityClose > 5 {
 		entityClose = 5
 	}
 
-	var probability float64 = float64(entityClose) / 1000
+	var probability float64 = float64(entityClose) / 10000
 
 	if math.RandomProbability(probability) {
-		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1)), len(*othersEntities), uint8(math.RandomRange(int(e.ValeurMorale)-CHILD_MAXIMUM_DIFFERENCE, (int(e.ValeurMorale)+CHILD_MAXIMUM_DIFFERENCE)%255))))
+		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1)), len(*othersEntities), uint8(math.RandomRange(int(e.ValeurMorale)-CHILD_MAXIMUM_DIFFERENCE, (int(e.ValeurMorale)+CHILD_MAXIMUM_DIFFERENCE)))))
 	}
-
-	fmt.Println(probability)
 
 }
 
