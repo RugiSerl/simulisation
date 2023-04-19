@@ -9,7 +9,6 @@ import (
 
 // Classe qui contient le déroulement principal du jeu
 type Game struct {
-	gameMap  *gameComponents.Map
 	entities []*gameComponents.Entity
 	Camera   rl.Camera2D
 }
@@ -28,7 +27,6 @@ func NewGame() *Game {
 	g := new(Game)
 
 	g.entities = []*gameComponents.Entity{}
-	g.gameMap = gameComponents.NewMap() //need to remove
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 
 	return g
