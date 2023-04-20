@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/RugiSerl/simulisation/app/Game"
-	"github.com/RugiSerl/simulisation/app/Game/gameComponents"
+	"github.com/RugiSerl/simulisation/app/Game/components"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/stats"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -34,8 +34,10 @@ func load() {
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
 	rl.SetTargetFPS(60)
 	myGame = Game.NewGame() //beaucoup de "game"
-	gameComponents.TextureEntite = rl.LoadTexture("assets/person.png")
-	rl.SetTextureFilter(gameComponents.TextureEntite, rl.FilterBilinear)
+
+	components.TextureEntite = rl.LoadTexture("assets/person.png")
+	rl.SetTextureFilter(components.TextureEntite, rl.FilterBilinear)
+
 	stats.InitFont()
 
 }

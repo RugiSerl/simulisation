@@ -1,4 +1,4 @@
-package gameComponents
+package components
 
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"

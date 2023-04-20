@@ -1,7 +1,7 @@
 package Game
 
 import (
-	"github.com/RugiSerl/simulisation/app/Game/gameComponents"
+	"github.com/RugiSerl/simulisation/app/Game/components"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -9,7 +9,7 @@ import (
 
 // Classe qui contient le déroulement principal du jeu
 type Game struct {
-	entities []*gameComponents.Entity
+	entities []*components.Entity
 	Camera   rl.Camera2D
 }
 
@@ -26,7 +26,7 @@ const CAMERA_ZOOM_AMOUNT = 0.2
 func NewGame() *Game {
 	g := new(Game)
 
-	g.entities = []*gameComponents.Entity{}
+	g.entities = []*components.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 
 	return g
@@ -47,7 +47,7 @@ func (g *Game) Update() {
 		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target)))
 	}
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
-		gameComponents.ShowValeurMorale = !gameComponents.ShowValeurMorale
+		components.ShowValeurMorale = !components.ShowValeurMorale
 	}
 
 	rl.EndMode2D()
@@ -89,7 +89,7 @@ func (g *Game) SpawnMultipleEntities(amount int, position graphic.Vector2) {
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
 func (g *Game) SpawnEntity(position graphic.Vector2) {
 
-	e := gameComponents.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
+	e := components.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
 
 	g.entities = append(g.entities, e)
 }
