@@ -3,15 +3,15 @@ package app
 import (
 	"strconv"
 
-	game "github.com/RugiSerl/simulisation/app/Game"
+	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/gameComponents"
-	"github.com/RugiSerl/simulisation/app/Game/stats"
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/stats"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 var (
-	myGame *game.Game
+	myGame *Game.Game
 )
 
 // fonction principale
@@ -33,7 +33,7 @@ func load() {
 	rl.InitWindow(800, 450, "Simulisation")
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
 	rl.SetTargetFPS(60)
-	myGame = game.NewGame() //beaucoup de "game"
+	myGame = Game.NewGame() //beaucoup de "game"
 	gameComponents.TextureEntite = rl.LoadTexture("assets/person.png")
 	rl.SetTextureFilter(gameComponents.TextureEntite, rl.FilterBilinear)
 	stats.InitFont()
