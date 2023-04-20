@@ -29,7 +29,7 @@ func Run() {
 func load() {
 	rl.SetConfigFlags(rl.FlagWindowResizable)
 
-	rl.InitWindow(800, 450, "Simulisation")
+	rl.InitWindow(960, 560, "Simulisation")
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
 	rl.SetTargetFPS(60)
 
@@ -47,7 +47,7 @@ func load() {
 func update() {
 	rl.BeginDrawing()
 
-	rl.ClearBackground(rl.LightGray)
+	rl.ClearBackground(rl.DarkGray)
 	global.MyGame.Update()
 	myInterface.Update()
 

@@ -19,7 +19,7 @@ func NewRect(x float32, y float32, width float32, height float32) Rect {
 	return r
 }
 
-func NewRectFromVector(position rl.Vector2, size rl.Vector2) Rect {
+func NewRectFromVector(position Vector2, size Vector2) Rect {
 
 	return Rect{X: position.X, Y: position.Y, Width: size.X, Height: size.Y}
 

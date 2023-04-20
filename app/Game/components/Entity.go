@@ -72,7 +72,7 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
 			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
-				//weight = float32(e.DistanceMorale(entity)) / 255
+				weight = float32(e.DistanceMorale(entity)) / 255
 				weight = 1
 				weightSum += weight
 				sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))

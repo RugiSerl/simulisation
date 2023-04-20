@@ -9,7 +9,7 @@ var (
 	font rl.Font
 )
 
-const TEXT_SIZE = 30
+const TEXT_SIZE = 20
 const TEXT_SPACING = 0
 
 func InitFont() {
