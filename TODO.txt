@@ -19,7 +19,7 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -faire naitre d'autres entités en fonction du nombre d'entités dans le rayon d'une entité - FAIT
 -faire déplacer les cellules
 -afficher les stats du jeu - FAIT
--faire une interface graphique pour les paramètres du jeu
+-faire une interface graphique pour les paramètres du jeu - en cours
 
 
 
