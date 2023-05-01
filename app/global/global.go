@@ -6,4 +6,6 @@ import (
 
 var (
 	MyGame *Game.Game
+
+	SettingsOpen bool
 )

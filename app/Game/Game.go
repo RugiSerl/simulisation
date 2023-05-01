@@ -4,6 +4,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/Game/components"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -47,7 +48,7 @@ func (g *Game) Update() {
 		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target)))
 	}
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
-		components.ShowValeurMorale = !components.ShowValeurMorale
+		settings.GameSettings.GradientEntities = !settings.GameSettings.GradientEntities
 	}
 
 	rl.EndMode2D()

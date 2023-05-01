@@ -4,6 +4,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/components"
 	"github.com/RugiSerl/simulisation/app/global"
+	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
 	"github.com/RugiSerl/simulisation/app/ui"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -27,6 +28,7 @@ func Run() {
 
 // charge les ressources du jeu
 func load() {
+	settings.LoadSettings()
 	rl.SetConfigFlags(rl.FlagWindowResizable)
 
 	rl.InitWindow(960, 560, "Simulisation")

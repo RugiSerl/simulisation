@@ -3,6 +3,7 @@ package components
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -25,8 +26,7 @@ var (
 	TextureEntite rl.Texture2D
 
 	//bool utilisé pour savoir si l'on affiche une représentation graphique de la valeur morale de l'entité
-	ShowValeurMorale       bool = false
-	ShowEntityRadiusVision      = false
+	ShowEntityRadiusVision = false
 )
 
 // Définition de la classe "Entity"
@@ -49,7 +49,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 }
 
 func (e *Entity) Update(otherEntities *[]*Entity) {
-	e.MoveToWeightedAverage(*otherEntities) //on déplace l'entité
+	e.MoveToClosestNeighbour(*otherEntities) //on déplace l'entité
 
 	e.UnCollidePassive(*otherEntities) //On évite que les entités se stackent
 	e.Reproduce(otherEntities)
@@ -63,6 +63,24 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 // Cette fonction permet de déplacer l'entité et de rapprocher l'entité des entités similaires.
 // Elle choisit une destination qui est la 'moyenne' des position pondérée à l'aide des 'distances morales'
 // Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)
+func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
+
+	var min *Entity = otherEntities[0]
+
+	for _, entity := range otherEntities {
+		if entity.ID != e.ID {
+			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
+				if entity.DistanceMorale(e) < min.DistanceMorale(e) {
+					min = entity
+				}
+			}
+		}
+
+	}
+	e.Goto(min.HitBox.CenterPosition) // déplacement vers cette position
+
+}
+
 func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 	var sum graphic.Vector2 = graphic.NewVector2(0, 0)
@@ -83,10 +101,15 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 	if weightSum != 0 { // éviter la division par 0, si jamais l'entité n'a aucune entité dans son rayon RADIUS_SENSIVITY
 		average := sum.Scale(1 / weightSum) // division par l'effectif pour faire la moyenne
 
-		e.GotoDivide(average) // déplacement vers cette position
+		e.Goto(average) // déplacement vers cette position
 
 	}
 
+}
+
+// aller à un point
+func (e *Entity) Goto(point graphic.Vector2) {
+	e.GotoLinear(point)
 }
 
 // aller à un point de manière linéaire
@@ -167,8 +190,8 @@ func (e *Entity) render() {
 		rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), RADIUS_SENSIVITY, rl.NewColor(0, 0, 0, 100))
 	}
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
-	if ShowValeurMorale {
-		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 255.0 * 360.0))
+	if settings.GameSettings.GradientEntities {
+		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 256.0 * 360.0))
 
 	}
 

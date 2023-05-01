@@ -15,12 +15,12 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -rayon d'analyse des autres entités - FAIT
 -cercle chromatique pour les niveaux de valeur morales - FAIT
 -afficher le compteur des entités - FAIT
--faire mourir les entités après un délai
 -faire naitre d'autres entités en fonction du nombre d'entités dans le rayon d'une entité - FAIT
--faire déplacer les cellules
+-faire déplacer les cellules - FAIT
 -afficher les stats du jeu - FAIT
--faire une interface graphique pour les paramètres du jeu - en cours
 
+-faire une interface graphique pour les paramètres du jeu - en cours
+-faire mourir les entités après un délai
 
 
 bug : 
