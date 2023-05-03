@@ -35,6 +35,8 @@ type Entity struct {
 
 	HitBox graphic.Circle
 	ID     int
+
+	TimeAlive float32
 }
 
 // Initialisation d'une instance entité
@@ -44,6 +46,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 	e.ValeurMorale = valeurMorale
 	e.HitBox = graphic.NewCircle(64*SCALE, position.X, position.Y)
 	e.ID = id
+	e.TimeAlive = 0
 
 	return e
 }
@@ -51,7 +54,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 func (e *Entity) Update(otherEntities *[]*Entity) {
 	e.MoveToWeightedAverage(*otherEntities) //on déplace l'entité
 
-	e.UnCollidePassive(*otherEntities) //On évite que les entités se stackent
+	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
 	e.Reproduce(otherEntities)
 	e.render() //on affiche l'entité
 
@@ -175,14 +178,20 @@ func (e *Entity) render() {
 }
 
 //--------------------------------------------------
-//autre
-
 // la valeur morale est "cyclique", ce qui signifie que celle entre 5 et 254 est 6 par exemple
+
 func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 	distance := e.ValeurMorale - otherEntity.ValeurMorale
 	if distance > 128 {
 		return 255 - distance
 	}
 	return distance
+
+}
+
+//--------------------------------------------------
+// fonction qui élimine l'entité au bout d'un moment donné
+
+func (e *Entity) DieOfEntity() {
 
 }
