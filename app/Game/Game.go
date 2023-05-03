@@ -39,8 +39,9 @@ func (g *Game) Update() {
 	rl.BeginMode2D(g.Camera)
 
 	for _, entity := range g.entities {
-		entity.Update(&g.entities)
-
+		if entity.Dead == false {
+			entity.Update(&g.entities)
+		}
 	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeySpace) {
