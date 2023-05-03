@@ -33,9 +33,9 @@ var (
 type Entity struct {
 	ValeurMorale uint8 // Valeur aléatoire qui va déterminer le groupe que l'entité rejoindra
 
-	HitBox graphic.Circle
-	ID     int
-
+	HitBox    graphic.Circle
+	ID        int
+	Dead      bool
 	TimeAlive float32
 }
 
@@ -47,6 +47,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 	e.HitBox = graphic.NewCircle(64*SCALE, position.X, position.Y)
 	e.ID = id
 	e.TimeAlive = 0
+	e.Dead = false
 
 	return e
 }
@@ -57,6 +58,7 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
 	e.Reproduce(otherEntities)
 	e.render() //on affiche l'entité
+	e.UpdateAge()
 
 }
 
@@ -171,7 +173,7 @@ func (e *Entity) render() {
 	}
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 	if ShowValeurMorale {
-		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 255.0 * 360.0))
+		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 256.0 * 360.0))
 
 	}
 
@@ -192,6 +194,17 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 //--------------------------------------------------
 // fonction qui élimine l'entité au bout d'un moment donné
 
-func (e *Entity) DieOfEntity() {
+func (e *Entity) UpdateAge() {
+	e.TimeAlive += rl.GetFrameTime()
+	if e.TimeAlive > 5 {
 
+		e.Dead = true
+
+	}
+
+}
+
+func remove(s []*Entity, i int) []*Entity {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
 }
