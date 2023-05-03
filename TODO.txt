@@ -17,12 +17,12 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -afficher le compteur des entités - FAIT
 -faire mourir les entités après un délai
 -faire naitre d'autres entités en fonction du nombre d'entités dans le rayon d'une entité - FAIT
--faire déplacer les cellules
+-faire déplacer les cellules - FAIT
 -afficher les stats du jeu - FAIT
 -faire une interface graphique pour les paramètres du jeu - en cours
 
 
 
 bug : 
-les entités se stackent avec GotoLinear -> lorsque le framerate est trop bas, les cellules peuvent aller plus vite qu'elles ne se repoussent
-erreur lorsqu'une cellule se reproduit "minimum plus grand que maximum" -> un %255 inutile sur le max qui faisait que le maximum était plus petit que le minimum
+les entités se stackent avec GotoLinear -> lorsque le framerate est trop bas, les cellules peuvent aller plus vite que elles ne se repoussent
+erreur lorsqu'une cellule se reproduit "minimum plus grand que maximum" -> un %255 inutile sur le max qui faisait que le maximum était plus petit que le minimum - réglé
