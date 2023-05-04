@@ -13,13 +13,14 @@ const SCALE = 0.01
 // vitesse à laquelle se déplacent les entités
 const SPEED = 20
 
-const MAXIMUM_AGE_ENTITY = 60
-
 // écart de différence morale maximum entre une entité et son enfant
 const CHILD_MAXIMUM_DIFFERENCE = 5
 
 // rayon dans lequel une entité "voit" les autres entités
 const RADIUS_SENSIVITY = 0.1 * 100 //px
+
+// durée de vie d'une entité, en s
+const MAXIMUM_AGE = 10
 
 var (
 	//texture utilisée pour afficher l'entité sur la fenêtre
@@ -114,7 +115,7 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 // aller à un point
 func (e *Entity) Goto(point graphic.Vector2) {
-	e.GotoLinear(point)
+	e.GotoDivide(point)
 }
 
 // aller à un point de manière linéaire
@@ -177,7 +178,7 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 		entityClose = 5
 	}
 
-	var probability float64 = float64(entityClose) / 10000
+	var probability float64 = float64(entityClose) / 1000
 
 	if math.RandomProbability(probability) {
 		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1)), len(*othersEntities), uint8(math.RandomRange(int(e.ValeurMorale)-CHILD_MAXIMUM_DIFFERENCE, (int(e.ValeurMorale)+CHILD_MAXIMUM_DIFFERENCE)))))
@@ -219,7 +220,7 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 
 func (e *Entity) UpdateAge() {
 	e.TimeAlive += rl.GetFrameTime()
-	if e.TimeAlive > 10 {
+	if e.TimeAlive > MAXIMUM_AGE {
 		e.Dead = true
 	}
 
