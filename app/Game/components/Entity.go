@@ -1,6 +1,8 @@
 package components
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
@@ -110,6 +112,7 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 // aller à un point
 func (e *Entity) Goto(point graphic.Vector2) {
 	e.GotoLinear(point)
+	fmt.Println("a")
 }
 
 // aller à un point de manière linéaire
