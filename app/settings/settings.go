@@ -6,11 +6,7 @@ type Settings struct {
 
 type VisualSettings struct {
 	GradientEntities bool
-	
-
 }
-
-
 
 var (
 	GameSettings Settings
