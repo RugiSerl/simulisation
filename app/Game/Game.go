@@ -39,10 +39,25 @@ func (g *Game) Update() {
 
 	rl.BeginMode2D(g.Camera)
 
+	//mise à jour des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
 			entity.Update(&g.entities)
 		}
+	}
+
+	//suppression des entités "mortes"
+	var i int = 0
+	for {
+		if i >= len(g.entities) {
+			break
+		}
+		if g.entities[i].Dead {
+			g.entities = remove(g.entities, i)
+
+		}
+
+		i++
 	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeySpace) {
@@ -98,4 +113,9 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 
 func (g *Game) GetEntityAmount() int {
 	return len(g.entities)
+}
+
+func remove(s []*components.Entity, i int) []*components.Entity {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
 }

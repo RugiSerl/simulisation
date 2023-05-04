@@ -219,15 +219,8 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 
 func (e *Entity) UpdateAge() {
 	e.TimeAlive += rl.GetFrameTime()
-	if e.TimeAlive > 5 {
-
+	if e.TimeAlive > 10 {
 		e.Dead = true
-
 	}
 
-}
-
-func remove(s []*Entity, i int) []*Entity {
-	s[i] = s[len(s)-1]
-	return s[:len(s)-1]
 }
