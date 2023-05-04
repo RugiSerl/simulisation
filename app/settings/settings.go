@@ -1,8 +1,16 @@
 package settings
 
 type Settings struct {
-	GradientEntities bool
+	VisualSettings VisualSettings
 }
+
+type VisualSettings struct {
+	GradientEntities bool
+	
+
+}
+
+
 
 var (
 	GameSettings Settings
@@ -10,7 +18,11 @@ var (
 
 func GetDefaultSettings() Settings {
 
-	return Settings{GradientEntities: false}
+	return Settings{
+		VisualSettings: VisualSettings{
+			GradientEntities: true,
+		},
+	}
 
 }
 

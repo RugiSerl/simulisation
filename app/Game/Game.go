@@ -49,7 +49,7 @@ func (g *Game) Update() {
 		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target)))
 	}
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
-		settings.GameSettings.GradientEntities = !settings.GameSettings.GradientEntities
+		settings.GameSettings.VisualSettings.GradientEntities = !settings.GameSettings.VisualSettings.GradientEntities
 	}
 
 	rl.EndMode2D()

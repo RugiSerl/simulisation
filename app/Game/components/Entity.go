@@ -3,6 +3,7 @@ package components
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -194,9 +195,7 @@ func (e *Entity) render() {
 		rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), RADIUS_SENSIVITY, rl.NewColor(0, 0, 0, 100))
 	}
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
-	if ShowValeurMorale {
-		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 256.0 * 360.0))
-	if settings.GameSettings.GradientEntities {
+	if settings.GameSettings.VisualSettings.GradientEntities {
 		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 256.0 * 360.0))
 
 	}

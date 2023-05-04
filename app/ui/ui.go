@@ -34,7 +34,7 @@ func (u *UserInterface) Update() {
 
 	}
 
-	if rl.IsKeyPressed(rl.KeyA) {
+	if rl.IsKeyPressed(rl.KeyS) {
 		u.AnimationTime = 0
 		global.SettingsOpen = !global.SettingsOpen
 
