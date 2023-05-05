@@ -2,10 +2,14 @@ package settings
 
 type Settings struct {
 	VisualSettings VisualSettings
+	Gamerule       Gamerule
 }
 
 type VisualSettings struct {
 	GradientEntities bool
+}
+
+type Gamerule struct {
 }
 
 var (

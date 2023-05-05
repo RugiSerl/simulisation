@@ -23,7 +23,7 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 
 	var probability float64 = float64(entityClose) * BASE_PROBABILITY_REPRODUCE
 	if math.RandomProbability(probability) {
-		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1)), len(*othersEntities), generateCloseValue(int(e.ValeurMorale), CHILD_MAXIMUM_DIFFERENCE)))
+		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(1, 0)), len(*othersEntities), generateCloseValue(int(e.ValeurMorale), CHILD_MAXIMUM_DIFFERENCE)))
 	}
 
 }
