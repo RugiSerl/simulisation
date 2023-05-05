@@ -1,7 +1,7 @@
 package Game
 
 import (
-	"github.com/RugiSerl/simulisation/app/Game/components"
+	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
@@ -10,7 +10,7 @@ import (
 
 // Classe qui contient le déroulement principal du jeu
 type Game struct {
-	entities []*components.Entity
+	entities []*Entity.Entity
 	Camera   rl.Camera2D
 }
 
@@ -27,7 +27,7 @@ const CAMERA_ZOOM_AMOUNT = 0.2
 func NewGame() *Game {
 	g := new(Game)
 
-	g.entities = []*components.Entity{}
+	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 
 	return g
@@ -106,7 +106,7 @@ func (g *Game) SpawnMultipleEntities(amount int, position graphic.Vector2) {
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
 func (g *Game) SpawnEntity(position graphic.Vector2) {
 
-	e := components.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
+	e := Entity.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
 
 	g.entities = append(g.entities, e)
 }
@@ -115,7 +115,7 @@ func (g *Game) GetEntityAmount() int {
 	return len(g.entities)
 }
 
-func remove(s []*components.Entity, i int) []*components.Entity {
+func remove(s []*Entity.Entity, i int) []*Entity.Entity {
 	s[i] = s[len(s)-1]
 	return s[:len(s)-1]
 }
