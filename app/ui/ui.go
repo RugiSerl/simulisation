@@ -13,7 +13,7 @@ import (
 const SETTINGS_WIDTH = 200
 
 // durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
-const ANIMATION_DURATION = 0.2
+const ANIMATION_DURATION = 0.1
 
 type UserInterface struct {
 	AnimationTime float32
