@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/RugiSerl/simulisation/app/Game"
-	"github.com/RugiSerl/simulisation/app/Game/components"
+	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
@@ -38,8 +38,8 @@ func load() {
 	global.MyGame = Game.NewGame() //beaucoup de "game"
 	myInterface = ui.NewInterface()
 
-	components.TextureEntite = rl.LoadTexture("assets/person.png")
-	rl.SetTextureFilter(components.TextureEntite, rl.FilterBilinear)
+	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
+	rl.SetTextureFilter(Entity.TextureEntite, rl.FilterBilinear)
 
 	stats.InitFont()
 
