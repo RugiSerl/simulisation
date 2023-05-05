@@ -43,6 +43,7 @@ func (g *Game) Update() {
 	for _, entity := range g.entities {
 		if entity.Dead == false {
 			entity.Update(&g.entities)
+
 		}
 	}
 

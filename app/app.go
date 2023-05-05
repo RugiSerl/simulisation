@@ -55,6 +55,10 @@ func update() {
 
 	rl.EndDrawing()
 
+	if rl.IsKeyPressed(rl.KeyF11) {
+		rl.ToggleFullscreen()
+	}
+
 }
 
 // gère les instructions à la fermeture du jeu
