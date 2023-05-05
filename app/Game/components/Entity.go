@@ -197,7 +197,7 @@ func (e *Entity) render() {
 	}
 	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 	if settings.GameSettings.VisualSettings.GradientEntities {
-		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale) / 256.0 * 360.0))
+		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (MAXIMUM_AGE-float64(e.TimeAlive))/MAXIMUM_AGE/2))
 
 	}
 

@@ -13,8 +13,8 @@ var (
 	ErrOutOfRange = errors.New("colorconv: inputs out of range")
 )
 
-func NewColorFromGradient(offset float64) color.RGBA {
-	r, g, b, err := HSLToRGB(offset, 1, 0.5)
+func NewColorFromGradient(offset float64, brightness float64) color.RGBA {
+	r, g, b, err := HSLToRGB(offset, 1, brightness)
 
 	if err != nil {
 		log.Fatal(err)
