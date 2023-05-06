@@ -57,7 +57,6 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 
 	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
 	e.Reproduce(otherEntities)
-	e.render() //on affiche l'entité
 	e.UpdateAge()
 
 }
@@ -71,15 +70,17 @@ func (e *Entity) GetPointCollision(point graphic.Vector2) bool {
 //fonction d'affichage
 
 // Cette fonction s'occupe d'afficher visuellement l'entité
-func (e *Entity) render() {
+func (e *Entity) Render() {
 
-	if ShowEntityRadiusVision {
-		rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), RADIUS_SENSIVITY, rl.NewColor(0, 0, 0, 100))
-	}
-	rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
-	if settings.GameSettings.VisualSettings.GradientEntities {
-		e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (MAXIMUM_AGE-float64(e.TimeAlive))/MAXIMUM_AGE/2))
+	if e.TimeAlive < MAXIMUM_AGE {
+		if ShowEntityRadiusVision {
+			rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), RADIUS_SENSIVITY, rl.NewColor(0, 0, 0, 100))
+		}
+		rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
+		if settings.GameSettings.VisualSettings.GradientEntities {
+			e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (MAXIMUM_AGE-float64(e.TimeAlive))/MAXIMUM_AGE/2))
 
+		}
 	}
 
 }

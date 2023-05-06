@@ -2,6 +2,7 @@ package graphic
 
 import (
 	"errors"
+	"fmt"
 	"image/color"
 	"log"
 	"math"
@@ -17,7 +18,9 @@ func NewColorFromGradient(offset float64, brightness float64) color.RGBA {
 	r, g, b, err := HSLToRGB(offset, 1, brightness)
 
 	if err != nil {
+		fmt.Println(offset, 1, brightness)
 		log.Fatal(err)
+
 	}
 
 	return rl.NewColor(uint8(r), uint8(g), uint8(b), 255)

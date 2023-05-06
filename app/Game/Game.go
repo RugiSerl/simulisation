@@ -12,6 +12,7 @@ import (
 type Game struct {
 	entities []*Entity.Entity
 	Camera   rl.Camera2D
+	Paused   bool
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
@@ -29,6 +30,7 @@ func NewGame() *Game {
 
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
+	g.Paused = false
 
 	return g
 }
@@ -39,10 +41,32 @@ func (g *Game) Update() {
 
 	rl.BeginMode2D(g.Camera)
 
+	g.UpdateEntity()
+
+	if rl.IsKeyPressed(rl.KeySpace) {
+		g.Paused = !g.Paused
+	}
+
+	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift) {
+		g.SpawnEntity(g.getMouseWorldCoordinates())
+	}
+	if rl.IsKeyPressed(rl.KeyLeftControl) {
+		settings.GameSettings.VisualSettings.GradientEntities = !settings.GameSettings.VisualSettings.GradientEntities
+	}
+
+	rl.EndMode2D()
+
+}
+
+func (g *Game) UpdateEntity() {
 	//mise à jour des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
-			entity.Update(&g.entities)
+			if !g.Paused {
+				entity.Update(&g.entities)
+			}
+
+			entity.Render()
 
 			if entity.GetPointCollision(g.getMouseWorldCoordinates()) && rl.IsMouseButtonDown(rl.MouseRightButton) {
 				entity.Dead = true
@@ -65,16 +89,6 @@ func (g *Game) Update() {
 
 		i++
 	}
-
-	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeySpace) {
-		g.SpawnEntity(g.getMouseWorldCoordinates())
-	}
-	if rl.IsKeyPressed(rl.KeyLeftControl) {
-		settings.GameSettings.VisualSettings.GradientEntities = !settings.GameSettings.VisualSettings.GradientEntities
-	}
-
-	rl.EndMode2D()
-
 }
 
 // met à jour la caméra pour visualiser le jeu et appliquer les transformations de cette dernière
