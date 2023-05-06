@@ -33,7 +33,7 @@ func load() {
 
 	rl.InitWindow(960, 560, "Simulisation")
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
-	rl.SetTargetFPS(60)
+	rl.SetTargetFPS(120)
 
 	global.MyGame = Game.NewGame() //beaucoup de "game"
 	myInterface = ui.NewInterface()

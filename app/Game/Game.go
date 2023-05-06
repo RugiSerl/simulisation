@@ -1,8 +1,6 @@
 package Game
 
 import (
-	"fmt"
-
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
@@ -45,9 +43,8 @@ func (g *Game) Update() {
 	for _, entity := range g.entities {
 		if entity.Dead == false {
 			entity.Update(&g.entities)
-			fmt.Println(entity.HitBox.CenterPosition.X, rl.GetMousePosition().X)
 
-			if entity.GetPointCollision(g.getMouseWorldCoordinates()) && rl.IsMouseButtonPressed(rl.MouseRightButton) {
+			if entity.GetPointCollision(g.getMouseWorldCoordinates()) && rl.IsMouseButtonDown(rl.MouseRightButton) {
 				entity.Dead = true
 
 			}

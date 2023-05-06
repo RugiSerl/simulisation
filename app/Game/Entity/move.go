@@ -13,19 +13,27 @@ import (
 // Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)
 func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
 
-	var min *Entity = otherEntities[0]
+	var min *Entity = nil
 
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
 			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
-				if entity.DistanceMorale(e) < min.DistanceMorale(e) {
+				if min != nil {
+					if entity.DistanceMorale(e) < min.DistanceMorale(e) {
+						min = entity
+					}
+				} else {
 					min = entity
 				}
+
 			}
 		}
 
 	}
-	e.Goto(min.HitBox.CenterPosition) // déplacement vers cette position
+	if min != nil {
+		e.Goto(min.HitBox.CenterPosition) // déplacement vers cette position
+
+	}
 
 }
 
