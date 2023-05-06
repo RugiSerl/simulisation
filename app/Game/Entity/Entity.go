@@ -62,6 +62,11 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 
 }
 
+func (e *Entity) GetPointCollision(point graphic.Vector2) bool {
+	return e.HitBox.DetectPointCollision(point)
+
+}
+
 //--------------------------------------------------
 //fonction d'affichage
 

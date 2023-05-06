@@ -20,6 +20,14 @@ func NewCircle(radius float32, x float32, y float32) Circle {
 func (c *Circle) DetectCircleCollision(otherCircle Circle) bool {
 
 	return (c.CenterPosition.Substract(otherCircle.CenterPosition).GetNorm() <= c.Radius+otherCircle.Radius)
+}
+
+func (c *Circle) DetectMouseCollision() bool {
+	return c.DetectPointCollision(Vector2(rl.GetMousePosition()))
+}
+
+func (c *Circle) DetectPointCollision(position Vector2) bool {
+	return (position.Substract(c.CenterPosition).GetNorm() <= c.Radius)
 
 }
 

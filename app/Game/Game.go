@@ -1,6 +1,8 @@
 package Game
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
@@ -43,6 +45,12 @@ func (g *Game) Update() {
 	for _, entity := range g.entities {
 		if entity.Dead == false {
 			entity.Update(&g.entities)
+			fmt.Println(entity.HitBox.CenterPosition.X, rl.GetMousePosition().X)
+
+			if entity.GetPointCollision(g.getMouseWorldCoordinates()) && rl.IsMouseButtonPressed(rl.MouseRightButton) {
+				entity.Dead = true
+
+			}
 
 		}
 	}
@@ -62,7 +70,7 @@ func (g *Game) Update() {
 	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeySpace) {
-		g.SpawnEntity(graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target)))
+		g.SpawnEntity(g.getMouseWorldCoordinates())
 	}
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
 		settings.GameSettings.VisualSettings.GradientEntities = !settings.GameSettings.VisualSettings.GradientEntities
@@ -119,4 +127,10 @@ func (g *Game) GetEntityAmount() int {
 func remove(s []*Entity.Entity, i int) []*Entity.Entity {
 	s[i] = s[len(s)-1]
 	return s[:len(s)-1]
+}
+
+// transformer les coordonnées physiques de la souris dans la fenêtre en coordonnée virtuelle dans le jeu
+func (g *Game) getMouseWorldCoordinates() graphic.Vector2 {
+	return graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target))
+
 }
