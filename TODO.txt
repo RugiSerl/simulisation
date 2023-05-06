@@ -19,6 +19,7 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -faire déplacer les cellules - FAIT
 -afficher les stats du jeu - FAIT
 -faire mourir les entités après un délai - FAIT
+-faire supprimer les entités lorsqu'on clique dessus - FAIT
 
 
 -faire en sorte que les entités s'attaquent
