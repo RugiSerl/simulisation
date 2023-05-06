@@ -51,7 +51,6 @@ paramètres:
 
     bool :
         afficher stats
-        game_paused -> plus d'updates des entités
         randomValeurMorale
 
         UpdateAge
@@ -61,5 +60,6 @@ paramètres:
         
 
     idées :
-        const
+        game_paused -> plus d'updates des entités
+
 

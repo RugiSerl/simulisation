@@ -7,12 +7,21 @@ type Settings struct {
 
 type VisualSettings struct {
 	GradientEntities bool
+	DisplayStats bool
+}
+
+type EntitySettings struct {
+	ChildMaximumDifference      uint8
+	RadiusSensivity             float32
+	MaximumAge                  float32
+	BaseProbabilityReproduction float32
 }
 
 type Gamerule struct {
 }
 
 var (
+	GameSettings Settings
 	GameSettings Settings
 )
 
