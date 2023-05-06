@@ -5,6 +5,7 @@ import (
 
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -39,8 +40,10 @@ func (u *UserInterface) Update() {
 		global.SettingsOpen = !global.SettingsOpen
 
 	}
+	if settings.GameSettings.VisualSettings.DisplayStats {
+		u.showStats()
 
-	u.showStats()
+	}
 
 }
 

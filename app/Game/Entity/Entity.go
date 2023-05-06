@@ -9,17 +9,8 @@ import (
 // échelle qui correspond à la taille des entité (1 => 128px; 0.5 => 64px; ...)
 const SCALE = 0.01
 
-// vitesse à laquelle se déplacent les entités
+// vitesse à laquelle se déplacent les entités, si elles se déplacent de façon linéaire
 const SPEED = 20
-
-// écart de différence morale maximum entre une entité et son enfant
-const CHILD_MAXIMUM_DIFFERENCE = 5
-
-// rayon dans lequel une entité "voit" les autres entités
-const RADIUS_SENSIVITY = 0.1 * 100 //px
-
-// durée de vie d'une entité, en s
-const MAXIMUM_AGE = 10
 
 var (
 	//texture utilisée pour afficher l'entité sur la fenêtre
@@ -53,11 +44,23 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 }
 
 func (e *Entity) Update(otherEntities *[]*Entity) {
-	e.MoveToClosestNeighbour(*otherEntities) //on déplace l'entité
 
-	e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
-	e.Reproduce(otherEntities)
-	e.UpdateAge()
+	if settings.GameSettings.Gamerule.Move {
+		e.MoveToClosestNeighbour(*otherEntities) //on déplace l'entité
+	}
+
+	if settings.GameSettings.Gamerule.Uncollide {
+		e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
+	}
+
+	if settings.GameSettings.Gamerule.Uncollide {
+		e.Reproduce(otherEntities)
+	}
+
+	if settings.GameSettings.Gamerule.Uncollide {
+		e.UpdateAge()
+
+	}
 
 }
 
@@ -72,13 +75,13 @@ func (e *Entity) GetPointCollision(point graphic.Vector2) bool {
 // Cette fonction s'occupe d'afficher visuellement l'entité
 func (e *Entity) Render() {
 
-	if e.TimeAlive < MAXIMUM_AGE {
+	if e.TimeAlive < settings.GameSettings.EntitySettings.MaximumAge {
 		if ShowEntityRadiusVision {
-			rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), RADIUS_SENSIVITY, rl.NewColor(0, 0, 0, 100))
+			rl.DrawCircleV(rl.Vector2(e.HitBox.CenterPosition), settings.GameSettings.EntitySettings.RadiusSensivity, rl.NewColor(0, 0, 0, 100))
 		}
 		rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 		if settings.GameSettings.VisualSettings.GradientEntities {
-			e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (MAXIMUM_AGE-float64(e.TimeAlive))/MAXIMUM_AGE/2))
+			e.HitBox.Fill(graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (float64(settings.GameSettings.EntitySettings.MaximumAge)-float64(e.TimeAlive))/float64(settings.GameSettings.EntitySettings.MaximumAge)/2))
 
 		}
 	}
@@ -102,7 +105,7 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 
 func (e *Entity) UpdateAge() {
 	e.TimeAlive += rl.GetFrameTime()
-	if e.TimeAlive > MAXIMUM_AGE {
+	if e.TimeAlive > settings.GameSettings.EntitySettings.MaximumAge {
 		e.Dead = true
 	}
 

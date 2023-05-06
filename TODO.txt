@@ -23,6 +23,8 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 
 
 -faire en sorte que les entités s'attaquent
+-changer les const en settings - en cours
+-rajouter une fonctionnalité qui permette que toutes les entités se dirigent vers la souris
 
 
 

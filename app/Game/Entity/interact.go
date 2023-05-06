@@ -3,6 +3,7 @@ package Entity
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
+	"github.com/RugiSerl/simulisation/app/settings"
 )
 
 const BASE_PROBABILITY_REPRODUCE = 1e-3
@@ -12,7 +13,7 @@ const BASE_PROBABILITY_REPRODUCE = 1e-3
 func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 	var entityClose int32 = 0
 	for _, entity := range *othersEntities {
-		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY && entity.ID != e.ID {
+		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity && entity.ID != e.ID {
 			entityClose += 1
 		}
 	}
@@ -23,7 +24,7 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 
 	var probability float64 = float64(entityClose) * BASE_PROBABILITY_REPRODUCE
 	if math.RandomProbability(probability) {
-		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(1, 0)), len(*othersEntities), generateCloseValue(int(e.ValeurMorale), CHILD_MAXIMUM_DIFFERENCE)))
+		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(1, 0)), len(*othersEntities), generateCloseValue(int(e.ValeurMorale), int(settings.GameSettings.EntitySettings.ChildMaximumDifference))))
 	}
 
 }

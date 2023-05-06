@@ -2,6 +2,7 @@ package Entity
 
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -17,7 +18,7 @@ func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
 
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
-			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
+			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity {
 				if min != nil {
 					if entity.DistanceMorale(e) < min.DistanceMorale(e) {
 						min = entity
@@ -45,7 +46,7 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
-			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < RADIUS_SENSIVITY {
+			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity {
 				weight = float32(e.DistanceMorale(entity)) / 255
 				weight = 1
 				weightSum += weight
