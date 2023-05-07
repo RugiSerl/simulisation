@@ -44,6 +44,8 @@ type Gamerule struct {
 
 var (
 	GameSettings Settings
+
+	GamePaused bool
 )
 
 func GetDefaultSettings() Settings {
@@ -56,7 +58,7 @@ func GetDefaultSettings() Settings {
 		EntitySettings: EntitySettings{
 			RadiusSensivity:             0.1 * 100,
 			ChildMaximumDifference:      5,
-			MaximumAge:                  10,
+			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
 		},
 		Gamerule: Gamerule{

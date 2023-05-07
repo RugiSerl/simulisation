@@ -7,5 +7,6 @@ import (
 var (
 	MyGame *Game.Game
 
-	SettingsOpen bool
+	SettingsOpen   bool
+	InterfaceScale float32 = 0.2
 )

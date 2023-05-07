@@ -12,7 +12,6 @@ import (
 type Game struct {
 	entities []*Entity.Entity
 	Camera   rl.Camera2D
-	Paused   bool
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
@@ -30,7 +29,7 @@ func NewGame() *Game {
 
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
-	g.Paused = false
+	settings.GamePaused = false
 
 	return g
 }
@@ -44,7 +43,7 @@ func (g *Game) Update() {
 	g.UpdateEntity()
 
 	if rl.IsKeyPressed(rl.KeySpace) {
-		g.Paused = !g.Paused
+		settings.GamePaused = !settings.GamePaused
 	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift) {
@@ -62,7 +61,7 @@ func (g *Game) UpdateEntity() {
 	//mise à jour des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
-			if !g.Paused {
+			if !settings.GamePaused {
 				entity.Update(&g.entities)
 			}
 

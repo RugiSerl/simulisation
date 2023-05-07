@@ -7,6 +7,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
+	"github.com/RugiSerl/simulisation/app/ui/components"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -18,11 +19,15 @@ const ANIMATION_DURATION = 0.1
 
 type UserInterface struct {
 	AnimationTime float32
+
+	pauseButton *components.ImageButton
 }
 
 func NewInterface() *UserInterface {
 
 	u := new(UserInterface)
+
+	u.pauseButton = components.NewImageButton(graphic.NewVector2(0, 0), rl.LoadTexture("assets/pause.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_BOTTOM)
 
 	return u
 
@@ -33,6 +38,12 @@ func (u *UserInterface) Update() {
 	if global.SettingsOpen {
 		u.UpdateSettings()
 
+	}
+
+	u.pauseButton.Update()
+
+	if u.pauseButton.PressedState {
+		settings.GamePaused = !settings.GamePaused
 	}
 
 	if rl.IsKeyPressed(rl.KeyS) {
