@@ -24,12 +24,19 @@ const CAMERA_SPEED = 100
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
 const CAMERA_ZOOM_AMOUNT = 0.2
 
+var blurShader *graphic.Shader
+var textureRender rl.RenderTexture2D
+
 // création d'une instance de Game
 func NewGame() *Game {
 	g := new(Game)
 
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
+	blurShader = graphic.InitShader("assets/blur.fs")
+	var blurAmount float32 = 4
+	blurShader.SetValueFromUniformName("size", blurAmount, rl.ShaderUniformFloat)
+	textureRender = rl.LoadRenderTexture(1920, 1080)
 
 	return g
 }
@@ -37,6 +44,9 @@ func NewGame() *Game {
 // Cette fonction est appelée à chaque frame et s'occupe de montrer graphiquement l'état du jeu, ainsi que de mettre à jour les entités
 func (g *Game) Update() {
 	g.UpdateCamera()
+
+	rl.BeginTextureMode(textureRender)
+	rl.ClearBackground(rl.DarkGray)
 
 	rl.BeginMode2D(g.Camera)
 
@@ -50,6 +60,16 @@ func (g *Game) Update() {
 	}
 
 	rl.EndMode2D()
+	rl.EndTextureMode()
+	if global.SettingsOpen {
+		blurShader.Begin()
+	}
+
+	rl.DrawTextureRec(textureRender.Texture, rl.NewRectangle(0, 0, float32(textureRender.Texture.Width), float32(-textureRender.Texture.Height)), rl.NewVector2(0, 0), rl.White)
+
+	if global.SettingsOpen {
+		blurShader.End()
+	}
 
 }
 
