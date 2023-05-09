@@ -22,6 +22,7 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -faire supprimer les entités lorsqu'on clique dessus - FAIT
 
 
+-faire un flou et arrêter le jeu lorsque les paramètres sont ouverts
 -faire en sorte que les entités s'attaquent
 -changer les const en settings - en cours
 -rajouter une fonctionnalité qui permette que toutes les entités se dirigent vers la souris

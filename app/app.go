@@ -3,7 +3,6 @@ package app
 import (
 	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
-	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
 	"github.com/RugiSerl/simulisation/app/ui"
@@ -12,6 +11,7 @@ import (
 
 var (
 	myInterface *ui.UserInterface
+	myGame      *Game.Game
 )
 
 // fonction principale
@@ -35,7 +35,7 @@ func load() {
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
 	rl.SetTargetFPS(120)
 
-	global.MyGame = Game.NewGame() //beaucoup de "game"
+	myGame = Game.NewGame() //beaucoup de "game"
 	myInterface = ui.NewInterface()
 
 	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
@@ -50,8 +50,15 @@ func update() {
 	rl.BeginDrawing()
 
 	rl.ClearBackground(rl.DarkGray)
-	global.MyGame.Update()
+
+	myGame.Update()
+
 	myInterface.Update()
+
+	if settings.GameSettings.VisualSettings.DisplayStats {
+		stats.ShowStats(myGame)
+
+	}
 
 	rl.EndDrawing()
 

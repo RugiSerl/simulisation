@@ -44,8 +44,6 @@ type Gamerule struct {
 
 var (
 	GameSettings Settings
-
-	GamePaused bool
 )
 
 func GetDefaultSettings() Settings {

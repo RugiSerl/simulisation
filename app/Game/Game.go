@@ -2,6 +2,7 @@ package Game
 
 import (
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
+	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
@@ -29,7 +30,6 @@ func NewGame() *Game {
 
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
-	settings.GamePaused = false
 
 	return g
 }
@@ -41,10 +41,6 @@ func (g *Game) Update() {
 	rl.BeginMode2D(g.Camera)
 
 	g.UpdateEntity()
-
-	if rl.IsKeyPressed(rl.KeySpace) {
-		settings.GamePaused = !settings.GamePaused
-	}
 
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift) {
 		g.SpawnEntity(g.getMouseWorldCoordinates())
@@ -61,7 +57,7 @@ func (g *Game) UpdateEntity() {
 	//mise à jour des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
-			if !settings.GamePaused {
+			if !global.SettingsOpen {
 				entity.Update(&g.entities)
 			}
 
