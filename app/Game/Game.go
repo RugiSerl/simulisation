@@ -34,7 +34,7 @@ func NewGame() *Game {
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 	blurShader = graphic.InitShader("assets/blur.fs")
-	var blurAmount float32 = 4
+	var blurAmount float32 = 2
 	blurShader.SetValueFromUniformName("size", blurAmount, rl.ShaderUniformFloat)
 	textureRender = rl.LoadRenderTexture(1920, 1080)
 
