@@ -53,11 +53,11 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 		e.UnCollideAgressive(*otherEntities) //On évite que les entités se stackent
 	}
 
-	if settings.GameSettings.Gamerule.Uncollide {
+	if settings.GameSettings.Gamerule.Reproduce {
 		e.Reproduce(otherEntities)
 	}
 
-	if settings.GameSettings.Gamerule.Uncollide {
+	if settings.GameSettings.Gamerule.UpdateAge {
 		e.UpdateAge()
 
 	}

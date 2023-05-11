@@ -34,6 +34,7 @@ func load() {
 	rl.InitWindow(960, 560, "Simulisation")
 	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
 	rl.SetTargetFPS(120)
+	rl.SetExitKey(rl.KeyLeftSuper)
 
 	myGame = Game.NewGame() //beaucoup de "game"
 	myInterface = ui.NewInterface()
