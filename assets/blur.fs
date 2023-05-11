@@ -1,5 +1,9 @@
 #version 330
 
+
+//shader de flou par RugiSerl
+//pas opti du tout, avec une complexité 0(n²)
+
 // Input vertex attributes (from vertex shader)
 in vec2 fragTexCoord;
 in vec4 fragColor;
