@@ -10,8 +10,6 @@ var (
 	textTexture rl.Texture2D
 )
 
-const GRADIENT_WIDTH = 50
-
 func DrawText(font rl.Font, text string, x float32, y float32, size float32, spacing float32, color color.RGBA) {
 	//draw standard text
 
