@@ -55,6 +55,13 @@ func (g *Game) Update() {
 	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift) {
 		g.SpawnEntity(g.getMouseWorldCoordinates())
 	}
+
+	if rl.IsMouseButtonDown(rl.MouseMiddleButton) {
+		for _, entity := range g.entities {
+			entity.Goto(g.getMouseWorldCoordinates())
+		}
+	}
+
 	if rl.IsKeyPressed(rl.KeyLeftControl) {
 		settings.GameSettings.VisualSettings.GradientEntities = !settings.GameSettings.VisualSettings.GradientEntities
 	}
