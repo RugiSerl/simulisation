@@ -1,4 +1,4 @@
-package ui
+package gui
 
 import (
 	"github.com/RugiSerl/simulisation/app/global"
