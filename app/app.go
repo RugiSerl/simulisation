@@ -3,14 +3,14 @@ package app
 import (
 	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
+	"github.com/RugiSerl/simulisation/app/gui"
 	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
-	"github.com/RugiSerl/simulisation/app/ui"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 var (
-	myInterface *ui.UserInterface
+	myInterface *gui.UserInterface
 	myGame      *Game.Game
 )
 
@@ -37,7 +37,7 @@ func load() {
 	rl.SetExitKey(rl.KeyLeftSuper)
 
 	myGame = Game.NewGame() //beaucoup de "game"
-	myInterface = ui.NewInterface()
+	myInterface = gui.NewInterface()
 
 	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
 	rl.SetTextureFilter(Entity.TextureEntite, rl.FilterBilinear)
