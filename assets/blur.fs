@@ -3,6 +3,7 @@
 
 //shader de flou par RugiSerl
 //pas opti du tout, avec une complexité 0(n²)
+//réduit la luminosité (multiplie par 0.9)
 
 // Input vertex attributes (from vertex shader)
 in vec2 fragTexCoord;
@@ -45,5 +46,5 @@ void main()
     }
     
 
-    finalColor = vec4(texelColor/weightSum, 1.0);
+    finalColor = vec4(texelColor/weightSum, 1.0)*0.9;
 }
