@@ -20,17 +20,18 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -afficher les stats du jeu - FAIT
 -faire mourir les entités après un délai - FAIT
 -faire supprimer les entités lorsqu'on clique dessus - FAIT
+-faire un flou et arrêter le jeu lorsque les paramètres sont ouverts - FAIT
+-changer les const en settings - FAIT
+-rajouter une fonctionnalité qui permette que toutes les entités se dirigent vers la souris - FAIT
 
 
--faire un flou et arrêter le jeu lorsque les paramètres sont ouverts
+
 -faire en sorte que les entités s'attaquent
--changer les const en settings - en cours
--rajouter une fonctionnalité qui permette que toutes les entités se dirigent vers la souris
-
-
-
-
 -faire une interface graphique pour les paramètres du jeu - en cours
+
+
+
+
 
 
 bug : 
