@@ -46,7 +46,7 @@ func (g *Game) Update() {
 	g.UpdateCamera()
 
 	rl.BeginTextureMode(textureRender)
-	rl.ClearBackground(rl.DarkGray)
+	rl.ClearBackground(rl.NewColor(194, 187, 186, 255))
 
 	rl.BeginMode2D(g.Camera)
 
