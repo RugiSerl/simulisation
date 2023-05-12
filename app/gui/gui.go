@@ -7,35 +7,38 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// largeur du panneau des paramètres
-const SETTINGS_WIDTH = 200
-
-// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
-const ANIMATION_DURATION = 0.15
-
-const TEXT_SIZE = 20
-const TEXT_SPACING = 0
+const (
+	// largeur du panneau des paramètres
+	SETTINGS_WIDTH = 300
+	// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
+	ANIMATION_DURATION = 0.15
+	TEXT_SPACING       = 0
+	TEXT_SIZE          = 24
+)
 
 var (
 	font rl.Font
 )
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("èabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 
 type UserInterface struct {
 	AnimationTime float32
 
-	menuRect    graphic.Rect
-	pauseButton *components.ImageButton
+	menuRect     graphic.Rect
+	testLabel    *components.Label
+	testCheckBox *components.CheckBox
 }
 
 func NewInterface() *UserInterface {
 
+	InitFont()
 	u := new(UserInterface)
-	u.pauseButton = components.NewImageButton(graphic.NewVector2(30, 30), rl.LoadTexture("assets/pause.png"), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM)
+	u.testLabel = components.Newlabel("Paramètres", font, TEXT_SIZE, graphic.NewVector2(0, 15), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
+	u.testCheckBox = components.NewCheckBox(graphic.NewVector2(100, 100), false, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 
 	return u
 
@@ -61,7 +64,8 @@ func (u *UserInterface) UpdateSettings() {
 
 	u.DrawRectangle()
 
-	u.pauseButton.Update(u.menuRect)
+	u.testLabel.Render(u.menuRect)
+	u.testCheckBox.Update(u.menuRect)
 
 }
 
