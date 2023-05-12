@@ -13,6 +13,18 @@ const SETTINGS_WIDTH = 200
 // durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
 const ANIMATION_DURATION = 0.15
 
+const TEXT_SIZE = 20
+const TEXT_SPACING = 0
+
+var (
+	font rl.Font
+)
+
+func InitFont() {
+	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
+}
+
 type UserInterface struct {
 	AnimationTime float32
 
