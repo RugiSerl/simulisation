@@ -71,7 +71,6 @@ func (s *Setting) SetBool(value *bool) {
 	if s.componentType != TYPE_BOOL {
 		incorrectValue()
 	}
-	*value = false
 
 	s.checkBox.SetValue(value)
 
