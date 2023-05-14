@@ -4,6 +4,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/gui"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -52,7 +53,7 @@ func (g *Game) Update() {
 
 	g.UpdateEntity()
 
-	if rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift) {
+	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH) {
 		g.SpawnEntity(g.getMouseWorldCoordinates())
 	}
 

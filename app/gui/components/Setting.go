@@ -34,7 +34,11 @@ func NewSetting(name string, componentType int, font rl.Font, fontSize float32, 
 	s.position = position
 	s.anchorX, s.anchorY = horizontalAnchor, verticalAnchor
 
-	s.label = Newlabel(name+" : ", font, fontSize, graphic.NewVector2(0, 0), graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	if componentType != TYPE_NO_COMPONENT {
+		name += " : "
+	}
+
+	s.label = Newlabel(name, font, fontSize, graphic.NewVector2(0, 0), graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	s.size = s.label.GetSize()
 
 	s.componentType = componentType

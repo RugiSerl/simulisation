@@ -21,7 +21,7 @@ var (
 )
 
 const (
-	CHECKBOX_SIZE = 120
+	CHECKBOX_SIZE = 100
 )
 
 func NewCheckBox(position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *CheckBox {
@@ -68,7 +68,7 @@ func (c *CheckBox) handleInput() {
 }
 
 func (c *CheckBox) render() {
-	innerRect := graphic.GetInnerRect(CheckBoxRect, 4)
+	innerRect := graphic.GetInnerRect(CheckBoxRect, 2)
 
 	CheckBoxRect.Fill(rl.Black, 0)
 	innerRect.Fill(rl.White, 0)
