@@ -1,13 +1,15 @@
 package components
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type CheckBox struct {
-	Value      bool
+	value      *bool
 	HoverState bool
 	position   graphic.Vector2
 	anchorX    int8
@@ -19,17 +21,15 @@ var (
 )
 
 const (
-	SIZE = 120
+	CHECKBOX_SIZE = 120
 )
 
-func NewCheckBox(position graphic.Vector2, defaultValue bool, horizontalAnchor int8, verticalAnchor int8) *CheckBox {
+func NewCheckBox(position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *CheckBox {
 
 	c := new(CheckBox)
 
 	c.anchorX = horizontalAnchor
 	c.anchorY = verticalAnchor
-
-	c.Value = defaultValue
 
 	c.position = position
 
@@ -37,8 +37,14 @@ func NewCheckBox(position graphic.Vector2, defaultValue bool, horizontalAnchor i
 
 }
 
+func (c *CheckBox) SetValue(value *bool) {
+	c.value = value
+	fmt.Println(c.value)
+
+}
+
 func (c *CheckBox) Update(containingRect graphic.Rect) {
-	CheckBoxRect = graphic.NewRectFromVector(graphic.GetRectCoordinatesWithAnchor(c.position, c.anchorX, c.anchorY, graphic.NewVector2(SIZE*global.InterfaceScale, SIZE*global.InterfaceScale), containingRect), graphic.NewVector2(SIZE*global.InterfaceScale, SIZE*global.InterfaceScale))
+	CheckBoxRect = graphic.NewRectFromVector(graphic.GetRectCoordinatesWithAnchor(c.position, c.anchorX, c.anchorY, graphic.NewVector2(CHECKBOX_SIZE*global.InterfaceScale, CHECKBOX_SIZE*global.InterfaceScale), containingRect), graphic.NewVector2(CHECKBOX_SIZE*global.InterfaceScale, CHECKBOX_SIZE*global.InterfaceScale))
 
 	c.handleInput()
 	c.render()
@@ -52,7 +58,9 @@ func (c *CheckBox) handleInput() {
 	if graphic.DetectRectCollision(CheckBoxRect, graphic.GetMouseRect()) {
 		c.HoverState = true
 		if rl.IsMouseButtonPressed(rl.MouseLeftButton) {
-			c.Value = !c.Value
+
+			*c.value = !*c.value
+
 		}
 
 	}
@@ -65,7 +73,7 @@ func (c *CheckBox) render() {
 	CheckBoxRect.Fill(rl.Black, 0)
 	innerRect.Fill(rl.White, 0)
 
-	if c.Value {
+	if *c.value {
 		innerRectConfirmation := graphic.GetInnerRect(innerRect, 3)
 		innerRectConfirmation.Fill(rl.Black, 0)
 	}

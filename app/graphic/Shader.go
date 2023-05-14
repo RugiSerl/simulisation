@@ -1,8 +1,6 @@
 package graphic
 
 import (
-	"fmt"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -26,7 +24,6 @@ func (s *Shader) SetValueFromUniformName(uniformName string, value any, uniformT
 	} else {
 		s.uniformLocations[uniformName] = rl.GetShaderLocation(s.Shader, uniformName)
 		s.setValue(s.uniformLocations[uniformName], value, uniformType)
-		fmt.Println("a")
 
 	}
 

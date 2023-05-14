@@ -1,9 +1,12 @@
 package gui
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui/components"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -28,19 +31,43 @@ func InitFont() {
 type UserInterface struct {
 	AnimationTime float32
 
-	menuRect     graphic.Rect
-	testLabel    *components.Label
-	testCheckBox *components.CheckBox
+	menuRect graphic.Rect
+
+	Settings []*components.Setting
 }
 
 func NewInterface() *UserInterface {
 
 	InitFont()
 	u := new(UserInterface)
-	u.testLabel = components.Newlabel("Paramètres", font, TEXT_SIZE, graphic.NewVector2(0, 15), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
-	u.testCheckBox = components.NewCheckBox(graphic.NewVector2(100, 100), false, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+
+	u.InitSettingsPanel()
 
 	return u
+
+}
+
+func (u *UserInterface) InitSettingsPanel() {
+
+	position := graphic.NewVector2(0, 15)
+	parameteres := components.NewSetting("Paramètres", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
+	position = position.Add(graphic.NewVector2(10, 45))
+
+	UpdateAge := components.NewSetting("Update age", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	UpdateAge.SetBool(&settings.GameSettings.Gamerule.UpdateAge)
+	position = position.Add(graphic.NewVector2(0, 35))
+
+	Uncollide := components.NewSetting("Uncollide", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Uncollide.SetBool(&settings.GameSettings.Gamerule.Uncollide)
+	position = position.Add(graphic.NewVector2(0, 35))
+
+	Reproduce := components.NewSetting("Reproduce", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Reproduce.SetBool(&settings.GameSettings.Gamerule.Reproduce)
+	position = position.Add(graphic.NewVector2(0, 35))
+
+	Move := components.NewSetting("Move", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Move.SetBool(&settings.GameSettings.Gamerule.Move)
+	u.Settings = []*components.Setting{parameteres, UpdateAge, Uncollide, Reproduce, Move}
 
 }
 
@@ -64,9 +91,10 @@ func (u *UserInterface) UpdateSettings() {
 
 	u.DrawRectangle()
 
-	u.testLabel.Render(u.menuRect)
-	u.testCheckBox.Update(u.menuRect)
-
+	for _, setting := range u.Settings {
+		fmt.Println("a")
+		setting.Update(u.menuRect)
+	}
 }
 
 func (u *UserInterface) DrawRectangle() {

@@ -1,7 +1,6 @@
 package components
 
 import (
-	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -38,8 +37,8 @@ func Newlabel(text string, font rl.Font, fontSize float32, position graphic.Vect
 
 func (l *Label) Render(surfaceRect graphic.Rect) {
 
-	physicPosition := graphic.GetRectCoordinatesWithAnchor(l.position, l.anchorX, l.anchorY, l.size.Scale(global.InterfaceScale), surfaceRect)
-	rl.DrawTextureRec(l.texture.Texture, rl.NewRectangle(0, 0, l.size.X*global.InterfaceScale, -l.size.Y*global.InterfaceScale), rl.Vector2(physicPosition), rl.White)
+	physicPosition := graphic.GetRectCoordinatesWithAnchor(l.position, l.anchorX, l.anchorY, l.size, surfaceRect)
+	rl.DrawTextureRec(l.texture.Texture, rl.NewRectangle(0, 0, l.size.X, -l.size.Y), rl.Vector2(physicPosition), rl.White)
 
 }
 
