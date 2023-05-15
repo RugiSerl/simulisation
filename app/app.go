@@ -43,7 +43,7 @@ func load() {
 	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
 	rl.SetTextureFilter(Entity.TextureEntite, rl.FilterBilinear)
 
-	Background = rl.LoadTexture("background/person.png")
+	Background = rl.LoadTexture("assets/background.png")
 	rl.SetTextureFilter(Background, rl.FilterBilinear)
 
 	stats.InitFont()
@@ -60,7 +60,6 @@ func update() {
 
 	myInterface.Update()
 
-	rl.DrawTexture(Background, 0, 0, rl.White)
 	if settings.GameSettings.VisualSettings.DisplayStats {
 		stats.ShowStats(myGame)
 
