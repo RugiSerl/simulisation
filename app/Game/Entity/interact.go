@@ -1,12 +1,16 @@
 package Entity
 
 import (
+	"fmt"
+
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
 )
 
 const BASE_PROBABILITY_REPRODUCE = 1e-3
+
+const BASE_PROBABILITY_KILL = 1e-5
 
 // fonction pour faire se reproduire les entités.
 // les nouvelles cellules sont proches "moralement" de celles qui les ont engendré
@@ -31,4 +35,18 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 
 func generateCloseValue(value int, gap int) uint8 {
 	return uint8(math.RandomRange(value-gap, (value + gap)))
+}
+
+func (e *Entity) Kill(othersEntities *[]*Entity) {
+
+	for _, entity := range *othersEntities {
+		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity && entity.ID != e.ID {
+			var probability float64 = float64(e.DistanceMorale(entity)) * BASE_PROBABILITY_KILL
+			if math.RandomProbability(probability) {
+				entity.Dead = true
+				fmt.Println("killed")
+			}
+		}
+	}
+
 }
