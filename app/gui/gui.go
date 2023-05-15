@@ -88,7 +88,10 @@ func (u *UserInterface) InitSettingsPanel() {
 	linearMove.SetBool(&settings.GameSettings.EntitySettings.LinearMove)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove}
+	testSlider := components.NewSetting("test", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, testSlider}
 
 }
 

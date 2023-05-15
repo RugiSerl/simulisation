@@ -12,7 +12,9 @@ import (
 type Setting struct {
 	label         *Label
 	componentType int
-	checkBox      *CheckBox
+
+	checkBox *CheckBox
+	slider   *Slider
 
 	boolValue  *bool
 	floatValue *float32
@@ -48,6 +50,10 @@ func NewSetting(name string, componentType int, font rl.Font, fontSize float32, 
 		s.checkBox = NewCheckBox(graphic.NewVector2(0, 0), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
 		s.size = s.size.Add(graphic.NewVector2(CHECKBOX_SIZE*global.InterfaceScale, 0))
 
+	case TYPE_SLIDER:
+		s.slider = NewSlider(graphic.NewVector2(0, 0), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
+		s.size = s.size.Add(graphic.NewVector2(s.slider.GetSize().X, 0))
+
 	case TYPE_NO_COMPONENT:
 
 	default:
@@ -66,6 +72,9 @@ func (s *Setting) Update(containingRect graphic.Rect) {
 	switch s.componentType {
 	case TYPE_BOOL:
 		s.checkBox.Update(settingRect)
+	case TYPE_SLIDER:
+		s.slider.Update(settingRect)
+
 	case TYPE_NO_COMPONENT:
 
 	}

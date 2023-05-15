@@ -80,6 +80,14 @@ func GetInnerRect(sourceRect Rect, padding float32) Rect {
 	return sourceRect
 }
 
+func GetInnerHorizontalrect(sourceRect Rect, padding float32) Rect {
+	sourceRect.Y += padding
+	sourceRect.Height -= padding * 2
+
+	return sourceRect
+
+}
+
 // convert to raylib's Rect object
 func (r Rect) ToRaylibRect() rl.Rectangle {
 	return rl.NewRectangle(r.X, r.Y, r.Width, r.Height)

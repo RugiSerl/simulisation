@@ -23,10 +23,10 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -faire un flou et arrêter le jeu lorsque les paramètres sont ouverts - FAIT
 -changer les const en settings - FAIT
 -rajouter une fonctionnalité qui permette que toutes les entités se dirigent vers la souris - FAIT
+-faire en sorte que les entités s'attaquent - FAIT
 
 
 
--faire en sorte que les entités s'attaquent
 -faire une interface graphique pour les paramètres du jeu - en cours
 
 
