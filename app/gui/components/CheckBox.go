@@ -1,8 +1,6 @@
 package components
 
 import (
-	"fmt"
-
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -39,7 +37,6 @@ func NewCheckBox(position graphic.Vector2, horizontalAnchor int8, verticalAnchor
 
 func (c *CheckBox) SetValue(value *bool) {
 	c.value = value
-	fmt.Println(c.value)
 
 }
 
