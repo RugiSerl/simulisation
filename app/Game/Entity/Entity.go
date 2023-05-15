@@ -59,9 +59,9 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 
 	if settings.GameSettings.Gamerule.UpdateAge {
 		e.UpdateAge()
-
 	}
 
+	e.Kill(otherEntities)
 }
 
 func (e *Entity) GetPointCollision(point graphic.Vector2) bool {
