@@ -12,6 +12,7 @@ import (
 var (
 	myInterface *gui.UserInterface
 	myGame      *Game.Game
+	Background  rl.Texture2D
 )
 
 // fonction principale
@@ -36,11 +37,14 @@ func load() {
 	rl.SetTargetFPS(120)
 	rl.SetExitKey(rl.KeyLeftSuper)
 
-	myGame = Game.NewGame() //beaucoup de "game"
+	myGame = Game.NewGame()
 	myInterface = gui.NewInterface()
 
 	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
 	rl.SetTextureFilter(Entity.TextureEntite, rl.FilterBilinear)
+
+	Background = rl.LoadTexture("background/person.png")
+	rl.SetTextureFilter(Background, rl.FilterBilinear)
 
 	stats.InitFont()
 
@@ -56,6 +60,7 @@ func update() {
 
 	myInterface.Update()
 
+	rl.DrawTexture(Background, 0, 0, rl.White)
 	if settings.GameSettings.VisualSettings.DisplayStats {
 		stats.ShowStats(myGame)
 
