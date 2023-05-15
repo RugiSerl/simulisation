@@ -64,6 +64,7 @@ func update() {
 	rl.EndDrawing()
 
 	if rl.IsKeyPressed(rl.KeyF11) {
+		rl.SetWindowSize(rl.GetMonitorWidth(rl.GetCurrentMonitor()), rl.GetMonitorHeight(rl.GetCurrentMonitor()))
 		rl.ToggleFullscreen()
 	}
 
