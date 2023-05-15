@@ -26,6 +26,11 @@ type EntitySettings struct {
 
 	//probabilité qu'une entité se reproduise s'il y a une seule autre entité
 	BaseProbabilityReproduction float32
+
+	//définit la façon dont se déplace l'entité.
+	//Sur true, elle se déplace de façon linéaire et constante sur une unité de temps,
+	//Sur false, elle se déplace en divisant la distance avec la destination, sur un unité de frame
+	LinearMove bool
 }
 
 type Gamerule struct {
@@ -58,6 +63,7 @@ func GetDefaultSettings() Settings {
 			ChildMaximumDifference:      5,
 			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
+			LinearMove:                  false,
 		},
 		Gamerule: Gamerule{
 			UpdateAge: true,

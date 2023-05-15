@@ -1,8 +1,6 @@
 package gui
 
 import (
-	"fmt"
-
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui/components"
@@ -24,7 +22,7 @@ var (
 )
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("èabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'éèabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 
@@ -81,9 +79,16 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	DisplayStats := components.NewSetting("Afficher les statistiques", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	DisplayStats.SetBool(&settings.GameSettings.VisualSettings.DisplayStats)
+	position = position.Add(graphic.NewVector2(0, 45))
+
+	entitySettings := components.NewSetting("Paramètres de l'entité", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	position = position.Add(graphic.NewVector2(0, 32))
+
+	linearMove := components.NewSetting("Déplacement linéaire", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	linearMove.SetBool(&settings.GameSettings.EntitySettings.LinearMove)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats}
+	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove}
 
 }
 
@@ -108,7 +113,6 @@ func (u *UserInterface) UpdateSettings() {
 	u.DrawRectangle()
 
 	for _, setting := range u.Settings {
-		fmt.Println("a")
 		setting.Update(u.menuRect)
 	}
 }

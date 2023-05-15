@@ -66,7 +66,12 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 // aller à un point
 func (e *Entity) Goto(point graphic.Vector2) {
-	e.GotoDivide(point)
+	if settings.GameSettings.EntitySettings.LinearMove {
+		e.GotoLinear(point)
+	} else {
+		e.GotoDivide(point)
+
+	}
 }
 
 // aller à un point de manière linéaire
