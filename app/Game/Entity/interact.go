@@ -1,8 +1,6 @@
 package Entity
 
 import (
-	"fmt"
-
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
@@ -46,7 +44,6 @@ func (e *Entity) Kill(othersEntities *[]*Entity) {
 			var probability float64 = float64(e.DistanceMorale(entity)) * BASE_PROBABILITY_KILL
 			if math.RandomProbability(probability) {
 				entity.Dead = true
-				fmt.Println("killed")
 			}
 		}
 	}
