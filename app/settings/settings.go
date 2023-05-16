@@ -16,7 +16,7 @@ type VisualSettings struct {
 
 type EntitySettings struct {
 	// écart de différence morale maximum entre une entité et son enfant
-	ChildMaximumDifference uint8
+	ChildMaximumDifference float32
 
 	// rayon dans lequel une entité "voit" les autres entités
 	RadiusSensivity float32

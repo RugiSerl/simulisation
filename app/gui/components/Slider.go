@@ -1,8 +1,6 @@
 package components
 
 import (
-	"fmt"
-
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -59,14 +57,24 @@ func (s *Slider) Update(containingRect graphic.Rect) {
 
 func (s *Slider) handleInput() {
 
+	if graphic.DetectRectCollision(SliderRect, graphic.GetMouseRect()) {
+		s.HoverState = true
+		if rl.IsMouseButtonDown(rl.MouseLeftButton) {
+			*s.value = s.min + (s.max-s.min)*(rl.GetMousePosition().X-SliderRect.X)/SliderRect.Width
+		}
+
+	}
+
 }
 
 func (s *Slider) render() {
-	//SliderRect.Fill(rl.Green, 0)
 
 	bar := graphic.GetInnerHorizontalrect(SliderRect, SliderRect.Height/3)
 
+	ballXPosition := (*s.value-s.min)/(s.max-s.min)*SliderRect.Width + SliderRect.X
+	ball := graphic.NewCircle(5, ballXPosition, SliderRect.Y+SliderRect.Height/2)
+	ball.Fill(rl.Black)
+
 	bar.Fill(rl.Black, 0)
 
-	fmt.Println(bar)
 }

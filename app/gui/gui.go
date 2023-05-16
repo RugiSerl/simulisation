@@ -10,7 +10,7 @@ import (
 
 const (
 	// largeur du panneau des paramètres
-	SETTINGS_WIDTH = 300
+	SETTINGS_WIDTH = 350
 	// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
 	ANIMATION_DURATION = 0.15
 	TEXT_SPACING       = 0
@@ -45,6 +45,7 @@ func NewInterface() *UserInterface {
 
 }
 
+// initialise les paramètres à afficher et leur propriétés
 func (u *UserInterface) InitSettingsPanel() {
 
 	position := graphic.NewVector2(0, 15)
@@ -88,13 +89,32 @@ func (u *UserInterface) InitSettingsPanel() {
 	linearMove.SetBool(&settings.GameSettings.EntitySettings.LinearMove)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	testSlider := components.NewSetting("test", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	radiusSensivity := components.NewSetting("portée des entités", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	radiusSensivity.SetSliderValue(&settings.GameSettings.EntitySettings.RadiusSensivity, 0, 20)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, testSlider}
+	ChildMaximumDifference := components.NewSetting("différence morale avec l'enfant", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	ChildMaximumDifference.SetSliderValue(&settings.GameSettings.EntitySettings.ChildMaximumDifference, 0, 300)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	MaximumAge := components.NewSetting("age maximal (0-20s)", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	MaximumAge.SetSliderValue(&settings.GameSettings.EntitySettings.MaximumAge, 0, 20)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	BaseProbabilityReproduction := components.NewSetting("probabilité de reproduction", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	/*
+		ChildMaximumDifference:      5,
+		MaximumAge:                  5,
+		BaseProbabilityReproduction: 1e-3,
+	*/
+	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
 
 }
 
+// fonction principale de mise à jour
 func (u *UserInterface) Update() {
 
 	if global.SettingsOpen {
@@ -120,6 +140,7 @@ func (u *UserInterface) UpdateSettings() {
 	}
 }
 
+// affiche le rectangle blanc qui sert de base pour afficher les paramètres
 func (u *UserInterface) DrawRectangle() {
 	size := graphic.NewVector2(SETTINGS_WIDTH, float32(rl.GetScreenHeight()))
 

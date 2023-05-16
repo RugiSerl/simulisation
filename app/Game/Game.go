@@ -6,7 +6,6 @@ import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui"
 	"github.com/RugiSerl/simulisation/app/math"
-	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -44,15 +43,38 @@ func NewGame() *Game {
 
 // Cette fonction est appelée à chaque frame et s'occupe de montrer graphiquement l'état du jeu, ainsi que de mettre à jour les entités
 func (g *Game) Update() {
-	g.UpdateCamera()
 
+	g.UpdateCamera()
+	//tout les éléments du jeu sont rendus sur le renderer
 	rl.BeginTextureMode(textureRender)
+
 	rl.ClearBackground(rl.NewColor(194, 187, 186, 255))
 
 	rl.BeginMode2D(g.Camera)
 
 	g.UpdateEntity()
 
+	g.UpdateUserInput()
+
+	rl.EndMode2D()
+
+	rl.EndTextureMode()
+
+	//application du shader de flou, si les paramètres sont ouverts
+	if global.SettingsOpen {
+		blurShader.Begin()
+	}
+
+	rl.DrawTextureRec(textureRender.Texture, rl.NewRectangle(0, 0, float32(textureRender.Texture.Width), float32(-textureRender.Texture.Height)), rl.NewVector2(0, 0), rl.White)
+
+	//fin du shader de flou
+	if global.SettingsOpen {
+		blurShader.End()
+	}
+}
+
+// gérer les informations entrées par l'utilisateur
+func (g *Game) UpdateUserInput() {
 	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH) {
 		g.SpawnEntity(g.getMouseWorldCoordinates())
 	}
@@ -63,26 +85,14 @@ func (g *Game) Update() {
 		}
 	}
 
-	if rl.IsKeyPressed(rl.KeyLeftControl) {
-		settings.GameSettings.VisualSettings.GradientEntities = !settings.GameSettings.VisualSettings.GradientEntities
-	}
-
-	rl.EndMode2D()
-	rl.EndTextureMode()
-	if global.SettingsOpen {
-		blurShader.Begin()
-	}
-
-	rl.DrawTextureRec(textureRender.Texture, rl.NewRectangle(0, 0, float32(textureRender.Texture.Width), float32(-textureRender.Texture.Height)), rl.NewVector2(0, 0), rl.White)
-
-	if global.SettingsOpen {
-		blurShader.End()
+	if rl.IsKeyPressed(rl.KeyDelete) {
+		g.entities = []*Entity.Entity{}
 	}
 
 }
 
+// mise à jour des entités
 func (g *Game) UpdateEntity() {
-	//mise à jour des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
 			if !global.SettingsOpen {
@@ -154,10 +164,12 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 	g.entities = append(g.entities, e)
 }
 
+// retourne la quantité d'entités présentes dans le jeu
 func (g *Game) GetEntityAmount() int {
 	return len(g.entities)
 }
 
+// supprime une entité de la liste
 func remove(s []*Entity.Entity, i int) []*Entity.Entity {
 	s[i] = s[len(s)-1]
 	return s[:len(s)-1]

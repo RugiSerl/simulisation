@@ -86,6 +86,14 @@ func (s *Setting) SetBool(value *bool) {
 	}
 
 	s.checkBox.SetValue(value)
+}
+
+func (s *Setting) SetSliderValue(value *float32, min float32, max float32) {
+	if s.componentType != TYPE_SLIDER {
+		incorrectValue()
+	}
+
+	s.slider.SetValue(value, min, max)
 
 }
 
