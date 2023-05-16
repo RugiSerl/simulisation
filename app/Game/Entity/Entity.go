@@ -46,7 +46,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 func (e *Entity) Update(otherEntities *[]*Entity) {
 
 	if settings.GameSettings.Gamerule.Move {
-		e.MoveToClosestNeighbour(*otherEntities) //on déplace l'entité
+		e.Move(*otherEntities) //on déplace l'entité
 	}
 
 	if settings.GameSettings.Gamerule.Uncollide {
@@ -61,7 +61,10 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 		e.UpdateAge()
 	}
 
-	e.Kill(otherEntities)
+	if settings.GameSettings.Gamerule.Kill {
+		e.Kill(otherEntities)
+
+	}
 }
 
 func (e *Entity) GetPointCollision(point graphic.Vector2) bool {

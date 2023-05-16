@@ -22,7 +22,7 @@ var (
 )
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'éèabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'\"éèabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 
@@ -69,6 +69,10 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	Move := components.NewSetting("Move", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	Move.SetBool(&settings.GameSettings.Gamerule.Move)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	Kill := components.NewSetting("Kill", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Kill.SetBool(&settings.GameSettings.Gamerule.Kill)
 	position = position.Add(graphic.NewVector2(0, 45))
 
 	visualSettings := components.NewSetting("Paramètres graphiques", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
@@ -87,6 +91,10 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	linearMove := components.NewSetting("Déplacement linéaire", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	linearMove.SetBool(&settings.GameSettings.EntitySettings.LinearMove)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	GoToClosestNeightbour := components.NewSetting("suit le plus proche \"voisin moral\"", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	GoToClosestNeightbour.SetBool(&settings.GameSettings.EntitySettings.GoToClosestNeightbour)
 	position = position.Add(graphic.NewVector2(0, 30))
 
 	radiusSensivity := components.NewSetting("portée des entités", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
@@ -110,7 +118,7 @@ func (u *UserInterface) InitSettingsPanel() {
 		MaximumAge:                  5,
 		BaseProbabilityReproduction: 1e-3,
 	*/
-	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
+	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
 
 }
 

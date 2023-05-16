@@ -9,6 +9,16 @@ import (
 //--------------------------------------------------
 //fonctions de déplacement
 
+func (e *Entity) Move(otherEntities []*Entity) {
+	if settings.GameSettings.EntitySettings.GoToClosestNeightbour {
+		e.MoveToClosestNeighbour(otherEntities)
+
+	} else {
+		e.MoveToWeightedAverage(otherEntities)
+	}
+
+}
+
 // Cette fonction permet de déplacer l'entité et de rapprocher l'entité des entités similaires.
 // Elle choisit une destination qui est la 'moyenne' des position pondérée à l'aide des 'distances morales'
 // Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)

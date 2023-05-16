@@ -29,8 +29,13 @@ type EntitySettings struct {
 
 	//définit la façon dont se déplace l'entité.
 	//Sur true, elle se déplace de façon linéaire et constante sur une unité de temps,
-	//Sur false, elle se déplace en divisant la distance avec la destination, sur un unité de frame
+	//sur false, elle se déplace en divisant la distance avec la destination, sur un unité de frame
 	LinearMove bool
+
+	//définit la cible que doit suivre l'entité
+	//sur true, l'entité suit l'entité la plus "proche" moralement
+	//sur false elle suit la moyenne pondérée des entités environnantes en fonction de leur valeur morale
+	GoToClosestNeightbour bool
 }
 
 type Gamerule struct {
@@ -45,6 +50,9 @@ type Gamerule struct {
 
 	//permet à l'entité de se déplacer
 	Move bool
+
+	//permet à l'entité de tuer les entités environnantes en fonction de leur différence morale
+	Kill bool
 }
 
 var (
@@ -64,12 +72,14 @@ func GetDefaultSettings() Settings {
 			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
 			LinearMove:                  false,
+			GoToClosestNeightbour:       true,
 		},
 		Gamerule: Gamerule{
 			UpdateAge: true,
 			Uncollide: true,
 			Reproduce: true,
 			Move:      true,
+			Kill:      true,
 		},
 	}
 
