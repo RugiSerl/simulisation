@@ -43,9 +43,6 @@ func load() {
 	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
 	rl.SetTextureFilter(Entity.TextureEntite, rl.FilterBilinear)
 
-	Background = rl.LoadTexture("assets/background.png")
-	rl.SetTextureFilter(Background, rl.FilterBilinear)
-
 	stats.InitFont()
 
 }
