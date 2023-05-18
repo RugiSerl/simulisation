@@ -31,6 +31,7 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 
 }
 
+// Fonction qui permet, grâce à une probabilité, de retourner True ou False de manière aléatoire
 func generateCloseValue(value int, gap int) uint8 {
 	return uint8(math.RandomRange(value-gap, (value + gap)))
 }
