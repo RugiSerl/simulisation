@@ -40,6 +40,8 @@ func NewSetting(name string, componentType int, font rl.Font, fontSize float32, 
 
 	if componentType != TYPE_NO_COMPONENT {
 		name += " : "
+	} else {
+		fontSize += 4
 	}
 
 	s.label = Newlabel(name, font, fontSize, graphic.NewVector2(0, 0), graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)

@@ -171,7 +171,8 @@ func (u *UserInterface) DrawRectangle() {
 
 	//déplace ce rectangle pour l'animation
 	if u.AnimationTime < ANIMATION_DURATION {
-		position = position.Add(graphic.NewVector2((size.X)*(ANIMATION_DURATION-u.AnimationTime)/ANIMATION_DURATION, 0))
+		offset := (ANIMATION_DURATION - u.AnimationTime) / ANIMATION_DURATION
+		position = position.Add(graphic.NewVector2(offset*offset*size.X, 0))
 
 	}
 
