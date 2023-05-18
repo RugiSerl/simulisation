@@ -31,7 +31,8 @@ type UserInterface struct {
 
 	menuRect graphic.Rect
 
-	Settings []*components.Setting
+	settings     []*components.Setting
+	saveSettings *components.ImageButton
 }
 
 func NewInterface() *UserInterface {
@@ -113,12 +114,9 @@ func (u *UserInterface) InitSettingsPanel() {
 	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	/*
-		ChildMaximumDifference:      5,
-		MaximumAge:                  5,
-		BaseProbabilityReproduction: 1e-3,
-	*/
-	u.Settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
+
+	u.saveSettings = components.NewImageButton(position.Add(graphic.NewVector2(0, 30)), rl.LoadTexture("assets/save.png"), graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 
 }
 
@@ -143,8 +141,13 @@ func (u *UserInterface) UpdateSettings() {
 
 	u.DrawRectangle()
 
-	for _, setting := range u.Settings {
+	for _, setting := range u.settings {
 		setting.Update(u.menuRect)
+	}
+	u.saveSettings.Update(u.menuRect)
+
+	if u.saveSettings.PressedState {
+		settings.SaveSettings()
 	}
 }
 

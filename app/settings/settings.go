@@ -1,5 +1,16 @@
 package settings
 
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+)
+
+const SETTINGS_FILENAME = "settings.json"
+
 type Settings struct {
 	VisualSettings VisualSettings
 	Gamerule       Gamerule
@@ -59,12 +70,12 @@ var (
 	GameSettings Settings
 )
 
-func GetDefaultSettings() Settings {
+func getDefaultSettings() Settings {
 
 	return Settings{
 		VisualSettings: VisualSettings{
 			GradientEntities: true,
-			DisplayStats:     true,
+			DisplayStats:     false,
 		},
 		EntitySettings: EntitySettings{
 			RadiusSensivity:             0.1 * 100,
@@ -86,5 +97,34 @@ func GetDefaultSettings() Settings {
 }
 
 func LoadSettings() {
-	GameSettings = GetDefaultSettings()
+
+	file, err := os.ReadFile(SETTINGS_FILENAME)
+
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			GameSettings = getDefaultSettings()
+
+		} else {
+			log.Fatal(err)
+		}
+	} else {
+		err2 := json.Unmarshal(file, &GameSettings)
+		if err2 != nil {
+			fmt.Println("parsing settings failed, :", err2)
+			fmt.Println("Loading with default settings ...")
+			GameSettings = getDefaultSettings()
+		}
+	}
+
+}
+
+func SaveSettings() {
+	json, err := json.MarshalIndent(GameSettings, "", "	")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_ = ioutil.WriteFile(SETTINGS_FILENAME, json, 0644)
+
 }
