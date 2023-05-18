@@ -26,10 +26,13 @@ cela va finir par former plusieurs groupes, et si ils rentrent en collision, il 
 -faire en sorte que les entités s'attaquent - FAIT
 -permettre de sauvegarder les paramètres dans un fichier json - FAIT
 -faire une interface graphique pour les paramètres du jeu - FAIT
+-rendre la caméra plus fluide en lui associant un momentum - FAIT
 
 
 
 
+
+-définir un rayon autour de la souris pour supprimer des entités
 
 
 
