@@ -6,7 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// a vector 2 is an object containing two number. It can represent a position on screen, a size, or a movement
+// objet contenant un vecteur qui a deux dimensions, qui peut représenter une position 2d, un déplacement 2d, et quelques méthodes pratiques
 type Vector2 struct {
 	X float32
 	Y float32

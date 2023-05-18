@@ -11,18 +11,20 @@ import (
 
 // Classe qui contient le déroulement principal du jeu
 type Game struct {
-	entities []*Entity.Entity
-	Camera   rl.Camera2D
+	entities               []*Entity.Entity
+	Camera                 rl.Camera2D
+	cameraPositionMomentum graphic.Vector2
+	cameraZoomMomentum     float32
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
 const POPULATION_AT_THE_START = 10
 
 // vitesse à laquelle la caméra du jeu se déplace lorsque l'utilisateur appuie sur les flèches directionnelles
-const CAMERA_SPEED = 100
+const CAMERA_SPEED = 60
 
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
-const CAMERA_ZOOM_AMOUNT = 0.2
+const CAMERA_ZOOM_AMOUNT = 0.1
 
 var blurShader *graphic.Shader
 var textureRender rl.RenderTexture2D
@@ -128,22 +130,30 @@ func (g *Game) UpdateEntity() {
 func (g *Game) UpdateCamera() {
 
 	//déplacement éventuel de la caméra
+	g.cameraPositionMomentum = g.cameraPositionMomentum.Scale(0.7)
 	if rl.IsKeyDown(rl.KeyLeft) {
-		g.Camera.Target.X -= CAMERA_SPEED * rl.GetFrameTime()
+		g.cameraPositionMomentum.X -= CAMERA_SPEED
 	}
 	if rl.IsKeyDown(rl.KeyRight) {
-		g.Camera.Target.X += CAMERA_SPEED * rl.GetFrameTime()
+		g.cameraPositionMomentum.X += CAMERA_SPEED
 	}
 	if rl.IsKeyDown(rl.KeyUp) {
-		g.Camera.Target.Y -= CAMERA_SPEED * rl.GetFrameTime()
+		g.cameraPositionMomentum.Y -= CAMERA_SPEED
 	}
 	if rl.IsKeyDown(rl.KeyDown) {
-		g.Camera.Target.Y += CAMERA_SPEED * rl.GetFrameTime()
+		g.cameraPositionMomentum.Y += CAMERA_SPEED
 	}
+	// g.cameraMomentum est la vitesse de la caméra, qui augmente lorsque l'utilisateur déplace la caméra, et diminue à chaque frame
+	g.Camera.Target = rl.Vector2(graphic.Vector2(g.Camera.Target).Add(g.cameraPositionMomentum.Scale(rl.GetFrameTime())))
 
 	if !global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH {
 		//met à jour le zoom de la caméra
-		g.Camera.Zoom += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
+
+		g.cameraZoomMomentum *= 0.8
+		g.cameraZoomMomentum += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
+
+		g.Camera.Zoom += g.cameraZoomMomentum
+
 		if g.Camera.Zoom < 1 { //1 est le minimum
 			g.Camera.Zoom = 1
 		}
@@ -177,7 +187,7 @@ func remove(s []*Entity.Entity, i int) []*Entity.Entity {
 	return s[:len(s)-1]
 }
 
-// transformer les coordonnées physiques de la souris dans la fenêtre en coordonnée virtuelle dans le jeu
+// transforme les coordonnées physiques de la souris dans la fenêtre en coordonnée virtuelle dans le jeu
 func (g *Game) getMouseWorldCoordinates() graphic.Vector2 {
 	return graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target))
 

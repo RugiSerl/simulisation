@@ -1,7 +1,9 @@
 package graphic
 
-// Fichier dans lequel on créer des "Anchor", elle permettent de fixer et déplacer une image selon un coin de celle-ci
+// Fichier dans lequel on créer des ancres, elle permettent de fixer un rectangle , souvent associé à une texture, à un point et de calculer
+// les coordonnées de ces derniers avec cette information
 
+//énumération des différentes ancres disponibles
 const ANCHOR_LEFT int8 = 0
 const ANCHOR_RIGHT int8 = 1
 const ANCHOR_HORIZONTAL_MiDDLE = 2

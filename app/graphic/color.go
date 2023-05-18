@@ -14,6 +14,7 @@ var (
 	ErrOutOfRange = errors.New("colorconv: inputs out of range")
 )
 
+// retourne une couleur d'opacité 255 qui contient la couleur du cercle chromatique avec un certain offset, entre 0 et 360
 func NewColorFromGradient(offset float64, brightness float64) color.RGBA {
 	r, g, b, err := HSLToRGB(offset, 1, brightness)
 
@@ -26,7 +27,7 @@ func NewColorFromGradient(offset float64, brightness float64) color.RGBA {
 	return rl.NewColor(uint8(r), uint8(g), uint8(b), 255)
 }
 
-// Fonction convertissant les couleurs HSL en RGB
+// Fonction convertissant les couleurs de format HSL en RGB.
 func HSLToRGB(h, s, l float64) (r, g, b uint8, err error) {
 	if h < 0 || h >= 360 ||
 		s < 0 || s > 1 ||

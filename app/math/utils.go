@@ -14,7 +14,11 @@ func RandomRange(min int, max int) int {
 	return rand.Intn(max-min) + min
 }
 
+// fait un test et retourne true selon la probabilité passée par probability, qui doit se situer entre 0 et 1.
 func RandomProbability(probability float64) bool {
+	if probability < 0 || probability > 1 {
+		log.Fatal("error out of range")
+	}
 	return rand.Float32() < float32(probability)
 }
 

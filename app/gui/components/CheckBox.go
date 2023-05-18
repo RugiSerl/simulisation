@@ -6,7 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// Initialisation de la checkbox
+// la CheckBox est une case à cocher
 type CheckBox struct {
 	value      *bool
 	HoverState bool
@@ -23,6 +23,7 @@ const (
 	CHECKBOX_SIZE = 100
 )
 
+// Initialisation de la checkbox
 func NewCheckBox(position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *CheckBox {
 
 	c := new(CheckBox)

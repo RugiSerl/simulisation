@@ -28,6 +28,7 @@ func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
 
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
+			// vérification que l'entité est dans le rayon de vision de l'entité
 			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity {
 				if min != nil {
 					if entity.DistanceMorale(e) < min.DistanceMorale(e) {
@@ -48,7 +49,7 @@ func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
 
 }
 
-// Fonction qui leur permet de tous se regoruper
+// Fonction qui leur permet de tous se regrouper
 func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 	var sum graphic.Vector2 = graphic.NewVector2(0, 0)
@@ -57,9 +58,10 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 	for _, entity := range otherEntities {
 		if entity.ID != e.ID {
+			// vérification que l'entité est dans le rayon de vision de l'entité
 			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity {
+				//weight est le coefficient de la moyenne
 				weight = float32(e.DistanceMorale(entity)) / 255
-				weight = 1
 				weightSum += weight
 				sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))
 			}

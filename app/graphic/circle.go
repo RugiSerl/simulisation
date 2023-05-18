@@ -6,6 +6,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//objet représentant un cercle, et quelques fonctions pratiques
+
 type Circle struct {
 	CenterPosition Vector2
 	Radius         float32

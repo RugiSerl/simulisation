@@ -96,6 +96,7 @@ func getDefaultSettings() Settings {
 
 }
 
+// permet de charger un fichier de paramètres, et prend les paramètres par défaut si ce dernier n'existe pas
 func LoadSettings() {
 
 	file, err := os.ReadFile(SETTINGS_FILENAME)
@@ -118,6 +119,7 @@ func LoadSettings() {
 
 }
 
+// sauvegarde les paramètres en les écrivant dans un fichier settings
 func SaveSettings() {
 	json, err := json.MarshalIndent(GameSettings, "", "	")
 

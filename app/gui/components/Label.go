@@ -5,8 +5,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// Initialisation de la zone de texte
-type Label struct {
+// le TextLabel est un objet désignant un texte, qui est statique, et qui est destiné à être affiché.
+type TextLabel struct {
 	position graphic.Vector2
 	size     graphic.Vector2
 	anchorX  int8
@@ -14,8 +14,9 @@ type Label struct {
 	texture  rl.RenderTexture2D
 }
 
-func Newlabel(text string, font rl.Font, fontSize float32, position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *Label {
-	l := new(Label)
+// Initialisation du texte, qui est rendu sur une texture qui fait renderer
+func Newlabel(text string, font rl.Font, fontSize float32, position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *TextLabel {
+	l := new(TextLabel)
 
 	l.position = position
 	l.anchorX = horizontalAnchor
@@ -37,13 +38,14 @@ func Newlabel(text string, font rl.Font, fontSize float32, position graphic.Vect
 }
 
 // Fonctions permettant d'afficher le texte
-func (l *Label) Render(surfaceRect graphic.Rect) {
+func (l *TextLabel) Render(surfaceRect graphic.Rect) {
 
 	physicPosition := graphic.GetRectCoordinatesWithAnchor(l.position, l.anchorX, l.anchorY, l.size, surfaceRect)
 	rl.DrawTextureRec(l.texture.Texture, rl.NewRectangle(0, 0, l.size.X, -l.size.Y), rl.Vector2(physicPosition), rl.White)
 
 }
 
-func (l *Label) GetSize() graphic.Vector2 {
+// retourne la taille du label
+func (l *TextLabel) GetSize() graphic.Vector2 {
 	return l.size
 }

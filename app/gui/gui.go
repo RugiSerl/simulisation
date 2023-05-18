@@ -24,7 +24,7 @@ var (
 )
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'\"éèabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'\"âéèàabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 
@@ -57,26 +57,26 @@ func (u *UserInterface) InitSettingsPanel() {
 	parameteres := components.NewSetting("Paramètres", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 	position = position.Add(graphic.NewVector2(10, 45))
 
-	gamerule := components.NewSetting("Gamerules", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	gamerule := components.NewSetting("Règles du jeu", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	position = position.Add(graphic.NewVector2(0, 32))
 
-	UpdateAge := components.NewSetting("Update age", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	UpdateAge := components.NewSetting("Mise à jour de l'âge", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	UpdateAge.SetBool(&settings.GameSettings.Gamerule.UpdateAge)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	Uncollide := components.NewSetting("Uncollide", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Uncollide := components.NewSetting("Les entités se repoussent", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	Uncollide.SetBool(&settings.GameSettings.Gamerule.Uncollide)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	Reproduce := components.NewSetting("Reproduce", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Reproduce := components.NewSetting("Reproduction", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	Reproduce.SetBool(&settings.GameSettings.Gamerule.Reproduce)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	Move := components.NewSetting("Move", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Move := components.NewSetting("Déplacement", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	Move.SetBool(&settings.GameSettings.Gamerule.Move)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	Kill := components.NewSetting("Kill", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Kill := components.NewSetting("Les entités s'entretuent", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	Kill.SetBool(&settings.GameSettings.Gamerule.Kill)
 	position = position.Add(graphic.NewVector2(0, 45))
 
@@ -107,7 +107,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	position = position.Add(graphic.NewVector2(0, 30))
 
 	ChildMaximumDifference := components.NewSetting("différence morale avec l'enfant", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
-	ChildMaximumDifference.SetSliderValue(&settings.GameSettings.EntitySettings.ChildMaximumDifference, 0, 300)
+	ChildMaximumDifference.SetSliderValue(&settings.GameSettings.EntitySettings.ChildMaximumDifference, 1, 300)
 	position = position.Add(graphic.NewVector2(0, 30))
 
 	MaximumAge := components.NewSetting("age maximal (0-20s)", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
@@ -169,7 +169,7 @@ func (u *UserInterface) DrawRectangle() {
 
 	position := graphic.GetRectCoordinatesWithAnchor(graphic.NewVector2(0, u.rectOffset), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP, size, graphic.GetWindowRect())
 
-	//déplace pour l'animation
+	//déplace ce rectangle pour l'animation
 	if u.AnimationTime < ANIMATION_DURATION {
 		position = position.Add(graphic.NewVector2((size.X)*(ANIMATION_DURATION-u.AnimationTime)/ANIMATION_DURATION, 0))
 

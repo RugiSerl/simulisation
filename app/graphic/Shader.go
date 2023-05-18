@@ -4,6 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// objet représentant un programme shader, qui rend plus facile son utilisation dans le programme
+
 type Shader struct {
 	uniformLocations map[string]int32
 	Shader           rl.Shader

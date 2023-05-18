@@ -6,7 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// Initialisation du bouton
+// l'objet ImageButton désigne un bouton qui a pour hitbox et pour visuel une texture
 type ImageButton struct {
 	position     graphic.Vector2
 	size         graphic.Vector2
@@ -21,6 +21,7 @@ var (
 	ImageButtonPhysicalPosition graphic.Vector2
 )
 
+// Initialisation du bouton
 func NewImageButton(position graphic.Vector2, texture rl.Texture2D, horizontalAnchor int8, verticalAnchor int8) *ImageButton {
 	b := new(ImageButton)
 
