@@ -6,7 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// Initialisation du slider
+// le slider, ou "curseur" est un
 type Slider struct {
 	value *float32
 	min   float32
@@ -24,6 +24,7 @@ var (
 	SliderRect graphic.Rect
 )
 
+// Initialisation du slider
 func NewSlider(position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *Slider {
 
 	s := new(Slider)

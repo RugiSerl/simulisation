@@ -8,9 +8,10 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// couche d'abstraction pour le réglage visuel
+// l'objet Setting est un objet qui représente un paramètre à afficher graphiquement.
+// Il joue le rôle d'interface et permet ainsi de simplifer la création de l'interface faite manuellement
 type Setting struct {
-	label         *Label
+	label         *TextLabel
 	componentType int
 
 	checkBox *CheckBox
