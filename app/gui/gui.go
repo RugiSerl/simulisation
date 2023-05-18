@@ -116,11 +116,11 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	BaseProbabilityReproduction := components.NewSetting("probabilité de reproduction", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
-	position = position.Add(graphic.NewVector2(0, 30))
+	position = position.Add(graphic.NewVector2(0, 45))
 
 	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
 
-	u.saveSettings = components.NewImageButton(position.Add(graphic.NewVector2(0, 30)), rl.LoadTexture("assets/save.png"), graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 
 }
 
