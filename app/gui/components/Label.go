@@ -5,6 +5,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// Initialisation de la zone de texte
 type Label struct {
 	position graphic.Vector2
 	size     graphic.Vector2
@@ -35,6 +36,7 @@ func Newlabel(text string, font rl.Font, fontSize float32, position graphic.Vect
 
 }
 
+// Fonctions permettant d'afficher le texte
 func (l *Label) Render(surfaceRect graphic.Rect) {
 
 	physicPosition := graphic.GetRectCoordinatesWithAnchor(l.position, l.anchorX, l.anchorY, l.size, surfaceRect)

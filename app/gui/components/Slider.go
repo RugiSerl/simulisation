@@ -6,6 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// Initialisation du slider
 type Slider struct {
 	value *float32
 	min   float32
@@ -47,6 +48,7 @@ func (s *Slider) GetSize() graphic.Vector2 {
 	return s.size
 }
 
+// Fonction de mise à jour du slider
 func (s *Slider) Update(containingRect graphic.Rect) {
 	SliderRect = graphic.NewRectFromVector(graphic.GetRectCoordinatesWithAnchor(s.position, s.anchorX, s.anchorY, s.size, containingRect), s.size)
 
@@ -55,6 +57,7 @@ func (s *Slider) Update(containingRect graphic.Rect) {
 
 }
 
+// Fonction permettant de gérer les inputs du slider
 func (s *Slider) handleInput() {
 
 	if graphic.DetectRectCollision(SliderRect, graphic.GetMouseRect()) {
@@ -67,6 +70,7 @@ func (s *Slider) handleInput() {
 
 }
 
+// Fonction d'affichage du slider
 func (s *Slider) render() {
 
 	bar := graphic.GetInnerHorizontalrect(SliderRect, SliderRect.Height/3)

@@ -43,6 +43,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 	return e
 }
 
+// Fonction qui met à jour les variables de l'entité
 func (e *Entity) Update(otherEntities *[]*Entity) {
 
 	if settings.GameSettings.Gamerule.Move {
@@ -54,19 +55,20 @@ func (e *Entity) Update(otherEntities *[]*Entity) {
 	}
 
 	if settings.GameSettings.Gamerule.Reproduce {
-		e.Reproduce(otherEntities)
+		e.Reproduce(otherEntities) // On leur permet de se reproduire
 	}
 
 	if settings.GameSettings.Gamerule.UpdateAge {
-		e.UpdateAge()
+		e.UpdateAge() // On met à jour l'age
 	}
 
 	if settings.GameSettings.Gamerule.Kill {
-		e.Kill(otherEntities)
+		e.Kill(otherEntities) // On leur permet de s'entretuer
 
 	}
 }
 
+// Fonction qui définit la Hitbox de l'entité
 func (e *Entity) GetPointCollision(point graphic.Vector2) bool {
 	return e.HitBox.DetectPointCollision(point)
 
@@ -92,7 +94,7 @@ func (e *Entity) Render() {
 }
 
 //--------------------------------------------------
-// la valeur morale est "cyclique", ce qui signifie que celle entre 5 et 254 est 6 par exemple
+// la valeur morale est "cyclique", ce qui signifie que celle entre 4 et 254 est 5 par exemple
 
 func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 	distance := e.ValeurMorale - otherEntity.ValeurMorale
@@ -104,7 +106,7 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 }
 
 //--------------------------------------------------
-// fonction qui élimine l'entité au bout d'un moment donné
+// Fonction qui élimine l'entité au bout d'un moment donné
 
 func (e *Entity) UpdateAge() {
 	e.TimeAlive += rl.GetFrameTime()

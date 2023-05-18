@@ -26,6 +26,7 @@ func NewColorFromGradient(offset float64, brightness float64) color.RGBA {
 	return rl.NewColor(uint8(r), uint8(g), uint8(b), 255)
 }
 
+// Fonction convertissant les couleurs HSL en RGB
 func HSLToRGB(h, s, l float64) (r, g, b uint8, err error) {
 	if h < 0 || h >= 360 ||
 		s < 0 || s > 1 ||
