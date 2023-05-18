@@ -48,6 +48,7 @@ func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
 
 }
 
+// Fonction qui leur permet de tous se regoruper
 func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 	var sum graphic.Vector2 = graphic.NewVector2(0, 0)

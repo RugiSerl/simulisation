@@ -8,7 +8,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// abtraction layer for visual setting
+// couche d'abstraction pour le réglage visuel
 type Setting struct {
 	label         *Label
 	componentType int
@@ -30,6 +30,7 @@ const (
 	TYPE_DROP_MENU    = 2
 )
 
+// Initialisation d'un paramètre
 func NewSetting(name string, componentType int, font rl.Font, fontSize float32, position graphic.Vector2, horizontalAnchor int8, verticalAnchor int8) *Setting {
 	s := new(Setting)
 
@@ -64,6 +65,7 @@ func NewSetting(name string, componentType int, font rl.Font, fontSize float32, 
 	return s
 }
 
+// Fonction qui met à jour le paramètre
 func (s *Setting) Update(containingRect graphic.Rect) {
 	settingRect := graphic.NewRectFromVector(graphic.GetRectCoordinatesWithAnchor(s.position, s.anchorX, s.anchorY, s.size, containingRect), s.size)
 

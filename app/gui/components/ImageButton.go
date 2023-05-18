@@ -6,6 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// Initialisation du bouton
 type ImageButton struct {
 	position     graphic.Vector2
 	size         graphic.Vector2
@@ -37,12 +38,14 @@ func NewImageButton(position graphic.Vector2, texture rl.Texture2D, horizontalAn
 	return b
 }
 
+// Fonction de mise à jour du bouton
 func (b *ImageButton) Update(containingRect graphic.Rect) {
 	ImageButtonPhysicalPosition = graphic.GetRectCoordinatesWithAnchor(b.position, b.anchorX, b.anchorY, b.size.Scale(global.InterfaceScale), containingRect)
 	b.handleInput()
 	b.render()
 }
 
+// Fonction qui permet de gérer les inputs du bouton
 func (b *ImageButton) handleInput() {
 	b.HoverState, b.PressedState = false, false
 	if graphic.DetectRectCollision(graphic.GetMouseRect(), graphic.NewRectFromVector(ImageButtonPhysicalPosition, b.size.Scale(global.InterfaceScale))) {
@@ -54,6 +57,7 @@ func (b *ImageButton) handleInput() {
 
 }
 
+// Fonction d'affichage du bouton
 func (b *ImageButton) render() {
 
 	if b.HoverState {

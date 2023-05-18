@@ -1,5 +1,7 @@
 package graphic
 
+// Fichier dans lequel on créer des "Anchor", elle permettent de fixer et déplacer une image selon un coin de celle-ci
+
 const ANCHOR_LEFT int8 = 0
 const ANCHOR_RIGHT int8 = 1
 const ANCHOR_HORIZONTAL_MiDDLE = 2

@@ -6,6 +6,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// Initialisation de la checkbox
 type CheckBox struct {
 	value      *bool
 	HoverState bool
@@ -40,6 +41,7 @@ func (c *CheckBox) SetValue(value *bool) {
 
 }
 
+// Fonction qui met à jour la checkbox
 func (c *CheckBox) Update(containingRect graphic.Rect) {
 	CheckBoxRect = graphic.NewRectFromVector(graphic.GetRectCoordinatesWithAnchor(c.position, c.anchorX, c.anchorY, graphic.NewVector2(CHECKBOX_SIZE*global.InterfaceScale, CHECKBOX_SIZE*global.InterfaceScale), containingRect), graphic.NewVector2(CHECKBOX_SIZE*global.InterfaceScale, CHECKBOX_SIZE*global.InterfaceScale))
 
@@ -48,6 +50,7 @@ func (c *CheckBox) Update(containingRect graphic.Rect) {
 
 }
 
+// Fonction permettant de gérer les inputs de la checkbox
 func (c *CheckBox) handleInput() {
 
 	c.HoverState = false
@@ -64,6 +67,7 @@ func (c *CheckBox) handleInput() {
 
 }
 
+// Fonction d'affichage de la Checkbox
 func (c *CheckBox) render() {
 	innerRect := graphic.GetInnerRect(CheckBoxRect, 2)
 
