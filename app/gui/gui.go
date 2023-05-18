@@ -11,6 +11,8 @@ import (
 const (
 	// largeur du panneau des paramètres
 	SETTINGS_WIDTH = 350
+
+	SETTINGS_HEIGHT = 700
 	// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
 	ANIMATION_DURATION = 0.15
 	TEXT_SPACING       = 0
@@ -29,7 +31,8 @@ func InitFont() {
 type UserInterface struct {
 	AnimationTime float32
 
-	menuRect graphic.Rect
+	menuRect   graphic.Rect
+	rectOffset float32
 
 	settings     []*components.Setting
 	saveSettings *components.ImageButton
@@ -39,6 +42,7 @@ func NewInterface() *UserInterface {
 
 	InitFont()
 	u := new(UserInterface)
+	u.rectOffset = 0
 
 	u.InitSettingsPanel()
 
@@ -149,13 +153,21 @@ func (u *UserInterface) UpdateSettings() {
 	if u.saveSettings.PressedState {
 		settings.SaveSettings()
 	}
+	if rl.GetMousePosition().X > float32(rl.GetScreenWidth())-SETTINGS_WIDTH {
+		u.rectOffset += rl.GetMouseWheelMove() * 20
+
+		if u.rectOffset > 0 {
+			u.rectOffset = 0
+		}
+	}
+
 }
 
 // affiche le rectangle blanc qui sert de base pour afficher les paramètres
 func (u *UserInterface) DrawRectangle() {
-	size := graphic.NewVector2(SETTINGS_WIDTH, float32(rl.GetScreenHeight()))
+	size := graphic.NewVector2(SETTINGS_WIDTH, SETTINGS_HEIGHT)
 
-	position := graphic.GetRectCoordinatesWithAnchor(graphic.NewVector2(0, 0), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP, size, graphic.GetWindowRect())
+	position := graphic.GetRectCoordinatesWithAnchor(graphic.NewVector2(0, u.rectOffset), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP, size, graphic.GetWindowRect())
 
 	//déplace pour l'animation
 	if u.AnimationTime < ANIMATION_DURATION {

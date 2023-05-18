@@ -141,10 +141,12 @@ func (g *Game) UpdateCamera() {
 		g.Camera.Target.Y += CAMERA_SPEED * rl.GetFrameTime()
 	}
 
-	//met à jour le zoom de la caméra
-	g.Camera.Zoom += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
-	if g.Camera.Zoom < 1 { //1 est le minimum
-		g.Camera.Zoom = 1
+	if !global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH {
+		//met à jour le zoom de la caméra
+		g.Camera.Zoom += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
+		if g.Camera.Zoom < 1 { //1 est le minimum
+			g.Camera.Zoom = 1
+		}
 	}
 
 }
