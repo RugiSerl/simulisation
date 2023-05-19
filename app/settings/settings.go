@@ -21,6 +21,9 @@ type VisualSettings struct {
 	//mode dans lequel les entités affiche un rond de couleur qui suit leur valeur morale selon le cercle chromatic
 	GradientEntities bool
 
+	//définit s'il faut afficher la zone de sensibilité dans laquelle les entités peuvent voir
+	DisplaySensibilityZone bool
+
 	//permet d'afficher les statistique du jeu, ex : le nombre d'entités, la fréquence d'images par seconde
 	DisplayStats bool
 }

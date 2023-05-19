@@ -96,6 +96,13 @@ func (e *Entity) Render() {
 
 }
 
+func (e *Entity) RenderSensibilityZone() {
+	circle := graphic.NewCircle(settings.GameSettings.EntitySettings.RadiusSensivity, e.HitBox.CenterPosition.X, e.HitBox.CenterPosition.Y)
+
+	circle.Fill(rl.DarkGray)
+
+}
+
 //--------------------------------------------------
 // la valeur morale est "cyclique", ce qui signifie que celle entre 4 et 254 est 5 par exemple
 

@@ -37,3 +37,7 @@ func (c *Circle) Fill(color color.RGBA) {
 	rl.DrawCircleV(rl.Vector2(c.CenterPosition), c.Radius, color)
 
 }
+
+func (c *Circle) DrawLines() {
+	rl.DrawCircleSectorLines(rl.Vector2(c.CenterPosition), c.Radius, 0, 360, 100, rl.Red)
+}

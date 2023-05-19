@@ -6,6 +6,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui"
 	"github.com/RugiSerl/simulisation/app/math"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -100,6 +101,17 @@ func (g *Game) UpdateUserInput() {
 
 // mise à jour des entités
 func (g *Game) UpdateEntity() {
+
+	//affiche les zones de "vision" des entités
+	if settings.GameSettings.VisualSettings.DisplaySensibilityZone {
+		for _, entity := range g.entities {
+			if !entity.Dead {
+				entity.RenderSensibilityZone()
+			}
+		}
+	}
+
+	//mise à jour des positions et affichage des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
 			if !global.SettingsOpen {
@@ -151,6 +163,9 @@ func (g *Game) UpdateCamera() {
 	// g.cameraMomentum est la vitesse de la caméra, qui augmente lorsque l'utilisateur déplace la caméra, et diminue à chaque frame
 	g.Camera.Target = rl.Vector2(graphic.Vector2(g.Camera.Target).Add(g.cameraPositionMomentum.Scale(rl.GetFrameTime())))
 
+	//décalage de la caméra, pour que la cible, c'est-à-dire les coordonnées de la caméra, se trouve au milieu de l'écran
+	g.Camera.Offset = rl.NewVector2(float32(rl.GetScreenWidth())/2, float32(rl.GetScreenHeight())/2)
+
 	if !global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH {
 		//met à jour le zoom de la caméra
 
@@ -194,6 +209,6 @@ func remove(s []*Entity.Entity, i int) []*Entity.Entity {
 
 // transforme les coordonnées physiques de la souris dans la fenêtre en coordonnée virtuelle dans le jeu
 func (g *Game) getMouseWorldCoordinates() graphic.Vector2 {
-	return graphic.Vector2(rl.GetMousePosition()).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target))
+	return graphic.Vector2(rl.GetMousePosition()).Substract(graphic.Vector2(g.Camera.Offset)).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target))
 
 }

@@ -92,6 +92,10 @@ func (u *UserInterface) InitSettingsPanel() {
 	GradientEntities.SetBool(&settings.GameSettings.VisualSettings.GradientEntities)
 	position = position.Add(graphic.NewVector2(0, 30))
 
+	DisplaySensibilityZone := components.NewSetting("Afficher les zones de vision", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	DisplaySensibilityZone.SetBool(&settings.GameSettings.VisualSettings.DisplaySensibilityZone)
+	position = position.Add(graphic.NewVector2(0, 30))
+
 	DisplayStats := components.NewSetting("Afficher les statistiques", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	DisplayStats.SetBool(&settings.GameSettings.VisualSettings.DisplayStats)
 	position = position.Add(graphic.NewVector2(0, 45))
@@ -127,7 +131,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 
