@@ -22,7 +22,7 @@ type Game struct {
 const POPULATION_AT_THE_START = 10
 
 // vitesse à laquelle la caméra du jeu se déplace lorsque l'utilisateur appuie sur les flèches directionnelles
-const CAMERA_SPEED = 60
+const CAMERA_SPEED = 200
 
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
 const CAMERA_ZOOM_AMOUNT = 5e-2
@@ -161,7 +161,7 @@ func (g *Game) UpdateCamera() {
 		g.cameraPositionMomentum.Y += CAMERA_SPEED
 	}
 	// g.cameraMomentum est la vitesse de la caméra, qui augmente lorsque l'utilisateur déplace la caméra, et diminue à chaque frame
-	g.Camera.Target = rl.Vector2(graphic.Vector2(g.Camera.Target).Add(g.cameraPositionMomentum.Scale(rl.GetFrameTime())))
+	g.Camera.Target = rl.Vector2(graphic.Vector2(g.Camera.Target).Add(g.cameraPositionMomentum.Scale(rl.GetFrameTime() / g.Camera.Zoom)))
 
 	//décalage de la caméra, pour que la cible, c'est-à-dire les coordonnées de la caméra, se trouve au milieu de l'écran
 	g.Camera.Offset = rl.NewVector2(float32(rl.GetScreenWidth())/2, float32(rl.GetScreenHeight())/2)

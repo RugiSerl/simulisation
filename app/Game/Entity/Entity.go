@@ -99,7 +99,7 @@ func (e *Entity) Render() {
 func (e *Entity) RenderSensibilityZone() {
 	circle := graphic.NewCircle(settings.GameSettings.EntitySettings.RadiusSensivity, e.HitBox.CenterPosition.X, e.HitBox.CenterPosition.Y)
 
-	circle.Fill(rl.DarkGray)
+	circle.DrawLines(rl.Red)
 
 }
 
