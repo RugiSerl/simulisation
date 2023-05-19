@@ -3,7 +3,8 @@
 
 //shader de flou par RugiSerl
 //pas opti du tout, avec une complexité 0(n²)
-//réduit la luminosité (multiplie par 0.9)
+//prend comme variable uniforme partagée, "size", le rayon de la matrice de convolution
+//réduit également la luminosité en fonction de cette "size"
 
 // Input vertex attributes (from vertex shader)
 in vec2 fragTexCoord;
@@ -44,7 +45,13 @@ void main()
             texelColor += texture(texture0, fragTexCoord + vec2(i/renderWidth, j/renderHeight)).rgb*weight;
         }
     }
+
     
 
-    finalColor = vec4(texelColor/weightSum, 1.0)*0.9;
+    finalColor = vec4(texelColor/weightSum, 1.0)*(1-size/30.0);
+
+    if (radius == 0) {
+        finalColor = texture(texture0, fragTexCoord);
+    } 
+    
 }

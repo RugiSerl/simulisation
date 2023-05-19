@@ -21,6 +21,8 @@ const (
 
 var (
 	font rl.Font
+
+	AnimationTime float32
 )
 
 func InitFont() {
@@ -29,8 +31,6 @@ func InitFont() {
 }
 
 type UserInterface struct {
-	AnimationTime float32
-
 	menuRect   graphic.Rect
 	rectOffset float32
 
@@ -133,7 +133,7 @@ func (u *UserInterface) Update() {
 	}
 
 	if rl.IsKeyPressed(rl.KeyEscape) {
-		u.AnimationTime = 0
+		AnimationTime = 0
 		global.SettingsOpen = !global.SettingsOpen
 
 	}
@@ -170,8 +170,8 @@ func (u *UserInterface) DrawRectangle() {
 	position := graphic.GetRectCoordinatesWithAnchor(graphic.NewVector2(0, u.rectOffset), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP, size, graphic.GetWindowRect())
 
 	//déplace ce rectangle pour l'animation
-	if u.AnimationTime < ANIMATION_DURATION {
-		offset := (ANIMATION_DURATION - u.AnimationTime) / ANIMATION_DURATION
+	if AnimationTime < ANIMATION_DURATION {
+		offset := (ANIMATION_DURATION - AnimationTime) / ANIMATION_DURATION
 		position = position.Add(graphic.NewVector2(offset*offset*size.X, 0))
 
 	}
@@ -180,6 +180,6 @@ func (u *UserInterface) DrawRectangle() {
 
 	u.menuRect.Fill(rl.White, 0.1)
 
-	u.AnimationTime += rl.GetFrameTime()
+	AnimationTime += rl.GetFrameTime()
 
 }

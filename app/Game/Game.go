@@ -29,6 +29,10 @@ const CAMERA_ZOOM_AMOUNT = 0.1
 var blurShader *graphic.Shader
 var textureRender rl.RenderTexture2D
 
+var (
+	blurAmount float32
+)
+
 // création d'une instance de Game
 func NewGame() *Game {
 	g := new(Game)
@@ -36,7 +40,7 @@ func NewGame() *Game {
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
 	blurShader = graphic.InitShader("assets/blur.fs")
-	var blurAmount float32 = 2
+	blurAmount = 4
 	blurShader.SetValueFromUniformName("size", blurAmount, rl.ShaderUniformFloat)
 	textureRender = rl.LoadRenderTexture(1920, 1080)
 
@@ -64,6 +68,7 @@ func (g *Game) Update() {
 
 	//application du shader de flou, si les paramètres sont ouverts
 	if global.SettingsOpen {
+		blurShader.SetValueFromUniformName("size", rl.Clamp(blurAmount*gui.AnimationTime/gui.ANIMATION_DURATION, 0, blurAmount), rl.ShaderUniformFloat)
 		blurShader.Begin()
 	}
 
