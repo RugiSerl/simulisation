@@ -25,7 +25,7 @@ const POPULATION_AT_THE_START = 10
 const CAMERA_SPEED = 60
 
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
-const CAMERA_ZOOM_AMOUNT = 0.1
+const CAMERA_ZOOM_AMOUNT = 5e-2
 
 var blurShader *graphic.Shader
 var textureRender rl.RenderTexture2D
@@ -170,7 +170,7 @@ func (g *Game) UpdateCamera() {
 		//met à jour le zoom de la caméra
 
 		g.cameraZoomMomentum *= 0.8
-		g.cameraZoomMomentum += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT
+		g.cameraZoomMomentum += rl.GetMouseWheelMove() * CAMERA_ZOOM_AMOUNT * g.Camera.Zoom
 
 		g.Camera.Zoom += g.cameraZoomMomentum
 
