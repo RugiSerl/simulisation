@@ -2,3 +2,6 @@ main.exe
 libwinpthread-1.dll
 simulisation.rar
 settings.json
+simulisation.exe
+rsrc_windows_386.syso
+rsrc_windows_amd64.syso
