@@ -1,7 +1,17 @@
 package Entity
 
+import "github.com/RugiSerl/simulisation/app/settings"
+
 // --------------------------------------------------
 // fonctions de détection de collisions
+
+func (e *Entity) Uncollide(entities []*Entity) {
+	if settings.GameSettings.EntitySettings.UncollideAgressive {
+		e.UnCollideAgressive(entities)
+	} else {
+		e.UnCollidePassive(entities)
+	}
+}
 
 // L'entité balaye toutes les autres entités sur son chemin
 func (e *Entity) UnCollideAgressive(entities []*Entity) {

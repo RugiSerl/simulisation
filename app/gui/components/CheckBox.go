@@ -1,6 +1,8 @@
 package components
 
 import (
+	"image/color"
+
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -70,14 +72,20 @@ func (c *CheckBox) handleInput() {
 
 // Fonction d'affichage de la Checkbox
 func (c *CheckBox) render() {
+	var color color.RGBA = rl.Black
+
+	if !c.HoverState {
+		color.A = 128
+	}
+
 	innerRect := graphic.GetInnerRect(CheckBoxRect, 2)
 
-	CheckBoxRect.Fill(rl.Black, 0)
+	CheckBoxRect.Fill(color, 0)
 	innerRect.Fill(rl.White, 0)
 
 	if *c.value {
 		innerRectConfirmation := graphic.GetInnerRect(innerRect, 3)
-		innerRectConfirmation.Fill(rl.Black, 0)
+		innerRectConfirmation.Fill(color, 0)
 	}
 
 }

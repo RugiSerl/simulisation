@@ -26,7 +26,7 @@ var (
 )
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'\"âéèàabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'\"ÉâéèàabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 
@@ -34,8 +34,10 @@ type UserInterface struct {
 	menuRect   graphic.Rect
 	rectOffset float32
 
-	settings     []*components.Setting
-	saveSettings *components.ImageButton
+	settings      []*components.Setting
+	saveSettings  *components.ImageButton
+	openSettings  *components.ImageButton
+	closeSettings *components.ImageButton
 }
 
 func NewInterface() *UserInterface {
@@ -43,6 +45,7 @@ func NewInterface() *UserInterface {
 	InitFont()
 	u := new(UserInterface)
 	u.rectOffset = 0
+	u.openSettings = components.NewImageButton(graphic.NewVector2(20, 20), rl.LoadTexture("assets/menu.png"), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
 
 	u.InitSettingsPanel()
 
@@ -52,6 +55,8 @@ func NewInterface() *UserInterface {
 
 // initialise les paramètres à afficher et leur propriétés
 func (u *UserInterface) InitSettingsPanel() {
+
+	u.closeSettings = components.NewImageButton(graphic.NewVector2(20, 20), rl.LoadTexture("assets/close.png"), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
 
 	position := graphic.NewVector2(0, 15)
 	parameteres := components.NewSetting("Paramètres", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
@@ -98,6 +103,10 @@ func (u *UserInterface) InitSettingsPanel() {
 	linearMove.SetBool(&settings.GameSettings.EntitySettings.LinearMove)
 	position = position.Add(graphic.NewVector2(0, 30))
 
+	UnCollideAgressive := components.NewSetting("Éloignement agressif", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	UnCollideAgressive.SetBool(&settings.GameSettings.EntitySettings.UncollideAgressive)
+	position = position.Add(graphic.NewVector2(0, 30))
+
 	GoToClosestNeightbour := components.NewSetting("suit le plus proche \"voisin moral\"", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	GoToClosestNeightbour.SetBool(&settings.GameSettings.EntitySettings.GoToClosestNeightbour)
 	position = position.Add(graphic.NewVector2(0, 30))
@@ -118,7 +127,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 
@@ -130,6 +139,11 @@ func (u *UserInterface) Update() {
 	if global.SettingsOpen {
 		u.UpdateSettings()
 
+	} else {
+		u.openSettings.Update(graphic.GetWindowRect())
+		if u.openSettings.PressedState {
+			global.SettingsOpen = true
+		}
 	}
 
 	if rl.IsKeyPressed(rl.KeyEscape) {
@@ -143,16 +157,25 @@ func (u *UserInterface) Update() {
 // met à jour et affiche la fenêtre des paramètres
 func (u *UserInterface) UpdateSettings() {
 
+	//mettre à jour et tracer le rectangle qui sert de base aux paramètres
 	u.DrawRectangle()
 
 	for _, setting := range u.settings {
 		setting.Update(u.menuRect)
 	}
-	u.saveSettings.Update(u.menuRect)
 
+	u.saveSettings.Update(u.menuRect)
 	if u.saveSettings.PressedState {
 		settings.SaveSettings()
 	}
+
+	u.closeSettings.Update(u.menuRect)
+	if u.closeSettings.PressedState {
+		global.SettingsOpen = false
+		AnimationTime = 0
+	}
+
+	//gérer le scroll pour faire descendre le panneau des paramètres
 	if rl.GetMousePosition().X > float32(rl.GetScreenWidth())-SETTINGS_WIDTH {
 		u.rectOffset += rl.GetMouseWheelMove() * 20
 

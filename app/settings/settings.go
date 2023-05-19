@@ -47,6 +47,11 @@ type EntitySettings struct {
 	//sur true, l'entité suit l'entité la plus "proche" moralement
 	//sur false elle suit la moyenne pondérée des entités environnantes en fonction de leur valeur morale
 	GoToClosestNeightbour bool
+
+	// définit la méthode selon laquelle les entités se repoussent afin de ne pas se stack.
+	// Sur true, l'entité déplace toutes les entités sur son chemin.
+	// Sur false, c'est l'entité qui se déplace lorsqu'elle est en collision avec une autre
+	UncollideAgressive bool
 }
 
 type Gamerule struct {
@@ -83,6 +88,7 @@ func getDefaultSettings() Settings {
 			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
 			LinearMove:                  false,
+			UncollideAgressive:          false,
 			GoToClosestNeightbour:       true,
 		},
 		Gamerule: Gamerule{

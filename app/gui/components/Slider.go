@@ -1,6 +1,8 @@
 package components
 
 import (
+	"image/color"
+
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -60,7 +62,7 @@ func (s *Slider) Update(containingRect graphic.Rect) {
 
 // Fonction permettant de gérer les inputs du slider
 func (s *Slider) handleInput() {
-
+	s.HoverState = false
 	if graphic.DetectRectCollision(SliderRect, graphic.GetMouseRect()) {
 		s.HoverState = true
 		if rl.IsMouseButtonDown(rl.MouseLeftButton) {
@@ -74,12 +76,18 @@ func (s *Slider) handleInput() {
 // Fonction d'affichage du slider
 func (s *Slider) render() {
 
+	var color color.RGBA = rl.Black
+
+	if !s.HoverState {
+		color.A = 128
+	}
+
 	bar := graphic.GetInnerHorizontalrect(SliderRect, SliderRect.Height/3)
 
 	ballXPosition := (*s.value-s.min)/(s.max-s.min)*SliderRect.Width + SliderRect.X
 	ball := graphic.NewCircle(5, ballXPosition, SliderRect.Y+SliderRect.Height/2)
-	ball.Fill(rl.Black)
+	ball.Fill(color)
 
-	bar.Fill(rl.Black, 0)
+	bar.Fill(color, 0)
 
 }

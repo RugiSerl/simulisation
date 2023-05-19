@@ -72,6 +72,10 @@ func NewSetting(name string, componentType int, font rl.Font, fontSize float32, 
 func (s *Setting) Update(containingRect graphic.Rect) {
 	settingRect := graphic.NewRectFromVector(graphic.GetRectCoordinatesWithAnchor(s.position, s.anchorX, s.anchorY, s.size, containingRect), s.size)
 
+	if graphic.DetectRectCollision(settingRect, graphic.GetMouseRect()) {
+		settingRect.Fill(rl.NewColor(128, 128, 128, 32), 0)
+	}
+
 	s.label.Render(settingRect)
 
 	switch s.componentType {

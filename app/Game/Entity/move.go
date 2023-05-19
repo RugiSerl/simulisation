@@ -21,7 +21,7 @@ func (e *Entity) Move(otherEntities []*Entity) {
 
 // Cette fonction permet de déplacer l'entité et de rapprocher l'entité des entités similaires.
 // Elle choisit une destination qui est la 'moyenne' des position pondérée à l'aide des 'distances morales'
-// Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière (RADIUS_SENSIVITY)
+// Elle ne peut "voir" que les autres entités qui sont dans un certain rayon de cette dernière
 func (e *Entity) MoveToClosestNeighbour(otherEntities []*Entity) {
 
 	var min *Entity = nil
