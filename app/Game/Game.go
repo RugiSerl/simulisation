@@ -2,6 +2,7 @@ package Game
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -105,9 +106,12 @@ func (g *Game) UpdateUserInput() {
 	}
 
 	if rl.IsKeyPressed(rl.KeyS) {
-		g.Load()
+		g.Save()
 	}
 
+	if rl.IsKeyPressed(rl.KeyC) {
+		g.Load()
+	}
 }
 
 // mise à jour des entités
@@ -238,12 +242,18 @@ func (g *Game) Load() {
 	file, err := os.ReadFile(SAVE_FILENAME)
 
 	if err != nil {
-		panic(err)
+		if errors.Is(err, os.ErrNotExist) {
+			fmt.Println("aucune sauvegarde à charger")
+
+		} else {
+			panic(err)
+		}
 
 	} else {
 		err2 := json.Unmarshal(file, &g.entities)
 		if err2 != nil {
-			fmt.Println("couldn't load data", err2)
+			fmt.Println("impossible de charger la sauvegarde", err2)
+
 		}
 	}
 }
