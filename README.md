@@ -15,6 +15,7 @@ ce projet ressemble à un automate cellulaire, de part son fonctionnement. En re
 - rester appuyer sur shift gauche permet de faire invoquer des entités en continu
 - les flèches directionnelles permettent de se déplacer dans le monde et la molette de la souris permet de régler le zoom
 - afin d'ouvir les paramètres, il est possible d'appuyer sur échap ou bien d'appuyer sur le bouton présent en haut à droite
+- appuyer sur suppr permet de supprimer toutes les entités
 
 
 

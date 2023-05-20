@@ -1,7 +1,7 @@
 #version 330
 
 
-//shader de flou par RugiSerl
+//shader de flou
 //pas opti du tout, avec une complexité 0(n²)
 //prend comme variable uniforme partagée, "size", le rayon de la matrice de convolution
 //réduit également la luminosité en fonction de cette "size"
