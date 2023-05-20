@@ -39,6 +39,6 @@ func (c *Circle) Fill(color color.RGBA) {
 }
 
 func (c *Circle) DrawLines(color color.RGBA) {
-	rl.DrawCircleLines(int32(c.CenterPosition.X), int32(c.CenterPosition.Y), c.Radius, color)
-	//rl.DrawCircleSectorLines(rl.Vector2(c.CenterPosition), c.Radius, 0, 360, 100, color)
+	//rl.DrawCircleLines(int32(c.CenterPosition.X), int32(c.CenterPosition.Y), c.Radius, color)
+	rl.DrawCircleSectorLines(rl.Vector2(c.CenterPosition), c.Radius, 0, 360, 100, color)
 }

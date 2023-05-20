@@ -120,6 +120,10 @@ func (u *UserInterface) InitSettingsPanel() {
 	radiusSensivity.SetSliderValue(&settings.GameSettings.EntitySettings.RadiusSensivity, 0, 20)
 	position = position.Add(graphic.NewVector2(0, 30))
 
+	Speed := components.NewSetting("vitesse des entités", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Speed.SetSliderValue(&settings.GameSettings.EntitySettings.Speed, 1, 100)
+	position = position.Add(graphic.NewVector2(0, 30))
+
 	ChildMaximumDifference := components.NewSetting("différence morale avec l'enfant", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	ChildMaximumDifference.SetSliderValue(&settings.GameSettings.EntitySettings.ChildMaximumDifference, 1, 300)
 	position = position.Add(graphic.NewVector2(0, 30))
@@ -143,7 +147,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	EntityValeurMoraleOnSpawn.SetSliderValue(&settings.GameSettings.UserInputSettings.EntityValeurMoraleOnSpawn, 0, 255)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 

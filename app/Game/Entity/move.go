@@ -90,8 +90,8 @@ func (e *Entity) Goto(point graphic.Vector2) {
 // aller à un point de manière linéaire
 func (e *Entity) GotoLinear(point graphic.Vector2) {
 
-	if e.HitBox.CenterPosition.Substract(point).GetNorm() > SPEED*rl.GetFrameTime() {
-		e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(point.Substract(e.HitBox.CenterPosition).ScaleToNorm(SPEED * rl.GetFrameTime()))
+	if e.HitBox.CenterPosition.Substract(point).GetNorm() > settings.GameSettings.EntitySettings.Speed*rl.GetFrameTime() {
+		e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(point.Substract(e.HitBox.CenterPosition).ScaleToNorm(settings.GameSettings.EntitySettings.Speed * rl.GetFrameTime()))
 
 	} else {
 		e.HitBox.CenterPosition = point

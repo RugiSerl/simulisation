@@ -55,6 +55,9 @@ type EntitySettings struct {
 	//sur false, elle se déplace en divisant la distance avec la destination, sur un unité de frame
 	LinearMove bool
 
+	// vitesse à laquelle se déplacent les entités, si elles se déplacent de façon linéaire
+	Speed float32
+
 	//définit la cible que doit suivre l'entité
 	//sur true, l'entité suit l'entité la plus "proche" moralement
 	//sur false elle suit la moyenne pondérée des entités environnantes en fonction de leur valeur morale
@@ -100,6 +103,7 @@ func getDefaultSettings() Settings {
 			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
 			LinearMove:                  false,
+			Speed:                       20,
 			UncollideAgressive:          false,
 			GoToClosestNeightbour:       true,
 		},

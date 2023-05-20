@@ -9,9 +9,6 @@ import (
 // échelle qui correspond à la taille des entité (1 => 128px; 0.5 => 64px; ...)
 const SCALE = 0.01
 
-// vitesse à laquelle se déplacent les entités, si elles se déplacent de façon linéaire
-const SPEED = 20
-
 var (
 	//texture utilisée pour afficher l'entité sur la fenêtre
 	TextureEntite rl.Texture2D

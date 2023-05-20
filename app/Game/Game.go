@@ -1,6 +1,11 @@
 package Game
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
@@ -26,6 +31,8 @@ const CAMERA_SPEED = 200
 
 // quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
 const CAMERA_ZOOM_AMOUNT = 5e-2
+
+const SAVE_FILENAME = "save.txt"
 
 var blurShader *graphic.Shader
 var textureRender rl.RenderTexture2D
@@ -95,6 +102,10 @@ func (g *Game) UpdateUserInput() {
 
 	if rl.IsKeyPressed(rl.KeyDelete) {
 		g.entities = []*Entity.Entity{}
+	}
+
+	if rl.IsKeyPressed(rl.KeyS) {
+		g.Load()
 	}
 
 }
@@ -210,5 +221,29 @@ func remove(s []*Entity.Entity, i int) []*Entity.Entity {
 // transforme les coordonnées physiques de la souris dans la fenêtre en coordonnée virtuelle dans le jeu
 func (g *Game) getMouseWorldCoordinates() graphic.Vector2 {
 	return graphic.Vector2(rl.GetMousePosition()).Substract(graphic.Vector2(g.Camera.Offset)).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target))
+}
 
+func (g *Game) Save() {
+
+	json, err := json.MarshalIndent(g.entities, "", "	")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_ = ioutil.WriteFile(SAVE_FILENAME, json, 0644)
+
+}
+
+func (g *Game) Load() {
+	file, err := os.ReadFile(SAVE_FILENAME)
+
+	if err != nil {
+		panic(err)
+
+	} else {
+		err2 := json.Unmarshal(file, &g.entities)
+		if err2 != nil {
+			fmt.Println("couldn't load data", err2)
+		}
+	}
 }
