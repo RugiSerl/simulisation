@@ -1,7 +1,6 @@
 package components
 
 import (
-	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -34,7 +33,7 @@ func NewSlider(position graphic.Vector2, horizontalAnchor int8, verticalAnchor i
 
 	s.position = position
 
-	s.size = graphic.NewVector2(70, CHECKBOX_SIZE*global.InterfaceScale)
+	s.size = graphic.NewVector2(70, 20)
 
 	return s
 
