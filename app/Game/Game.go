@@ -83,7 +83,7 @@ func (g *Game) Update() {
 
 // gérer les informations entrées par l'utilisateur
 func (g *Game) UpdateUserInput() {
-	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH) {
+	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_MENU_WIDTH) {
 		g.SpawnEntity(g.getMouseWorldCoordinates())
 	}
 
@@ -166,7 +166,7 @@ func (g *Game) UpdateCamera() {
 	//décalage de la caméra, pour que la cible, c'est-à-dire les coordonnées de la caméra, se trouve au milieu de l'écran
 	g.Camera.Offset = rl.NewVector2(float32(rl.GetScreenWidth())/2, float32(rl.GetScreenHeight())/2)
 
-	if !global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_WIDTH {
+	if !global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_MENU_WIDTH {
 		//met à jour le zoom de la caméra
 
 		g.cameraZoomMomentum *= 0.8
@@ -181,17 +181,17 @@ func (g *Game) UpdateCamera() {
 
 }
 
-// Cette fonction fait apparaître plusieurs entités
-func (g *Game) SpawnMultipleEntities(amount int, position graphic.Vector2) {
-	for i := 0; i < amount; i++ {
-		g.SpawnEntity(position)
-	}
-}
-
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
 func (g *Game) SpawnEntity(position graphic.Vector2) {
 
-	e := Entity.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
+	var e *Entity.Entity
+
+	if settings.GameSettings.UserInputSettings.SpawnRandomValeurMorale {
+		e = Entity.NewEntity(position, len(g.entities), uint8(math.RandomRange(0, 255)))
+
+	} else {
+		e = Entity.NewEntity(position, len(g.entities), uint8(settings.GameSettings.UserInputSettings.EntityValeurMoraleOnSpawn))
+	}
 
 	g.entities = append(g.entities, e)
 }

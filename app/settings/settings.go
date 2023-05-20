@@ -12,9 +12,18 @@ import (
 const SETTINGS_FILENAME = "settings.json"
 
 type Settings struct {
-	VisualSettings VisualSettings
-	Gamerule       Gamerule
-	EntitySettings EntitySettings
+	VisualSettings    VisualSettings
+	Gamerule          Gamerule
+	EntitySettings    EntitySettings
+	UserInputSettings UserInputSettings
+}
+
+type UserInputSettings struct {
+	//définit si les entités que l'utilisateur fait spawner on une valeur morale random
+	SpawnRandomValeurMorale bool
+
+	//valeur morale de la prochaine entité si SpawnRandomValeurMorale est sur false
+	EntityValeurMoraleOnSpawn float32
 }
 
 type VisualSettings struct {
@@ -100,6 +109,10 @@ func getDefaultSettings() Settings {
 			Reproduce: true,
 			Move:      true,
 			Kill:      true,
+		},
+		UserInputSettings: UserInputSettings{
+			SpawnRandomValeurMorale:   true,
+			EntityValeurMoraleOnSpawn: 0,
 		},
 	}
 

@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	// largeur du panneau des paramètres
-	SETTINGS_WIDTH = 350
+	// largeur et hauteur du panneau des paramètres
+	SETTINGS_MENU_WIDTH  = 350
+	SETTINGS_MENU_HEIGHT = 820
 
-	SETTINGS_HEIGHT = 700
 	// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
 	ANIMATION_DURATION = 0.15
 	TEXT_SPACING       = 0
@@ -31,7 +31,8 @@ func InitFont() {
 }
 
 type UserInterface struct {
-	menuRect   graphic.Rect
+	settingsMenuRect graphic.Rect
+
 	rectOffset float32
 
 	settings      []*components.Setting
@@ -131,7 +132,18 @@ func (u *UserInterface) InitSettingsPanel() {
 	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction}
+	UserInputSettings := components.NewSetting("Paramètres d'entrée utilisateur", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	position = position.Add(graphic.NewVector2(0, 32))
+
+	SpawnRandomValeurMorale := components.NewSetting("valeurs morales aléatoire", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	SpawnRandomValeurMorale.SetBool(&settings.GameSettings.UserInputSettings.SpawnRandomValeurMorale)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	EntityValeurMoraleOnSpawn := components.NewSetting("valeur morale des entités", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	EntityValeurMoraleOnSpawn.SetSliderValue(&settings.GameSettings.UserInputSettings.EntityValeurMoraleOnSpawn, 0, 255)
+	position = position.Add(graphic.NewVector2(0, 45))
+
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 
@@ -165,22 +177,22 @@ func (u *UserInterface) UpdateSettings() {
 	u.DrawRectangle()
 
 	for _, setting := range u.settings {
-		setting.Update(u.menuRect)
+		setting.Update(u.settingsMenuRect)
 	}
 
-	u.saveSettings.Update(u.menuRect)
+	u.saveSettings.Update(u.settingsMenuRect)
 	if u.saveSettings.PressedState {
 		settings.SaveSettings()
 	}
 
-	u.closeSettings.Update(u.menuRect)
+	u.closeSettings.Update(u.settingsMenuRect)
 	if u.closeSettings.PressedState {
 		global.SettingsOpen = false
 		AnimationTime = 0
 	}
 
 	//gérer le scroll pour faire descendre le panneau des paramètres
-	if rl.GetMousePosition().X > float32(rl.GetScreenWidth())-SETTINGS_WIDTH {
+	if rl.GetMousePosition().X > float32(rl.GetScreenWidth())-SETTINGS_MENU_WIDTH {
 		u.rectOffset += rl.GetMouseWheelMove() * 20
 
 		if u.rectOffset > 0 {
@@ -192,7 +204,7 @@ func (u *UserInterface) UpdateSettings() {
 
 // affiche le rectangle blanc qui sert de base pour afficher les paramètres
 func (u *UserInterface) DrawRectangle() {
-	size := graphic.NewVector2(SETTINGS_WIDTH, SETTINGS_HEIGHT)
+	size := graphic.NewVector2(SETTINGS_MENU_WIDTH, SETTINGS_MENU_HEIGHT)
 
 	position := graphic.GetRectCoordinatesWithAnchor(graphic.NewVector2(0, u.rectOffset), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP, size, graphic.GetWindowRect())
 
@@ -203,9 +215,8 @@ func (u *UserInterface) DrawRectangle() {
 
 	}
 
-	u.menuRect = graphic.NewRectFromVector(position, size)
-
-	u.menuRect.Fill(rl.White, 0.1)
+	u.settingsMenuRect = graphic.NewRectFromVector(position, size)
+	u.settingsMenuRect.Fill(rl.White, 0.1)
 
 	AnimationTime += rl.GetFrameTime()
 

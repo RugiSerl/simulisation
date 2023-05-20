@@ -1,8 +1,6 @@
 package components
 
 import (
-	"image/color"
-
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -76,18 +74,12 @@ func (s *Slider) handleInput() {
 // Fonction d'affichage du slider
 func (s *Slider) render() {
 
-	var color color.RGBA = rl.Black
-
-	if !s.HoverState {
-		color.A = 128
-	}
-
 	bar := graphic.GetInnerHorizontalrect(SliderRect, SliderRect.Height/3)
 
 	ballXPosition := (*s.value-s.min)/(s.max-s.min)*SliderRect.Width + SliderRect.X
 	ball := graphic.NewCircle(5, ballXPosition, SliderRect.Y+SliderRect.Height/2)
-	ball.Fill(color)
+	ball.Fill(rl.Black)
 
-	bar.Fill(color, 0)
+	bar.Fill(rl.Black, 0)
 
 }
