@@ -153,9 +153,13 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	EntityValeurMoraleOnSpawn := components.NewSetting("valeur morale des entités", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	EntityValeurMoraleOnSpawn.SetSliderValue(&settings.GameSettings.UserInputSettings.EntityValeurMoraleOnSpawn, 0, 255)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	DeleteRadius := components.NewSetting("Rayon de suppression", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	DeleteRadius.SetSliderValue(&settings.GameSettings.UserInputSettings.DeleteRadius, 0.5, 40)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 

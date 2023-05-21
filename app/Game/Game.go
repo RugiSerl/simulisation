@@ -112,6 +112,11 @@ func (g *Game) UpdateUserInput() {
 	if rl.IsKeyPressed(rl.KeyC) {
 		g.Load()
 	}
+
+	if rl.IsMouseButtonDown(rl.MouseRightButton) {
+		circle := graphic.NewCircle(settings.GameSettings.UserInputSettings.DeleteRadius, g.getMouseWorldCoordinates().X, g.getMouseWorldCoordinates().Y)
+		circle.DrawCross(rl.Red)
+	}
 }
 
 // mise à jour des entités
@@ -135,7 +140,7 @@ func (g *Game) UpdateEntity() {
 
 			entity.Render()
 
-			if entity.GetPointCollision(g.getMouseWorldCoordinates()) && rl.IsMouseButtonDown(rl.MouseRightButton) {
+			if entity.HitBox.CenterPosition.Substract(g.getMouseWorldCoordinates()).GetNorm() < settings.GameSettings.UserInputSettings.DeleteRadius && rl.IsMouseButtonDown(rl.MouseRightButton) {
 				entity.Dead = true
 
 			}

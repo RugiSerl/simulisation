@@ -18,6 +18,7 @@ Ce projet ressemble à un automate cellulaire, de part son fonctionnement. En re
 - Rester appuyer sur shift gauche permet de faire invoquer des entités en continu
 - Les flèches directionnelles permettent de se déplacer dans le monde et la molette de la souris permet de régler le zoom
 - Afin d'ouvir les paramètres, il est possible d'appuyer sur échap ou bien d'appuyer sur le bouton présent en haut à droite
+- maintenir clic droit permet de supprimer les entités proches de la souris (le rayon est modifiable dans les paramètres)
 - Appuyer sur suppr permet de supprimer toutes les entités
 - Appuyer sur f11 permet de mettre le jeu en mode plein écran (et de l'enlever)
 - Il est possible de sauvegarder l'état des entités présentes dans le jeu en appuyant sur "s", qui créera un fichier de sauvegarde save.txt

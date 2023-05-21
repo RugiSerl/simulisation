@@ -22,11 +22,14 @@ type Settings struct {
 
 // section sur les paramètres sur l'entrée utilisateur
 type UserInputSettings struct {
-	//définit si les entités que l'utilisateur fait spawner on une valeur morale random
+	// définit si les entités que l'utilisateur fait spawner on une valeur morale random
 	SpawnRandomValeurMorale bool
 
-	//valeur morale de la prochaine entité si SpawnRandomValeurMorale est sur false
+	// valeur morale de la prochaine entité si SpawnRandomValeurMorale est sur false
 	EntityValeurMoraleOnSpawn float32
+
+	// rayon dans lequel on supprime les entités lorsque le clic droit de la souris est enfoncé
+	DeleteRadius float32
 }
 
 // section sur les paramètres graphiques
@@ -112,7 +115,7 @@ func getDefaultSettings() Settings {
 			MaxFps:           120,
 		},
 		EntitySettings: EntitySettings{
-			RadiusSensivity:             0.1 * 100,
+			RadiusSensivity:             10,
 			ChildMaximumDifference:      5,
 			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
@@ -132,6 +135,7 @@ func getDefaultSettings() Settings {
 		UserInputSettings: UserInputSettings{
 			SpawnRandomValeurMorale:   true,
 			EntityValeurMoraleOnSpawn: 0,
+			DeleteRadius:              2,
 		},
 	}
 
