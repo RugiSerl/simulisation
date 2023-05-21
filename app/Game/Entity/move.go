@@ -1,6 +1,8 @@
 package Entity
 
 import (
+	"math"
+
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -79,6 +81,11 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 
 // aller à un point
 func (e *Entity) Goto(point graphic.Vector2) {
+
+	if e.HitBox.CenterPosition != point {
+		e.Facing = float32(float64(point.Substract(e.HitBox.CenterPosition).GetAngle() / (2 * math.Pi) * 360))
+	}
+
 	if settings.GameSettings.EntitySettings.LinearMove {
 		e.GotoLinear(point)
 	} else {

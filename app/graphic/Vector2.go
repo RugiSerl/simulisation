@@ -38,6 +38,10 @@ func (v Vector2) ScaleToNorm(norm float32) Vector2 {
 	return v.Scale(norm / v.GetNorm())
 }
 
+func (v Vector2) GetAngle() float64 {
+	return math.Acos(float64(v.ScaleToNorm(1).X))
+}
+
 func (v Vector2) ToRaylibVector2() rl.Vector2 {
 	return rl.NewVector2(v.X, v.Y)
 

@@ -1,6 +1,8 @@
 package Entity
 
 import (
+	"image/color"
+
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -25,6 +27,7 @@ type Entity struct {
 	ID        int
 	Dead      bool
 	TimeAlive float32
+	Facing    float32
 }
 
 // Initialisation d'une instance entité
@@ -79,8 +82,7 @@ func (e *Entity) Render() {
 
 	if e.TimeAlive < settings.GameSettings.EntitySettings.MaximumAge {
 
-		color := graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (float64(settings.GameSettings.EntitySettings.MaximumAge)-float64(e.TimeAlive))/float64(settings.GameSettings.EntitySettings.MaximumAge)/2)
-
+		color := e.getColor()
 		if settings.GameSettings.VisualSettings.GradientEntities {
 			e.HitBox.Fill(color)
 		} else {
@@ -93,11 +95,17 @@ func (e *Entity) Render() {
 
 }
 
+// retourne la couleur de l'entité en fonction de sa valeur morale
+func (e *Entity) getColor() color.RGBA {
+	return graphic.NewColorFromGradient(float64(e.ValeurMorale)/256.0*360.0, (float64(settings.GameSettings.EntitySettings.MaximumAge)-float64(e.TimeAlive))/float64(settings.GameSettings.EntitySettings.MaximumAge)/2)
+
+}
+
 // Cette fonction permet d'afficher le périmètre dans lequel l'entité peut voir les autres entités
 func (e *Entity) RenderSensibilityZone() {
 	circle := graphic.NewCircle(settings.GameSettings.EntitySettings.RadiusSensivity, e.HitBox.CenterPosition.X, e.HitBox.CenterPosition.Y)
 
-	circle.DrawLines(rl.Red)
+	circle.DrawLines(e.getColor(), e.Facing)
 
 }
 

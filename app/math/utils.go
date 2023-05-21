@@ -25,6 +25,6 @@ func RandomProbability(probability float64) bool {
 	return rand.Float32() < float32(probability)
 }
 
-func Exp(x float64) float64 {
-	return math.Exp(x)
+func ArcCos(x float64) float64 {
+	return math.Acos(x)
 }
