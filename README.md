@@ -3,7 +3,10 @@ simulisation est une contraction de simulation et civilisation
 
 ce projet ressemble à un automate cellulaire, de part son fonctionnement. En revanche, ici il n'est pas question de "cellules" à proprement parler, les entités sont fixées selon des coordonnées réelles.
 
-### Comment exécuter le programme : 
+
+
+
+### Comment exécuter/compiler le programme : 
 
 - afin d'exécuter le projet, il est possible de télécharger les exécutables déjà compilés dans la section releases
 
@@ -19,6 +22,22 @@ ce projet ressemble à un automate cellulaire, de part son fonctionnement. En re
 - appuyer sur f11 permet de mettre le jeu en plein écran
 - il est possible de sauvegarder l'état des entités présentes dans le jeu en appuyant sur "s", qui créera un fichier de sauvegarde save.txt
 - cette sauvegarde peut être chargée en appuyant sur "c"
+
+
+### Fonctionnement du jeu
+
+<p>
+Ce jeu est constitué d'une liste d'entité, qui ont chacune des propriétés telle que leur position, leur âge et leur valeur Morale. Cette dernière est une valeur abstraite, utilisée pour les interactions entres les entités. Elle va de 0 à 255 et est cyclique, donc la "distance morale" entre 4 et 253 est de 6.<br/>
+</p>
+
+A chaque mise à  jour du jeu, les entités sont mises à jour, qui se divise en 5 parties :
+- une fonction de déplacement, qui fait déplacer l'entité et la fait se rapprocher des autres
+- une fonction de "décollision", où l'entité s'éloigne des autres afin d'éviter qu'elles s'empilent toutes en un point
+- une fonction de reproduction
+- une fonction qui met à jour l'âge de l'entité
+- une fonction qui décide s'il faut tuer une entité
+
+Chacune de ces fonctions peut avoir plusieurs versions qui peuvent changer le comportement du jeu.
 
 
 
