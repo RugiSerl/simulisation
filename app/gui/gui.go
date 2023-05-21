@@ -11,7 +11,7 @@ import (
 const (
 	// largeur et hauteur du panneau des paramètres
 	SETTINGS_MENU_WIDTH  = 350
-	SETTINGS_MENU_HEIGHT = 820
+	SETTINGS_MENU_HEIGHT = 920
 
 	// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
 	ANIMATION_DURATION = 0.15
@@ -99,6 +99,10 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	DisplayStats := components.NewSetting("Afficher les statistiques", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	DisplayStats.SetBool(&settings.GameSettings.VisualSettings.DisplayStats)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	MaxFps := components.NewSetting("Fps cible (1-240)", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	MaxFps.SetSliderValue(&settings.GameSettings.VisualSettings.MaxFps, 1, 240)
 	position = position.Add(graphic.NewVector2(0, 45))
 
 	entitySettings := components.NewSetting("Paramètres de l'entité", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
@@ -133,7 +137,11 @@ func (u *UserInterface) InitSettingsPanel() {
 	position = position.Add(graphic.NewVector2(0, 30))
 
 	BaseProbabilityReproduction := components.NewSetting("probabilité de reproduction", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
-	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 0, 3e-3)
+	BaseProbabilityReproduction.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityReproduction, 1e-5, 3e-3)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	BaseProbabilityKill := components.NewSetting("probabilité de meurtre", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	BaseProbabilityKill.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityKill, 1e-7, 5e-5)
 	position = position.Add(graphic.NewVector2(0, 45))
 
 	UserInputSettings := components.NewSetting("Paramètres d'entrée utilisateur", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
@@ -147,7 +155,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	EntityValeurMoraleOnSpawn.SetSliderValue(&settings.GameSettings.UserInputSettings.EntityValeurMoraleOnSpawn, 0, 255)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 

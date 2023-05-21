@@ -5,7 +5,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// le slider, ou "curseur" est un
+// le slider, ou "curseur" est une barre verticale qui permet d'ajuster une valeur en déplaçant le rond qui est devant
 type Slider struct {
 	value *float32
 	min   float32

@@ -5,7 +5,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// le TextLabel est un objet désignant un texte, qui est statique, et qui est destiné à être affiché.
+// le TextLabel est un objet désignant une texture, qui est statique, et qui est destiné à être affiché.
 type ImageLabel struct {
 	position graphic.Vector2
 	size     graphic.Vector2

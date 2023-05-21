@@ -234,7 +234,14 @@ func (g *Game) Save() {
 		fmt.Println(err)
 	}
 
-	_ = ioutil.WriteFile(SAVE_FILENAME, json, 0644)
+	err = ioutil.WriteFile(SAVE_FILENAME, json, 0644)
+
+	if err != nil {
+		panic(err)
+
+	} else {
+		fmt.Println("jeu sauvegardé avec succès !")
+	}
 
 }
 
@@ -254,6 +261,8 @@ func (g *Game) Load() {
 		if err2 != nil {
 			fmt.Println("impossible de charger la sauvegarde", err2)
 
+		} else {
+			fmt.Println("jeu chargé avec succès !")
 		}
 	}
 }

@@ -6,10 +6,6 @@ import (
 	"github.com/RugiSerl/simulisation/app/settings"
 )
 
-const BASE_PROBABILITY_REPRODUCE = 1e-3
-
-const BASE_PROBABILITY_KILL = 1e-5
-
 // fonction pour faire se reproduire les entités.
 // les nouvelles cellules sont proches "moralement" de celles qui les ont engendré
 func (e *Entity) Reproduce(othersEntities *[]*Entity) {
@@ -24,7 +20,7 @@ func (e *Entity) Reproduce(othersEntities *[]*Entity) {
 		entityClose = 5
 	}
 
-	var probability float64 = float64(entityClose) * BASE_PROBABILITY_REPRODUCE
+	var probability float64 = float64(entityClose) * float64(settings.GameSettings.EntitySettings.BaseProbabilityReproduction)
 	if math.RandomProbability(probability) {
 		*othersEntities = append(*othersEntities, NewEntity(e.HitBox.CenterPosition.Add(graphic.NewVector2(1, 1)), len(*othersEntities), generateCloseValue(int(e.ValeurMorale), int(settings.GameSettings.EntitySettings.ChildMaximumDifference))))
 	}
@@ -42,7 +38,7 @@ func (e *Entity) Kill(othersEntities *[]*Entity) {
 
 	for _, entity := range *othersEntities {
 		if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity && entity.ID != e.ID {
-			var probability float64 = float64(e.DistanceMorale(entity)) * BASE_PROBABILITY_KILL
+			var probability float64 = float64(e.DistanceMorale(entity)) * float64(settings.GameSettings.EntitySettings.BaseProbabilityKill)
 			if math.RandomProbability(probability) {
 				entity.Dead = true
 			}

@@ -33,48 +33,6 @@ func GetWindowRect() Rect {
 	return NewRect(0, 0, float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight()))
 }
 
-func GetRectAdjustedToWindow(rectRatio float32) Rect {
-
-	winW, winH := float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight())
-	winRatio := winW / winH
-
-	r := Rect{}
-
-	if rectRatio > winRatio { //change Height
-		r.Width = winW
-		r.Height = winW / rectRatio
-		r.X = 0
-		r.Y = winH/2 - r.Height/2
-
-	} else if rectRatio < winRatio {
-		r.Height = winH
-		r.Width = winH * rectRatio
-		r.Y = 0
-		r.X = winW/2 - r.Width/2
-
-	} else {
-		r.X = 0
-		r.Y = 0
-		r.Height = winH
-		r.Width = winW
-	}
-
-	return r
-
-}
-
-// obtention d'un rectangle qui a pour centre le centre de la fenêtre
-func GetRectFromWindowCenter(width float32, height float32) Rect {
-
-	r := Rect{}
-	r.Width, r.Height = width, height
-	r.X = float32(rl.GetScreenWidth())/2 - width/2
-	r.Y = float32(rl.GetScreenHeight())/2 - height/2
-
-	return r
-
-}
-
 // obtention d'un nouveau rectangle à l'intérieur d'un autre
 func GetInnerRect(sourceRect Rect, padding float32) Rect {
 	sourceRect.X += padding
@@ -99,13 +57,6 @@ func (r Rect) Fill(color color.RGBA, roundness float32) {
 
 	rl.DrawRectangleRounded(rectangle, roundness, 5, color)
 
-}
-
-// on trace les lignes du rectangle
-func (r Rect) DrawLines(color color.RGBA, roundness float32, thickness float32) {
-	rectangle := rl.NewRectangle(r.X, r.Y, r.Width, r.Height)
-
-	rl.DrawRectangleRoundedLines(rectangle, roundness, 5, thickness, color)
 }
 
 // retourne si les deux rectangles se chevauchent

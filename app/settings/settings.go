@@ -5,12 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 )
 
+// ce fichier gère les paramètres du jeu, qui sont stockés sous forme de struct
+
 const SETTINGS_FILENAME = "settings.json"
 
+// paramètres principaux
 type Settings struct {
 	VisualSettings    VisualSettings
 	Gamerule          Gamerule
@@ -18,6 +20,7 @@ type Settings struct {
 	UserInputSettings UserInputSettings
 }
 
+// section sur les paramètres sur l'entrée utilisateur
 type UserInputSettings struct {
 	//définit si les entités que l'utilisateur fait spawner on une valeur morale random
 	SpawnRandomValeurMorale bool
@@ -26,6 +29,7 @@ type UserInputSettings struct {
 	EntityValeurMoraleOnSpawn float32
 }
 
+// section sur les paramètres graphiques
 type VisualSettings struct {
 	//mode dans lequel les entités affiche un rond de couleur qui suit leur valeur morale selon le cercle chromatic
 	GradientEntities bool
@@ -35,8 +39,12 @@ type VisualSettings struct {
 
 	//permet d'afficher les statistique du jeu, ex : le nombre d'entités, la fréquence d'images par seconde
 	DisplayStats bool
+
+	//définit la cible en images par secondes que doit atteindre le jeu, n'est prise en compte qu'au démarrage de ce dernier
+	MaxFps float32
 }
 
+// section sur les paramètres de l'entité, et des valeurs arbitraires qu'elles utilisent
 type EntitySettings struct {
 	// écart de différence morale maximum entre une entité et son enfant
 	ChildMaximumDifference float32
@@ -49,6 +57,9 @@ type EntitySettings struct {
 
 	//probabilité qu'une entité se reproduise s'il y a une seule autre entité
 	BaseProbabilityReproduction float32
+
+	//probabilité qu'une entité tue une autre entité
+	BaseProbabilityKill float32
 
 	//définit la façon dont se déplace l'entité.
 	//Sur true, elle se déplace de façon linéaire et constante sur une unité de temps,
@@ -69,6 +80,7 @@ type EntitySettings struct {
 	UncollideAgressive bool
 }
 
+// section sur les paramètres des règles de jeu, qui décide si elles sont appliquées ou non
 type Gamerule struct {
 	//controle si l'on met à jour l'âge de l'entité et par conséquent si elle meurt
 	UpdateAge bool
@@ -90,18 +102,21 @@ var (
 	GameSettings Settings
 )
 
+// paramètres par défaut
 func getDefaultSettings() Settings {
 
 	return Settings{
 		VisualSettings: VisualSettings{
 			GradientEntities: true,
 			DisplayStats:     false,
+			MaxFps:           120,
 		},
 		EntitySettings: EntitySettings{
 			RadiusSensivity:             0.1 * 100,
 			ChildMaximumDifference:      5,
 			MaximumAge:                  5,
 			BaseProbabilityReproduction: 1e-3,
+			BaseProbabilityKill:         1e-5,
 			LinearMove:                  false,
 			Speed:                       20,
 			UncollideAgressive:          false,
@@ -132,7 +147,7 @@ func LoadSettings() {
 			GameSettings = getDefaultSettings()
 
 		} else {
-			log.Fatal(err)
+			panic(err)
 		}
 	} else {
 		err2 := json.Unmarshal(file, &GameSettings)

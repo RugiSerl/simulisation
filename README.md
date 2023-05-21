@@ -17,7 +17,7 @@ ce projet ressemble à un automate cellulaire, de part son fonctionnement. En re
 - afin d'ouvir les paramètres, il est possible d'appuyer sur échap ou bien d'appuyer sur le bouton présent en haut à droite
 - appuyer sur suppr permet de supprimer toutes les entités
 - appuyer sur f11 permet de mettre le jeu en plein écran
-- il est possible de sauvegarder l'état des entités présentes dans le jeu en appuyant sur "s", qui créera un fichier de sauvegarde save.json
+- il est possible de sauvegarder l'état des entités présentes dans le jeu en appuyant sur "s", qui créera un fichier de sauvegarde save.txt
 - cette sauvegarde peut être chargée en appuyant sur "c"
 
 

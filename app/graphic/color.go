@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"image/color"
-	"log"
 	"math"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -20,7 +19,7 @@ func NewColorFromGradient(offset float64, brightness float64) color.RGBA {
 
 	if err != nil {
 		fmt.Println(offset, 1, brightness)
-		log.Fatal(err)
+		panic(err)
 
 	}
 

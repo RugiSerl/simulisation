@@ -93,6 +93,7 @@ func (e *Entity) Render() {
 
 }
 
+// Cette fonction permet d'afficher le périmètre dans lequel l'entité peut voir les autres entités
 func (e *Entity) RenderSensibilityZone() {
 	circle := graphic.NewCircle(settings.GameSettings.EntitySettings.RadiusSensivity, e.HitBox.CenterPosition.X, e.HitBox.CenterPosition.Y)
 

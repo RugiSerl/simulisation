@@ -60,7 +60,7 @@ func (e *Entity) MoveToWeightedAverage(otherEntities []*Entity) {
 		if entity.ID != e.ID {
 			// vérification que l'entité est dans le rayon de vision de l'entité
 			if entity.HitBox.CenterPosition.Substract(e.HitBox.CenterPosition).GetNorm() < settings.GameSettings.EntitySettings.RadiusSensivity {
-				//weight est le coefficient de la moyenne
+				//weight est le coefficient de la position dans la moyenne
 				weight = float32(e.DistanceMorale(entity)) / 255
 				weightSum += weight
 				sum = sum.Add(entity.HitBox.CenterPosition.Scale(weight))

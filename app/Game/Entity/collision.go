@@ -4,6 +4,7 @@ import "github.com/RugiSerl/simulisation/app/settings"
 
 // --------------------------------------------------
 // fonctions de détection de collisions
+// pour éviter que les entités se regroupe toutes en un même point, elles se repoussent
 
 func (e *Entity) Uncollide(entities []*Entity) {
 	if settings.GameSettings.EntitySettings.UncollideAgressive {
