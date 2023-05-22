@@ -1,4 +1,4 @@
-# simulisation
+# Simulisation
 Simulisation est une contraction de simulation et civilisation
 
 Ce projet ressemble à un automate cellulaire, de part son fonctionnement. En revanche, ici il n'est pas question de "cellules" à proprement parler, les entités sont fixées selon des coordonnées réelles.
