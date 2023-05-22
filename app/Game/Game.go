@@ -40,6 +40,8 @@ var textureRender rl.RenderTexture2D
 
 var (
 	blurAmount float32
+
+	Background rl.Texture2D
 )
 
 // création d'une instance de Game
@@ -53,6 +55,9 @@ func NewGame() *Game {
 	blurShader.SetValueFromUniformName("size", blurAmount, rl.ShaderUniformFloat)
 	textureRender = rl.LoadRenderTexture(1920, 1080)
 
+	Background = rl.LoadTexture("assets/background.png")
+	rl.SetTextureFilter(Background, rl.FilterBilinear)
+
 	return g
 }
 
@@ -63,7 +68,11 @@ func (g *Game) Update() {
 	//tout les éléments du jeu sont rendus sur le renderer
 	rl.BeginTextureMode(textureRender)
 
-	rl.ClearBackground(rl.NewColor(194, 187, 186, 255))
+	if settings.GameSettings.VisualSettings.ClearBackground {
+		rl.ClearBackground(rl.NewColor(0, 0, 0, 0))
+		rl.DrawTexturePro(Background, rl.NewRectangle(0, 0, float32(Background.Width), float32(Background.Height)), rl.NewRectangle(0, 0, float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight())), rl.NewVector2(0, 0), 0, rl.White)
+
+	}
 
 	rl.BeginMode2D(g.Camera)
 
@@ -103,6 +112,12 @@ func (g *Game) UpdateUserInput() {
 
 	if rl.IsKeyPressed(rl.KeyDelete) {
 		g.entities = []*Entity.Entity{}
+
+	}
+
+	if rl.IsKeyPressed(rl.KeyBackspace) {
+		rl.ClearBackground(rl.NewColor(0, 0, 0, 0))
+
 	}
 
 	if rl.IsKeyPressed(rl.KeyS) {

@@ -45,6 +45,9 @@ type VisualSettings struct {
 
 	//définit la cible en images par secondes que doit atteindre le jeu, n'est prise en compte qu'au démarrage de ce dernier
 	MaxFps float32
+
+	//définit s'il faut appliquer une couleur sur le jeu pour enlever les résidus de l'image précédente
+	ClearBackground bool
 }
 
 // section sur les paramètres de l'entité, et des valeurs arbitraires qu'elles utilisent
@@ -113,6 +116,7 @@ func getDefaultSettings() Settings {
 			GradientEntities: true,
 			DisplayStats:     false,
 			MaxFps:           120,
+			ClearBackground:  true,
 		},
 		EntitySettings: EntitySettings{
 			RadiusSensivity:             10,

@@ -23,6 +23,7 @@ Ce projet ressemble à un automate cellulaire, de part son fonctionnement. En re
 - Appuyer sur f11 permet de mettre le jeu en mode plein écran (et de l'enlever)
 - Il est possible de sauvegarder l'état des entités présentes dans le jeu en appuyant sur "s", qui créera un fichier de sauvegarde save.txt
 - Cette sauvegarde peut être chargée en appuyant sur "c"
+- il est possible de clear l'arrière plan du jeu avec "backspace", si l'option "nettoyer les résidus" est activé
 
 
 ### Fonctionnement du jeu

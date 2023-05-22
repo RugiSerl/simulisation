@@ -30,25 +30,28 @@ const float renderHeight = 1080;
 void main()
 {
     // Texel color fetching from texture sampler
-    vec3 texelColor = vec3(0.0, 0.0, 0.0);
+    vec4 texelColor = vec4(0.0, 0.0, 0.0, 0.0);
     int radius = int(size);
     float weightSum = 0.0;
     float maxDistance = size*sqrt(2);
     float weight;
+    vec4 color;
 
     for (int i = -radius; i <= radius; i++) 
     {
         for (int j = -radius; j <= radius; j++) 
         {
-            weight = maxDistance-sqrt(int(i*i+j*j));
+            color = texture(texture0, fragTexCoord + vec2(i/renderWidth, j/renderHeight));
+            weight = (maxDistance-sqrt(int(i*i+j*j)));
             weightSum += weight;
-            texelColor += texture(texture0, fragTexCoord + vec2(i/renderWidth, j/renderHeight)).rgb*weight;
+            
+            texelColor += color*weight;
         }
     }
 
     
 
-    finalColor = vec4(texelColor/weightSum, 1.0)*(1-size/30.0);
+    finalColor = texelColor/weightSum*(1-size/30.0);
 
     if (radius == 0) {
         finalColor = texture(texture0, fragTexCoord);
