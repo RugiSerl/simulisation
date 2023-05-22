@@ -12,6 +12,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui"
+	"github.com/RugiSerl/simulisation/app/gui/components"
 	"github.com/RugiSerl/simulisation/app/math"
 	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -261,6 +262,7 @@ func (g *Game) Save() {
 
 	} else {
 		fmt.Println("jeu sauvegardé avec succès !")
+		components.NewNotificationText("jeu sauvegardé avec succès !")
 	}
 
 }
@@ -283,6 +285,7 @@ func (g *Game) Load() {
 
 		} else {
 			fmt.Println("jeu chargé avec succès !")
+			components.NewNotificationText("jeu chargé avec succès !")
 		}
 	}
 }

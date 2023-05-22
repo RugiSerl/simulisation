@@ -6,6 +6,7 @@ import (
 	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/gui"
+	"github.com/RugiSerl/simulisation/app/gui/components"
 	"github.com/RugiSerl/simulisation/app/settings"
 	"github.com/RugiSerl/simulisation/app/stats"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -47,6 +48,8 @@ func load() {
 
 	stats.InitFont()
 
+	components.InitFont()
+
 }
 
 // fonction appelée à chaque frame
@@ -63,6 +66,8 @@ func update() {
 		stats.ShowStats(myGame)
 
 	}
+
+	components.UpdateNotification()
 
 	rl.EndDrawing()
 
