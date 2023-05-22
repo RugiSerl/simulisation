@@ -69,10 +69,9 @@ func (g *Game) Update() {
 	//tout les éléments du jeu sont rendus sur le renderer
 	rl.BeginTextureMode(textureRender)
 
-	if settings.GameSettings.VisualSettings.ClearBackground {
+	if settings.GameSettings.VisualSettings.ClearBackground || rl.IsKeyPressed(rl.KeyBackspace) {
 		rl.ClearBackground(rl.NewColor(0, 0, 0, 0))
-		rl.DrawTexturePro(Background, rl.NewRectangle(0, 0, float32(Background.Width), float32(Background.Height)), rl.NewRectangle(0, 0, float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight())), rl.NewVector2(0, 0), 0, rl.White)
-
+		g.drawBackground()
 	}
 
 	rl.BeginMode2D(g.Camera)
@@ -113,11 +112,6 @@ func (g *Game) UpdateUserInput() {
 
 	if rl.IsKeyPressed(rl.KeyDelete) {
 		g.entities = []*Entity.Entity{}
-
-	}
-
-	if rl.IsKeyPressed(rl.KeyBackspace) {
-		rl.ClearBackground(rl.NewColor(0, 0, 0, 0))
 
 	}
 
@@ -215,6 +209,11 @@ func (g *Game) UpdateCamera() {
 		}
 	}
 
+}
+
+// affiche le fond d'écran du jeu
+func (g *Game) drawBackground() {
+	rl.DrawTexturePro(Background, rl.NewRectangle(0, 0, float32(Background.Width), float32(Background.Height)), rl.NewRectangle(0, 0, float32(rl.GetScreenWidth()), float32(rl.GetScreenHeight())), rl.NewVector2(0, 0), 0, rl.White)
 }
 
 // Cette fonction est appellée lorsqu'une entité est censée apparaître
