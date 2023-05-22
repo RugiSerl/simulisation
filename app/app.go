@@ -51,7 +51,7 @@ func load() {
 func update() {
 	rl.BeginDrawing()
 
-	rl.ClearBackground(rl.DarkGray)
+	rl.ClearBackground(rl.Black)
 
 	myGame.Update()
 
