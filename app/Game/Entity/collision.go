@@ -2,6 +2,7 @@ package Entity
 
 import "github.com/RugiSerl/simulisation/app/settings"
 
+// Par Raphaël
 // --------------------------------------------------
 // fonctions de détection de collisions
 // pour éviter que les entités se regroupe toutes en un même point, elles se repoussent

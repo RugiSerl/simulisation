@@ -1,5 +1,7 @@
 package graphic
 
+// Par Raphaël
+
 // Fichier dans lequel on créer des ancres, elle permettent de fixer un rectangle , souvent associé à une texture, à un point et de calculer
 // les coordonnées de ces derniers avec cette information
 

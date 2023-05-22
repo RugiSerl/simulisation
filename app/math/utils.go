@@ -1,5 +1,7 @@
 package math
 
+// Par Raphaël
+
 import (
 	"fmt"
 	"math"

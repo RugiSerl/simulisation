@@ -1,5 +1,7 @@
 package components
 
+// Par Raphaël
+
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"

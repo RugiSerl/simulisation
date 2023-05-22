@@ -1,5 +1,7 @@
 package app
 
+// Par Raphaël
+
 import (
 	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/Entity"

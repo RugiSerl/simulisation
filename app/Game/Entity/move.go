@@ -1,5 +1,6 @@
 package Entity
 
+// Par Raphaël
 import (
 	"math"
 

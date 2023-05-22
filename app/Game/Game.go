@@ -1,5 +1,6 @@
 package Game
 
+// Par Raphaël
 import (
 	"encoding/json"
 	"errors"
