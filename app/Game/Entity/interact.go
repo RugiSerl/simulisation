@@ -1,5 +1,6 @@
 package Entity
 
+// Par Raphaël et Gaël
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/math"
