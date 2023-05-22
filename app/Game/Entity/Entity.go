@@ -1,5 +1,6 @@
 package Entity
 
+// Par Raphaël et Gaël
 import (
 	"image/color"
 
@@ -123,7 +124,6 @@ func (e *Entity) DistanceMorale(otherEntity *Entity) uint8 {
 
 // --------------------------------------------------
 // Fonction qui élimine l'entité au bout d'un moment donné
-// Par Gaël
 func (e *Entity) UpdateAge() {
 	e.TimeAlive += rl.GetFrameTime()
 	if e.TimeAlive > settings.GameSettings.EntitySettings.MaximumAge {

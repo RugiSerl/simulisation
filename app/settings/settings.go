@@ -1,5 +1,7 @@
 package settings
 
+// Par Raphaël
+
 import (
 	"encoding/json"
 	"errors"

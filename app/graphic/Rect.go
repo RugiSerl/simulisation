@@ -1,5 +1,7 @@
 package graphic
 
+// Par Raphaël
+
 import (
 	"image/color"
 

@@ -1,5 +1,7 @@
 package stats
 
+// Par Raphaël
+
 import (
 	"strconv"
 
