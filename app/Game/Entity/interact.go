@@ -34,6 +34,7 @@ func generateCloseValue(value int, gap int) uint8 {
 
 // fonction permettant à chaque entités d'avoir une chance de tuer une autre entité qui aurait une valeur morale différente
 // plus la différence entre les valeurs morales est grande, et plus l'entité a de chance de tuer l'entité concernée
+// Par Gaël
 func (e *Entity) Kill(othersEntities *[]*Entity) {
 
 	for _, entity := range *othersEntities {
