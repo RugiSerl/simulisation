@@ -50,6 +50,9 @@ type VisualSettings struct {
 
 	//définit s'il faut appliquer une couleur sur le jeu pour enlever les résidus de l'image précédente
 	ClearBackground bool
+
+	//définit s'il faut appliquer une couleur sur le jeu pour enlever les résidus de l'image précédente
+	Background bool
 }
 
 // section sur les paramètres de l'entité, et des valeurs arbitraires qu'elles utilisent
@@ -119,6 +122,7 @@ func getDefaultSettings() Settings {
 			DisplayStats:     false,
 			MaxFps:           120,
 			ClearBackground:  true,
+			Background:       true,
 		},
 		EntitySettings: EntitySettings{
 			RadiusSensivity:             10,

@@ -109,6 +109,10 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	ClearBackground := components.NewSetting("nettoyer les résidus", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	ClearBackground.SetBool(&settings.GameSettings.VisualSettings.ClearBackground)
+	position = position.Add(graphic.NewVector2(0, 30))
+
+	Background := components.NewSetting("fond d'écran", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Background.SetBool(&settings.GameSettings.VisualSettings.Background)
 	position = position.Add(graphic.NewVector2(0, 45))
 
 	entitySettings := components.NewSetting("Paramètres de l'entité", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
@@ -165,7 +169,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	DeleteRadius.SetSliderValue(&settings.GameSettings.UserInputSettings.DeleteRadius, 0.5, 40)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, Background, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 

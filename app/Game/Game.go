@@ -72,7 +72,10 @@ func (g *Game) Update() {
 
 	if settings.GameSettings.VisualSettings.ClearBackground || rl.IsKeyPressed(rl.KeyBackspace) {
 		rl.ClearBackground(rl.NewColor(0, 0, 0, 0))
-		g.drawBackground()
+		if settings.GameSettings.VisualSettings.Background {
+			g.drawBackground()
+
+		}
 	}
 
 	rl.BeginMode2D(g.Camera)
