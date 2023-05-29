@@ -24,6 +24,7 @@ type Game struct {
 	Camera                 rl.Camera2D
 	cameraPositionMomentum graphic.Vector2
 	cameraZoomMomentum     float32
+	saveLoadPanel          *SaveLoadPanel
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
@@ -59,6 +60,8 @@ func NewGame() *Game {
 
 	Background = rl.LoadTexture("assets/background.png")
 	rl.SetTextureFilter(Background, rl.FilterBilinear)
+
+	g.saveLoadPanel = NewSaveLoadPanel()
 
 	return g
 }
@@ -100,11 +103,13 @@ func (g *Game) Update() {
 	if global.SettingsOpen {
 		blurShader.End()
 	}
+	g.saveLoadPanel.Update()
+
 }
 
 // gérer les informations entrées par l'utilisateur
 func (g *Game) UpdateUserInput() {
-	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_MENU_WIDTH) {
+	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_MENU_WIDTH) && !graphic.DetectRectCollision(g.saveLoadPanel.containingRect, graphic.GetMouseRect()) {
 		g.SpawnEntity(g.getMouseWorldCoordinates())
 	}
 
@@ -119,11 +124,11 @@ func (g *Game) UpdateUserInput() {
 
 	}
 
-	if rl.IsKeyPressed(rl.KeyS) {
+	if g.saveLoadPanel.SaveButton.PressedState {
 		g.Save()
 	}
 
-	if rl.IsKeyPressed(rl.KeyC) {
+	if g.saveLoadPanel.LoadButton.PressedState {
 		g.Load()
 	}
 
@@ -182,16 +187,16 @@ func (g *Game) UpdateCamera() {
 
 	//déplacement éventuel de la caméra
 	g.cameraPositionMomentum = g.cameraPositionMomentum.Scale(0.7)
-	if rl.IsKeyDown(rl.KeyLeft) {
+	if rl.IsKeyDown(rl.KeyLeft) || rl.IsKeyDown(rl.KeyA) {
 		g.cameraPositionMomentum.X -= CAMERA_SPEED
 	}
-	if rl.IsKeyDown(rl.KeyRight) {
+	if rl.IsKeyDown(rl.KeyRight) || rl.IsKeyDown(rl.KeyD) {
 		g.cameraPositionMomentum.X += CAMERA_SPEED
 	}
-	if rl.IsKeyDown(rl.KeyUp) {
+	if rl.IsKeyDown(rl.KeyUp) || rl.IsKeyDown(rl.KeyW) {
 		g.cameraPositionMomentum.Y -= CAMERA_SPEED
 	}
-	if rl.IsKeyDown(rl.KeyDown) {
+	if rl.IsKeyDown(rl.KeyDown) || rl.IsKeyDown(rl.KeyS) {
 		g.cameraPositionMomentum.Y += CAMERA_SPEED
 	}
 	// g.cameraMomentum est la vitesse de la caméra, qui augmente lorsque l'utilisateur déplace la caméra, et diminue à chaque frame

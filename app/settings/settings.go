@@ -51,7 +51,7 @@ type VisualSettings struct {
 	//définit s'il faut appliquer une couleur sur le jeu pour enlever les résidus de l'image précédente
 	ClearBackground bool
 
-	//définit s'il faut appliquer une couleur sur le jeu pour enlever les résidus de l'image précédente
+	//définit si le fond d'écran est activé
 	Background bool
 }
 

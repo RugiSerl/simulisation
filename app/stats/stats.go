@@ -29,10 +29,10 @@ func ShowStat(statType string, stat string, position rl.Vector2, horizontalAncho
 
 	position = rl.Vector2(graphic.GetRectCoordinatesWithAnchor(graphic.Vector2(position), horizontalAnchor, verticalAnchor, graphic.Vector2(sizeRect), graphic.GetWindowRect()))
 
-	rl.DrawTextEx(font, statType, position, TEXT_SIZE, TEXT_SPACING, rl.Black)
+	rl.DrawTextEx(font, statType, position, TEXT_SIZE, TEXT_SPACING, rl.White)
 	position.X += rl.MeasureTextEx(font, statType, TEXT_SIZE, TEXT_SPACING).X
 
-	rl.DrawTextEx(font, stat, position, TEXT_SIZE, TEXT_SPACING, rl.Black)
+	rl.DrawTextEx(font, stat, position, TEXT_SIZE, TEXT_SPACING, rl.White)
 
 	return graphic.Vector2(sizeRect)
 }
