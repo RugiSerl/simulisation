@@ -32,6 +32,13 @@ func (c *Circle) DetectMouseCollision() bool {
 
 func (c *Circle) DetectPointCollision(position Vector2) bool {
 	return (position.Substract(c.CenterPosition).GetNorm() <= c.Radius)
+}
+
+func (c *Circle) DetectRectCollision(rect Rect) bool {
+	//make the rect larger
+	rect = GetInnerRect(rect, -c.Radius)
+
+	return DetectPointRectCollision(c.CenterPosition, rect)
 
 }
 

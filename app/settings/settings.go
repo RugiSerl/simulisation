@@ -32,6 +32,9 @@ type UserInputSettings struct {
 
 	// rayon dans lequel on supprime les entités lorsque le clic droit de la souris est enfoncé
 	DeleteRadius float32
+
+	//définit si l'utilisateur fait spawner des "materials"
+	SpawnMaterial bool
 }
 
 // section sur les paramètres graphiques
@@ -107,6 +110,9 @@ type Gamerule struct {
 
 	//permet à l'entité de tuer les entités environnantes en fonction de leur différence morale
 	Kill bool
+
+	//permet à l'entité de réagir aux matériaux
+	ReactMaterial bool
 }
 
 var (
@@ -136,16 +142,18 @@ func getDefaultSettings() Settings {
 			GoToClosestNeightbour:       true,
 		},
 		Gamerule: Gamerule{
-			UpdateAge: true,
-			Uncollide: true,
-			Reproduce: true,
-			Move:      true,
-			Kill:      true,
+			UpdateAge:     true,
+			Uncollide:     true,
+			Reproduce:     true,
+			Move:          true,
+			Kill:          true,
+			ReactMaterial: true,
 		},
 		UserInputSettings: UserInputSettings{
 			SpawnRandomValeurMorale:   true,
 			EntityValeurMoraleOnSpawn: 0,
 			DeleteRadius:              2,
+			SpawnMaterial:             false,
 		},
 	}
 

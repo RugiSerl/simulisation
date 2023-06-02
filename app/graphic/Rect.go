@@ -63,11 +63,12 @@ func (r Rect) Fill(color color.RGBA, roundness float32) {
 
 // retourne si les deux rectangles se chevauchent
 func DetectRectCollision(rect1 Rect, rect2 Rect) bool {
-	if rect1.X+rect1.Width >= rect2.X && rect1.X <= rect2.X+rect2.Width && rect1.Y+rect1.Height >= rect2.Y && rect1.Y <= rect2.Y+rect2.Height {
-		return true
-	} else {
-		return false
-	}
+	return (rect1.X+rect1.Width >= rect2.X && rect1.X <= rect2.X+rect2.Width && rect1.Y+rect1.Height >= rect2.Y && rect1.Y <= rect2.Y+rect2.Height)
+}
+
+func DetectPointRectCollision(point Vector2, rect Rect) bool {
+	return DetectRectCollision(rect, NewRectFromVector(point, NewVector2(1, 1)))
+
 }
 
 // retourne le rectangle de la souris

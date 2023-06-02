@@ -35,8 +35,8 @@ func NewImageButton(position graphic.Vector2, texture rl.Texture2D, horizontalAn
 	b.anchorX = horizontalAnchor
 	b.anchorY = verticalAnchor
 
-	b.HoverState = true
-	b.PressedState = true
+	b.HoverState = false
+	b.PressedState = false
 
 	return b
 }

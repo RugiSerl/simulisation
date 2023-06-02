@@ -4,6 +4,7 @@ package Entity
 import (
 	"image/color"
 
+	"github.com/RugiSerl/simulisation/app/Game/material"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -45,10 +46,14 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 }
 
 // Fonction qui met à jour les variables de l'entité
-func (e *Entity) Update(otherEntities *[]*Entity) {
+func (e *Entity) Update(otherEntities *[]*Entity, materials []*material.Material) {
 
 	if settings.GameSettings.Gamerule.Move {
 		e.Move(*otherEntities) //on déplace l'entité
+	}
+
+	if settings.GameSettings.Gamerule.ReactMaterial {
+		e.UncollideMaterial(materials)
 	}
 
 	if settings.GameSettings.Gamerule.Uncollide {

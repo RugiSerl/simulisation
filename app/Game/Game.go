@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
+	"github.com/RugiSerl/simulisation/app/Game/material"
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui"
@@ -21,10 +22,14 @@ import (
 // Classe qui contient le déroulement principal du jeu
 type Game struct {
 	entities               []*Entity.Entity
+	materials              []*material.Material
 	Camera                 rl.Camera2D
 	cameraPositionMomentum graphic.Vector2
 	cameraZoomMomentum     float32
 	saveLoadPanel          *SaveLoadPanel
+
+	materialSpawnPreview       bool
+	materialSpawnPreviewOrigin graphic.Vector2
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
@@ -61,7 +66,10 @@ func NewGame() *Game {
 	Background = rl.LoadTexture("assets/background.png")
 	rl.SetTextureFilter(Background, rl.FilterBilinear)
 
+	g.materials = []*material.Material{}
+
 	g.saveLoadPanel = NewSaveLoadPanel()
+	g.materialSpawnPreview = false
 
 	return g
 }
@@ -82,6 +90,8 @@ func (g *Game) Update() {
 	}
 
 	rl.BeginMode2D(g.Camera)
+
+	g.UpdateMaterials()
 
 	g.UpdateEntity()
 
@@ -110,7 +120,26 @@ func (g *Game) Update() {
 // gérer les informations entrées par l'utilisateur
 func (g *Game) UpdateUserInput() {
 	if (rl.IsMouseButtonPressed(rl.MouseLeftButton) || rl.IsKeyDown(rl.KeyLeftShift)) && (!global.SettingsOpen || rl.GetMousePosition().X < float32(rl.GetScreenWidth())-gui.SETTINGS_MENU_WIDTH) && !graphic.DetectRectCollision(g.saveLoadPanel.containingRect, graphic.GetMouseRect()) {
-		g.SpawnEntity(g.getMouseWorldCoordinates())
+
+		if settings.GameSettings.UserInputSettings.SpawnMaterial {
+			g.materialSpawnPreview = true
+			g.materialSpawnPreviewOrigin = g.getMouseWorldCoordinates()
+
+		} else {
+			g.SpawnEntity(g.getMouseWorldCoordinates())
+
+		}
+	}
+	//end preview mode of material spawning
+	if g.materialSpawnPreview && rl.IsMouseButtonReleased(rl.MouseLeftButton) {
+		g.materialSpawnPreview = false
+		// spawn the said material as well
+		g.SpawnMaterial()
+
+	}
+
+	if g.materialSpawnPreview {
+		g.PreviewMaterialSpawn()
 	}
 
 	if rl.IsMouseButtonDown(rl.MouseMiddleButton) {
@@ -153,8 +182,8 @@ func (g *Game) UpdateEntity() {
 	//mise à jour des positions et affichage des entités
 	for _, entity := range g.entities {
 		if entity.Dead == false {
-			if !global.SettingsOpen {
-				entity.Update(&g.entities)
+			if !global.SettingsOpen && !(settings.GameSettings.UserInputSettings.SpawnMaterial && rl.IsMouseButtonDown(rl.MouseLeftButton)) {
+				entity.Update(&g.entities, g.materials)
 			}
 
 			entity.Render()
@@ -179,6 +208,12 @@ func (g *Game) UpdateEntity() {
 		}
 
 		i++
+	}
+}
+
+func (g *Game) UpdateMaterials() {
+	for _, material := range g.materials {
+		material.Update()
 	}
 }
 
@@ -240,6 +275,12 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 	g.entities = append(g.entities, e)
 }
 
+func (g *Game) SpawnMaterial() {
+	g.materials = append(g.materials, material.NewMaterial(g.getMaterialRect()))
+	fmt.Println("a")
+
+}
+
 // retourne la quantité d'entités présentes dans le jeu
 func (g *Game) GetEntityAmount() int {
 	return len(g.entities)
@@ -256,14 +297,23 @@ func (g *Game) getMouseWorldCoordinates() graphic.Vector2 {
 	return graphic.Vector2(rl.GetMousePosition()).Substract(graphic.Vector2(g.Camera.Offset)).Scale(1 / g.Camera.Zoom).Add(graphic.Vector2(g.Camera.Target))
 }
 
+func (g *Game) PreviewMaterialSpawn() {
+	rect := g.getMaterialRect()
+	rect.Fill(rl.DarkBlue, 0)
+
+}
+func (g *Game) getMaterialRect() graphic.Rect {
+	return graphic.NewRectFromVector(g.materialSpawnPreviewOrigin, g.getMouseWorldCoordinates().Substract(g.materialSpawnPreviewOrigin))
+}
+
 func (g *Game) Save() {
 
-	json, err := json.MarshalIndent(g.entities, "", "	")
+	entitiesJson, err := json.MarshalIndent(g.entities, "", "	")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = ioutil.WriteFile(SAVE_FILENAME, json, 0644)
+	err = ioutil.WriteFile(SAVE_FILENAME, entitiesJson, 0644)
 
 	if err != nil {
 		panic(err)
