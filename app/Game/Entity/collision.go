@@ -47,7 +47,7 @@ func (e *Entity) UnCollidePassive(entities []*Entity) {
 func (e *Entity) UncollideMaterial(materials []*material.Material) {
 	for _, material := range materials {
 		if e.HitBox.DetectRectCollision(material.Rect) {
-			e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(graphic.NewVector2(1, 0))
+			e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1))
 		}
 	}
 

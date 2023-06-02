@@ -150,6 +150,7 @@ func (g *Game) UpdateUserInput() {
 
 	if rl.IsKeyPressed(rl.KeyDelete) {
 		g.entities = []*Entity.Entity{}
+		g.materials = []*material.Material{}
 
 	}
 
@@ -277,7 +278,6 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 
 func (g *Game) SpawnMaterial() {
 	g.materials = append(g.materials, material.NewMaterial(g.getMaterialRect()))
-	fmt.Println("a")
 
 }
 
