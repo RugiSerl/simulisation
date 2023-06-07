@@ -22,7 +22,7 @@ import (
 // Classe qui contient le déroulement principal du jeu
 type Game struct {
 	entities               []*Entity.Entity
-	materials              []*material.Material
+	materials              []material.IMaterial
 	Camera                 rl.Camera2D
 	cameraPositionMomentum graphic.Vector2
 	cameraZoomMomentum     float32
@@ -66,7 +66,7 @@ func NewGame() *Game {
 	Background = rl.LoadTexture("assets/background.png")
 	rl.SetTextureFilter(Background, rl.FilterBilinear)
 
-	g.materials = []*material.Material{}
+	g.materials = []material.IMaterial{}
 
 	g.saveLoadPanel = NewSaveLoadPanel()
 	g.materialSpawnPreview = false
@@ -150,7 +150,7 @@ func (g *Game) UpdateUserInput() {
 
 	if rl.IsKeyPressed(rl.KeyDelete) {
 		g.entities = []*Entity.Entity{}
-		g.materials = []*material.Material{}
+		g.materials = []material.IMaterial{}
 
 	}
 
@@ -182,7 +182,7 @@ func (g *Game) UpdateEntity() {
 
 	//mise à jour des positions et affichage des entités
 	for _, entity := range g.entities {
-		if entity.Dead == false {
+		if !entity.Dead {
 			if !global.SettingsOpen && !(settings.GameSettings.UserInputSettings.SpawnMaterial && rl.IsMouseButtonDown(rl.MouseLeftButton)) {
 				entity.Update(&g.entities, g.materials)
 			}
@@ -277,7 +277,7 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 }
 
 func (g *Game) SpawnMaterial() {
-	g.materials = append(g.materials, material.NewMaterial(g.getMaterialRect()))
+	g.materials = append(g.materials, material.NewMaterial(g.getMaterialRect(), material.PUSH_MATERIAL))
 
 }
 

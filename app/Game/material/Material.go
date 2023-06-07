@@ -5,18 +5,47 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-type Material struct {
-	Rect graphic.Rect
+type MaterialType int8
+
+const (
+	PUSH_MATERIAL MaterialType = iota
+	PUSH_MATERIAL_HORIZONTAL
+)
+
+type IMaterial interface {
+	Update()
+	Interact(graphic.Vector2) graphic.Vector2
+	GetRect() graphic.Rect
 }
 
-func NewMaterial(rect graphic.Rect) *Material {
+type Material struct {
+	rect graphic.Rect
+	Type MaterialType
+}
+
+func NewMaterial(rect graphic.Rect, Type MaterialType) IMaterial {
 	m := new(Material)
-	m.Rect = rect
+
+	switch Type {
+	case PUSH_MATERIAL:
+		return NewPushMaterial(m, rect)
+	default:
+		m = new(Material)
+
+	}
 
 	return m
 
 }
 
 func (m *Material) Update() {
-	m.Rect.Fill(rl.Black, 0)
+	m.rect.Fill(rl.Black, 0)
+}
+
+func (m *Material) GetRect() graphic.Rect {
+	return m.rect
+}
+
+func (m *Material) Interact(position graphic.Vector2) graphic.Vector2 {
+	return graphic.NewVector2(1, 0)
 }

@@ -46,7 +46,7 @@ func NewEntity(position graphic.Vector2, id int, valeurMorale uint8) *Entity {
 }
 
 // Fonction qui met à jour les variables de l'entité
-func (e *Entity) Update(otherEntities *[]*Entity, materials []*material.Material) {
+func (e *Entity) Update(otherEntities *[]*Entity, materials []material.IMaterial) {
 
 	if settings.GameSettings.Gamerule.Move {
 		e.Move(*otherEntities) //on déplace l'entité

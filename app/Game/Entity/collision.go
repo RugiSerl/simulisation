@@ -2,7 +2,6 @@ package Entity
 
 import (
 	"github.com/RugiSerl/simulisation/app/Game/material"
-	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/settings"
 )
 
@@ -44,10 +43,12 @@ func (e *Entity) UnCollidePassive(entities []*Entity) {
 	}
 }
 
-func (e *Entity) UncollideMaterial(materials []*material.Material) {
+func (e *Entity) UncollideMaterial(materials []material.IMaterial) {
+
 	for _, material := range materials {
-		if e.HitBox.DetectRectCollision(material.Rect) {
-			e.HitBox.CenterPosition = e.HitBox.CenterPosition.Add(graphic.NewVector2(0, 1))
+		if e.HitBox.DetectRectCollision(material.GetRect()) {
+			e.HitBox.CenterPosition = material.Interact(e.HitBox.CenterPosition)
+
 		}
 	}
 

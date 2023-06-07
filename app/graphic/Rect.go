@@ -29,6 +29,13 @@ func NewRectFromVector(position Vector2, size Vector2) Rect {
 	return Rect{X: position.X, Y: position.Y, Width: size.X, Height: size.Y}
 
 }
+func (r Rect) GetPosition() Vector2 {
+	return NewVector2(r.X, r.Y)
+}
+
+func (r Rect) GetSize() Vector2 {
+	return NewVector2(r.Width, r.Height)
+}
 
 // retourne le rectangle qui couvre la fenêtre
 func GetWindowRect() Rect {
@@ -50,7 +57,10 @@ func GetInnerHorizontalrect(sourceRect Rect, padding float32) Rect {
 	sourceRect.Height -= padding * 2
 
 	return sourceRect
+}
 
+func (r Rect) GetCenter() Vector2 {
+	return r.GetPosition().Add(r.GetSize().Scale(0.5))
 }
 
 // draw the rectangle
