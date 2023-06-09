@@ -13,7 +13,7 @@ import (
 const (
 	// largeur et hauteur du panneau des paramètres
 	SETTINGS_MENU_WIDTH  = 350
-	SETTINGS_MENU_HEIGHT = 1000
+	SETTINGS_MENU_HEIGHT = 1100
 
 	// durée en secondes de l'animation lorsque l'utilisateur ouvre la fenêtre de dialogue des paramètres
 	ANIMATION_DURATION = 0.15
