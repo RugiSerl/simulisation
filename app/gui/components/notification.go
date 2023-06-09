@@ -5,7 +5,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-const DURATION = 3
+const DURATION = 1
 
 var (
 	time     float32 = -1

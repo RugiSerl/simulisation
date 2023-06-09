@@ -30,6 +30,7 @@ type Game struct {
 
 	materialSpawnPreview       bool
 	materialSpawnPreviewOrigin graphic.Vector2
+	materialType               material.MaterialType
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
@@ -70,6 +71,7 @@ func NewGame() *Game {
 
 	g.saveLoadPanel = NewSaveLoadPanel()
 	g.materialSpawnPreview = false
+	g.materialType = 0
 
 	return g
 }
@@ -160,6 +162,11 @@ func (g *Game) UpdateUserInput() {
 
 	if g.saveLoadPanel.LoadButton.PressedState {
 		g.Load()
+	}
+
+	if rl.IsKeyPressed(rl.KeyG) {
+		g.materialType = (g.materialType + 1) % 3 // 3 is the amount of types
+		components.NewNotificationText("Changement du type de matériau")
 	}
 
 	if rl.IsMouseButtonDown(rl.MouseRightButton) {
@@ -277,7 +284,7 @@ func (g *Game) SpawnEntity(position graphic.Vector2) {
 }
 
 func (g *Game) SpawnMaterial() {
-	g.materials = append(g.materials, material.NewMaterial(g.getMaterialRect(), material.PUSH_MATERIAL))
+	g.materials = append(g.materials, material.NewMaterial(g.getMaterialRect(), g.materialType))
 
 }
 

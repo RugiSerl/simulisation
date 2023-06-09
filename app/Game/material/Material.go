@@ -9,7 +9,8 @@ type MaterialType int8
 
 const (
 	PUSH_MATERIAL MaterialType = iota
-	PUSH_MATERIAL_HORIZONTAL
+	PUSH_MATERIAL_DIRECTION
+	ROTATE_MATERIAL
 )
 
 type IMaterial interface {
@@ -29,12 +30,14 @@ func NewMaterial(rect graphic.Rect, Type MaterialType) IMaterial {
 	switch Type {
 	case PUSH_MATERIAL:
 		return NewPushMaterial(m, rect)
+	case PUSH_MATERIAL_DIRECTION:
+		return NewDirectionnalPushMaterial(m, rect)
+	case ROTATE_MATERIAL:
+		return NewRotateMaterial(m, rect)
 	default:
-		m = new(Material)
+		panic("incorrect material type")
 
 	}
-
-	return m
 
 }
 

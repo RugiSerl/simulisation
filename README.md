@@ -21,7 +21,8 @@ Ce projet ressemble à un automate cellulaire, de part son fonctionnement. En re
 - maintenir clic droit permet de supprimer les entités proches de la souris (le rayon est modifiable dans les paramètres)
 - Appuyer sur suppr permet de supprimer toutes les entités
 - Appuyer sur f11 permet de mettre le jeu en mode plein écran (et de l'enlever)
-- il est possible de clear l'arrière plan du jeu avec "backspace", si l'option "nettoyer les résidus" est activé
+- il est possible de clear l'arrière plan du jeu avec "backspace", si l'option "nettoyer les résidus" est activée
+- Pour ajouter un matériaux, il est possible de sélectionner "Insérer un matériau", pour basculer le type de matériau, il faut appuyer sur G
 
 
 ### Fonctionnement du jeu
