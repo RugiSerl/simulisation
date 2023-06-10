@@ -169,6 +169,16 @@ func (g *Game) UpdateUserInput() {
 		components.NewNotificationText("matériau basculé en " + material.MATERIAL_TYPE_NAME[g.materialType])
 	}
 
+	if rl.IsKeyPressed(rl.KeyLeftAlt) {
+		settings.GameSettings.SpawnMaterial = !settings.GameSettings.SpawnMaterial
+		if settings.GameSettings.SpawnMaterial {
+			components.NewNotificationText("insertion de matériau")
+		} else {
+			components.NewNotificationText("insertion d'entités")
+		}
+
+	}
+
 	if rl.IsMouseButtonDown(rl.MouseRightButton) {
 		circle := graphic.NewCircle(settings.GameSettings.UserInputSettings.DeleteRadius, g.getMouseWorldCoordinates().X, g.getMouseWorldCoordinates().Y)
 		circle.DrawCross(rl.Red)
@@ -222,6 +232,9 @@ func (g *Game) UpdateEntity() {
 func (g *Game) UpdateMaterials() {
 	for _, material := range g.materials {
 		material.Update()
+	}
+	for _, material := range g.materials {
+		material.DrawLines()
 	}
 }
 

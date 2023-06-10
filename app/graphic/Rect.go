@@ -86,3 +86,9 @@ func GetMouseRect() Rect {
 	return NewRect(rl.GetMousePosition().X, rl.GetMousePosition().Y, 1, 1)
 
 }
+
+func (r *Rect) DrawLines(color color.RGBA, roundness float32, thickness float32) {
+	rectangle := rl.NewRectangle(r.X, r.Y, r.Width, r.Height)
+
+	rl.DrawRectangleRoundedLines(rectangle, roundness, 5, thickness, color)
+}

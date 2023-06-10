@@ -16,10 +16,11 @@ const SETTINGS_FILENAME = "settings.json"
 
 // paramètres principaux
 type Settings struct {
-	VisualSettings    VisualSettings
-	Gamerule          Gamerule
-	EntitySettings    EntitySettings
-	UserInputSettings UserInputSettings
+	VisualSettings
+	Gamerule
+	EntitySettings
+	MaterialSettings
+	UserInputSettings
 }
 
 // section sur les paramètres sur l'entrée utilisateur
@@ -56,6 +57,12 @@ type VisualSettings struct {
 
 	//définit si le fond d'écran est activé
 	Background bool
+}
+
+// section sur les paramètres du matériau
+type MaterialSettings struct {
+	//taille du vecteur de déplacement de l'interaction
+	InteractionSpeed float32
 }
 
 // section sur les paramètres de l'entité, et des valeurs arbitraires qu'elles utilisent
@@ -140,6 +147,9 @@ func getDefaultSettings() Settings {
 			Speed:                       20,
 			UncollideAgressive:          false,
 			GoToClosestNeightbour:       true,
+		},
+		MaterialSettings: MaterialSettings{
+			InteractionSpeed: 1,
 		},
 		Gamerule: Gamerule{
 			UpdateAge:     true,

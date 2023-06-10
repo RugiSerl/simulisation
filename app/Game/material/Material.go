@@ -19,6 +19,7 @@ type IMaterial interface {
 	Update()
 	Interact(graphic.Vector2) graphic.Vector2
 	GetRect() graphic.Rect
+	DrawLines()
 }
 
 type Material struct {
@@ -45,6 +46,10 @@ func NewMaterial(rect graphic.Rect, Type MaterialType) IMaterial {
 
 func (m *Material) Update() {
 	m.rect.Fill(rl.Black, 0)
+}
+
+func (m *Material) DrawLines() {
+	m.rect.DrawLines(rl.Red, 0, 0.33)
 }
 
 func (m *Material) GetRect() graphic.Rect {

@@ -2,6 +2,7 @@ package material
 
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/settings"
 )
 
 type PushMaterial struct {
@@ -18,6 +19,6 @@ func NewPushMaterial(materialBase *Material, rect graphic.Rect) *PushMaterial {
 }
 
 func (p *PushMaterial) Interact(position graphic.Vector2) graphic.Vector2 {
-	return position.Add(position.Substract(p.rect.GetCenter()).ScaleToNorm(1))
+	return position.Add(position.Substract(p.rect.GetCenter()).ScaleToNorm(settings.GameSettings.InteractionSpeed))
 
 }

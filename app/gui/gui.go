@@ -158,6 +158,13 @@ func (u *UserInterface) InitSettingsPanel() {
 	BaseProbabilityKill.SetSliderValue(&settings.GameSettings.EntitySettings.BaseProbabilityKill, 1e-7, 5e-5)
 	position = position.Add(graphic.NewVector2(0, 45))
 
+	materialSettings := components.NewSetting("Paramètres du matériau", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	position = position.Add(graphic.NewVector2(0, 32))
+
+	InteractionSpeed := components.NewSetting("force des interactions", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	InteractionSpeed.SetSliderValue(&settings.GameSettings.InteractionSpeed, 0.01, 10)
+	position = position.Add(graphic.NewVector2(0, 45))
+
 	UserInputSettings := components.NewSetting("Paramètres d'entrée utilisateur", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	position = position.Add(graphic.NewVector2(0, 32))
 
@@ -173,11 +180,11 @@ func (u *UserInterface) InitSettingsPanel() {
 	DeleteRadius.SetSliderValue(&settings.GameSettings.UserInputSettings.DeleteRadius, 0.5, 40)
 	position = position.Add(graphic.NewVector2(0, 30))
 
-	SpawnMaterial := components.NewSetting("Insertion de matériau", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	SpawnMaterial := components.NewSetting("Insertion de matériau (alt)", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	SpawnMaterial.SetBool(&settings.GameSettings.UserInputSettings.SpawnMaterial)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, ReactMaterial, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, Background, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius, SpawnMaterial}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, ReactMaterial, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, Background, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, materialSettings, InteractionSpeed, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius, SpawnMaterial}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 

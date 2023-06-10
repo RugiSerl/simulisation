@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -27,7 +28,7 @@ func NewDirectionnalPushMaterial(materialBase *Material, rect graphic.Rect) *Dir
 }
 
 func (p *DirectionnalPushMaterial) Interact(position graphic.Vector2) graphic.Vector2 {
-	return position.Add(position.Substract(p.rect.GetCenter()).ScaleToNorm(1).FlattenToLine(p.Angle).ScaleToNorm(1))
+	return position.Add(position.Substract(p.rect.GetCenter()).FlattenToLine(p.Angle).ScaleToNorm(settings.GameSettings.InteractionSpeed))
 
 }
 

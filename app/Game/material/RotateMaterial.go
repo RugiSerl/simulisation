@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -26,11 +27,10 @@ func NewRotateMaterial(materialBase *Material, rect graphic.Rect) *RotateMateria
 
 func (r *RotateMaterial) Interact(position graphic.Vector2) graphic.Vector2 {
 	fmt.Println(r.rect.GetCenter(), position)
-	return position.Add(position.Substract(r.rect.GetCenter()).ScaleToNorm(1).Rotate(r.Angle))
+	return position.Add(position.Substract(r.rect.GetCenter()).ScaleToNorm(settings.GameSettings.InteractionSpeed).Rotate(r.Angle))
 
 }
 
 func (r *RotateMaterial) Update() {
 	r.rect.Fill(rl.Yellow, 0)
-	rl.DrawLineV(r.rect.GetCenter().ToRaylibVector2(), r.rect.GetCenter().Add(graphic.NewVectorFromAngle(r.Angle).Scale(5)).ToRaylibVector2(), rl.Red)
 }
