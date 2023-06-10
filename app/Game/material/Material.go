@@ -13,6 +13,8 @@ const (
 	ROTATE_MATERIAL
 )
 
+var MATERIAL_TYPE_NAME = []string{"matériau repoussant", "matériau repoussant directionnel", "matériau circulaire"}
+
 type IMaterial interface {
 	Update()
 	Interact(graphic.Vector2) graphic.Vector2

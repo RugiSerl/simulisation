@@ -166,7 +166,7 @@ func (g *Game) UpdateUserInput() {
 
 	if rl.IsKeyPressed(rl.KeyG) {
 		g.materialType = (g.materialType + 1) % 3 // 3 is the amount of types
-		components.NewNotificationText("Changement du type de matériau")
+		components.NewNotificationText("matériau basculé en " + material.MATERIAL_TYPE_NAME[g.materialType])
 	}
 
 	if rl.IsMouseButtonDown(rl.MouseRightButton) {
