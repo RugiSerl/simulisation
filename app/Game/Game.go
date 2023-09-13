@@ -24,6 +24,7 @@ type Game struct {
 	entities               []*Entity.Entity
 	materials              []material.IMaterial
 	Camera                 rl.Camera2D
+	Camera3D               rl.Camera3D
 	cameraPositionMomentum graphic.Vector2
 	cameraZoomMomentum     float32
 	saveLoadPanel          *SaveLoadPanel
@@ -59,6 +60,14 @@ func NewGame() *Game {
 
 	g.entities = []*Entity.Entity{}
 	g.Camera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.NewVector2(0, 0), 0, 10)
+
+	g.Camera3D = rl.Camera3D{}
+	g.Camera3D.Position = rl.NewVector3(4.0, 10, 4.0)
+	g.Camera3D.Target = rl.NewVector3(0.0, 1.8, 0.0)
+	g.Camera3D.Up = rl.NewVector3(0.0, 1.0, 0.0)
+	g.Camera3D.Fovy = 60.0
+	g.Camera3D.Projection = rl.CameraPerspective
+
 	blurShader = graphic.InitShader("assets/blur.fs")
 	blurAmount = 4
 	blurShader.SetValueFromUniformName("size", blurAmount, rl.ShaderUniformFloat)
@@ -90,16 +99,25 @@ func (g *Game) Update() {
 
 		}
 	}
+	if !settings.GameSettings.Mode3d {
+		rl.BeginMode2D(g.Camera)
+		g.UpdateMaterials()
+	} else {
+		if !global.SettingsOpen {
+			g.UpdateCamera3D()
+		}
 
-	rl.BeginMode2D(g.Camera)
+		rl.BeginMode3D(g.Camera3D)
 
-	g.UpdateMaterials()
-
+	}
 	g.UpdateEntity()
 
-	g.UpdateUserInput()
-
-	rl.EndMode2D()
+	if !settings.GameSettings.Mode3d {
+		g.UpdateUserInput()
+		rl.EndMode2D()
+	} else {
+		rl.EndMode3D()
+	}
 
 	rl.EndTextureMode()
 
@@ -238,6 +256,30 @@ func (g *Game) UpdateMaterials() {
 	}
 }
 
+func (g *Game) UpdateCamera3D() {
+	delta := rl.GetMouseDelta()
+	var sensivity float32 = 0.2
+	var speed float32 = 50 * rl.GetFrameTime()
+
+	var movement rl.Vector3 = rl.Vector3{}
+
+	if rl.IsKeyDown(rl.KeyW) {
+		movement.X += speed
+	}
+	if rl.IsKeyDown(rl.KeyS) {
+		movement.X -= speed
+	}
+	if rl.IsKeyDown(rl.KeyA) {
+		movement.Y -= speed
+	}
+	if rl.IsKeyDown(rl.KeyD) {
+		movement.Y += speed
+	}
+
+	rl.UpdateCameraPro(&g.Camera3D, movement, rl.NewVector3(delta.X*sensivity, delta.Y*sensivity, 0), 0)
+
+}
+
 // met à jour la caméra pour visualiser le jeu et appliquer les transformations de cette dernière
 func (g *Game) UpdateCamera() {
 
@@ -255,7 +297,7 @@ func (g *Game) UpdateCamera() {
 	if rl.IsKeyDown(rl.KeyDown) || rl.IsKeyDown(rl.KeyS) {
 		g.cameraPositionMomentum.Y += CAMERA_SPEED
 	}
-	// g.cameraMomentum est la vitesse de la caméra, qui augmente lorsque l'utilisateur déplace la caméra, et diminue à chaque frame
+	// g.cameraMomentum estD la vitesse de la caméra, qui augmente lorsque l'utilisateur déplace la caméra, et diminue à chaque frame
 	g.Camera.Target = rl.Vector2(graphic.Vector2(g.Camera.Target).Add(g.cameraPositionMomentum.Scale(rl.GetFrameTime() / g.Camera.Zoom)))
 
 	//décalage de la caméra, pour que la cible, c'est-à-dire les coordonnées de la caméra, se trouve au milieu de l'écran

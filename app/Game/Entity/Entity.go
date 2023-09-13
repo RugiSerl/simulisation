@@ -90,15 +90,22 @@ func (e *Entity) Render() {
 
 		color := e.getColor()
 		if settings.GameSettings.VisualSettings.GradientEntities {
-			e.HitBox.Fill(color)
+			e.drawCircle(color)
 		} else {
 			rl.DrawTextureEx(TextureEntite, rl.Vector2(e.HitBox.CenterPosition.Substract(graphic.NewVector2(float32(TextureEntite.Width), float32(TextureEntite.Height)).Scale(0.5*SCALE))), 0, SCALE, rl.White)
 			color.A = 128
-			e.HitBox.Fill(color)
+			e.drawCircle(color)
 		}
 
 	}
+}
 
+func (e *Entity) drawCircle(color color.RGBA) {
+	if settings.GameSettings.Mode3d {
+		rl.DrawCylinderEx(rl.NewVector3(e.HitBox.CenterPosition.X, -9, e.HitBox.CenterPosition.Y), rl.NewVector3(e.HitBox.CenterPosition.X, -10, e.HitBox.CenterPosition.Y), e.HitBox.Radius, e.HitBox.Radius, 40, color)
+	} else {
+		e.HitBox.Fill(color)
+	}
 }
 
 // retourne la couleur de l'entité en fonction de sa valeur morale

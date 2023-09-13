@@ -43,6 +43,8 @@ type VisualSettings struct {
 	//mode dans lequel les entités affiche un rond de couleur qui suit leur valeur morale selon le cercle chromatic
 	GradientEntities bool
 
+	Mode3d bool
+
 	//définit s'il faut afficher la zone de sensibilité dans laquelle les entités peuvent voir
 	DisplaySensibilityZone bool
 
@@ -136,6 +138,7 @@ func getDefaultSettings() Settings {
 			MaxFps:           120,
 			ClearBackground:  true,
 			Background:       true,
+			Mode3d:           false,
 		},
 		EntitySettings: EntitySettings{
 			RadiusSensivity:             10,

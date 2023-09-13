@@ -107,6 +107,10 @@ func (u *UserInterface) InitSettingsPanel() {
 	DisplayStats.SetBool(&settings.GameSettings.VisualSettings.DisplayStats)
 	position = position.Add(graphic.NewVector2(0, 30))
 
+	Mode3d := components.NewSetting("Mode 3d", components.TYPE_BOOL, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
+	Mode3d.SetBool(&settings.GameSettings.VisualSettings.Mode3d)
+	position = position.Add(graphic.NewVector2(0, 30))
+
 	MaxFps := components.NewSetting("Fps cible (1-240)", components.TYPE_SLIDER, font, TEXT_SIZE, position, graphic.ANCHOR_LEFT, graphic.ANCHOR_TOP)
 	MaxFps.SetSliderValue(&settings.GameSettings.VisualSettings.MaxFps, 1, 240)
 	position = position.Add(graphic.NewVector2(0, 30))
@@ -184,7 +188,7 @@ func (u *UserInterface) InitSettingsPanel() {
 	SpawnMaterial.SetBool(&settings.GameSettings.UserInputSettings.SpawnMaterial)
 	position = position.Add(graphic.NewVector2(0, 45))
 
-	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, ReactMaterial, Reproduce, Move, Kill, visualSettings, GradientEntities, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, Background, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, materialSettings, InteractionSpeed, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius, SpawnMaterial}
+	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, ReactMaterial, Reproduce, Move, Kill, visualSettings, GradientEntities, Mode3d, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, Background, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, materialSettings, InteractionSpeed, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius, SpawnMaterial}
 
 	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 
