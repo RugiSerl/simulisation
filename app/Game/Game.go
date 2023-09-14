@@ -109,25 +109,7 @@ func (g *Game) Update() {
 
 		}
 	}
-	if !settings.GameSettings.Mode3d {
-		rl.BeginMode2D(g.Camera)
-		g.UpdateMaterials()
-	} else {
-		if !global.SettingsOpen {
-			g.UpdateCamera3D()
-		}
-
-		rl.BeginMode3D(g.Camera3D)
-
-	}
-	g.UpdateEntity()
-
-	if !settings.GameSettings.Mode3d {
-		g.UpdateUserInput()
-		rl.EndMode2D()
-	} else {
-		rl.EndMode3D()
-	}
+	g.render()
 
 	rl.EndTextureMode()
 
@@ -145,6 +127,29 @@ func (g *Game) Update() {
 	}
 	g.saveLoadPanel.Update()
 
+}
+
+func (g *Game) render() {
+	if !settings.GameSettings.Mode3d {
+		rl.BeginMode2D(g.Camera)
+
+	} else {
+		if !global.SettingsOpen {
+			g.UpdateCamera3D()
+		}
+
+		rl.BeginMode3D(g.Camera3D)
+
+	}
+	g.UpdateMaterials()
+	g.UpdateEntity()
+
+	if !settings.GameSettings.Mode3d {
+		g.UpdateUserInput()
+		rl.EndMode2D()
+	} else {
+		rl.EndMode3D()
+	}
 }
 
 // gérer les informations entrées par l'utilisateur
@@ -259,7 +264,7 @@ func (g *Game) UpdateEntity() {
 
 func (g *Game) UpdateMaterials() {
 	for _, material := range g.materials {
-		material.Update()
+		material.Render()
 	}
 	for _, material := range g.materials {
 		material.DrawLines()

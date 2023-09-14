@@ -102,7 +102,7 @@ func (e *Entity) Render() {
 
 func (e *Entity) drawCircle(color color.RGBA) {
 	if settings.GameSettings.Mode3d {
-		rl.DrawCylinderEx(rl.NewVector3(e.HitBox.CenterPosition.X, -9, e.HitBox.CenterPosition.Y), rl.NewVector3(e.HitBox.CenterPosition.X, -10, e.HitBox.CenterPosition.Y), e.HitBox.Radius, e.HitBox.Radius, 40, color)
+		rl.DrawCylinderEx(rl.NewVector3(e.HitBox.CenterPosition.X, e.HitBox.CenterPosition.Y, 0), rl.NewVector3(e.HitBox.CenterPosition.X, e.HitBox.CenterPosition.Y, -1), e.HitBox.Radius, e.HitBox.Radius, 40, color)
 	} else {
 		e.HitBox.Fill(color)
 	}

@@ -31,6 +31,6 @@ func (r *RotateMaterial) Interact(position graphic.Vector2) graphic.Vector2 {
 
 }
 
-func (r *RotateMaterial) Update() {
+func (r *RotateMaterial) Render() {
 	r.rect.Fill(rl.Yellow, 0)
 }

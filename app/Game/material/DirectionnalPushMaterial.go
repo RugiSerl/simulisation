@@ -32,7 +32,7 @@ func (p *DirectionnalPushMaterial) Interact(position graphic.Vector2) graphic.Ve
 
 }
 
-func (p *DirectionnalPushMaterial) Update() {
+func (p *DirectionnalPushMaterial) Render() {
 	p.rect.Fill(rl.Blue, 0)
 	rl.DrawLineV(p.rect.GetCenter().ToRaylibVector2(), p.rect.GetCenter().Add(graphic.NewVectorFromAngle(p.Angle).Scale(5)).ToRaylibVector2(), rl.Red)
 }

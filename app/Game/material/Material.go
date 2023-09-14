@@ -2,6 +2,7 @@ package material
 
 import (
 	"github.com/RugiSerl/simulisation/app/graphic"
+	"github.com/RugiSerl/simulisation/app/settings"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -16,7 +17,7 @@ const (
 var MATERIAL_TYPE_NAME = []string{"matériau repoussant", "matériau repoussant directionnel", "matériau circulaire"}
 
 type IMaterial interface {
-	Update()
+	Render()
 	Interact(graphic.Vector2) graphic.Vector2
 	GetRect() graphic.Rect
 	DrawLines()
@@ -44,8 +45,14 @@ func NewMaterial(rect graphic.Rect, Type MaterialType) IMaterial {
 
 }
 
-func (m *Material) Update() {
-	m.rect.Fill(rl.Black, 0)
+func (m *Material) Render() {
+	if settings.GameSettings.Mode3d {
+		// TODO
+
+	} else {
+		m.rect.Fill(rl.Black, 0)
+
+	}
 }
 
 func (m *Material) DrawLines() {
