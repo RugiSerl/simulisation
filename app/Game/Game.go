@@ -35,15 +35,25 @@ type Game struct {
 }
 
 // constante qui définit le nombre d'entités qui apparaîssent lorsque le jeu démarre
-const POPULATION_AT_THE_START = 10
+const (
+	POPULATION_AT_THE_START = 10
 
-// vitesse à laquelle la caméra du jeu se déplace lorsque l'utilisateur appuie sur les flèches directionnelles
-const CAMERA_SPEED = 200
+	// vitesse à laquelle la caméra du jeu se déplace lorsque l'utilisateur appuie sur les flèches directionnelles
+	CAMERA_SPEED = 200
 
-// quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
-const CAMERA_ZOOM_AMOUNT = 5e-2
+	// vitesse à laquelle la caméra 3d se déplace
+	CAMERA_3D_SPEED = 50
 
-const SAVE_FILENAME = "save.txt"
+	// sensibilité de la caméra en mode 3d
+	CAMERA_3D_SENSIVITY = 0.2
+
+	// quantité de zoom effectué sur la caméra lorsque l'utilisateur zoom en utilisant la molette de la souris
+	CAMERA_ZOOM_AMOUNT = 5e-2
+
+	// nom du fichier de sauvegarde
+
+	SAVE_FILENAME = "save.txt"
+)
 
 var blurShader *graphic.Shader
 var textureRender rl.RenderTexture2D
@@ -258,8 +268,7 @@ func (g *Game) UpdateMaterials() {
 
 func (g *Game) UpdateCamera3D() {
 	delta := rl.GetMouseDelta()
-	var sensivity float32 = 0.2
-	var speed float32 = 50 * rl.GetFrameTime()
+	var speed float32 = CAMERA_3D_SPEED * rl.GetFrameTime()
 
 	var movement rl.Vector3 = rl.Vector3{}
 
@@ -275,8 +284,14 @@ func (g *Game) UpdateCamera3D() {
 	if rl.IsKeyDown(rl.KeyD) {
 		movement.Y += speed
 	}
+	if rl.IsKeyDown(rl.KeyLeftShift) {
+		movement.Z -= speed
+	}
+	if rl.IsKeyDown(rl.KeySpace) {
+		movement.Z += speed
+	}
 
-	rl.UpdateCameraPro(&g.Camera3D, movement, rl.NewVector3(delta.X*sensivity, delta.Y*sensivity, 0), 0)
+	rl.UpdateCameraPro(&g.Camera3D, movement, rl.NewVector3(delta.X*CAMERA_3D_SENSIVITY, delta.Y*CAMERA_3D_SENSIVITY, 0), -rl.GetMouseWheelMove()*10)
 
 }
 
