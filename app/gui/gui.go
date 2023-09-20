@@ -211,6 +211,17 @@ func (u *UserInterface) Update() {
 		AnimationTime = 0
 		global.SettingsOpen = !global.SettingsOpen
 
+		// disable/enable cursor when the game is in 3d while not in the settings
+		// unhandled exceptions (I'm lazy) when the settings for the first time or if the user closes the settings with the cross button
+		if settings.GameSettings.Mode3d {
+			if global.SettingsOpen {
+				rl.EnableCursor()
+			} else {
+				rl.DisableCursor()
+
+			}
+		}
+
 	}
 
 }
