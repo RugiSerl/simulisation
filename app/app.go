@@ -3,8 +3,11 @@ package app
 // Par Raphaël
 
 import (
+	"runtime"
+
 	"github.com/RugiSerl/simulisation/app/Game"
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
+	"github.com/RugiSerl/simulisation/app/assets"
 	"github.com/RugiSerl/simulisation/app/gui"
 	"github.com/RugiSerl/simulisation/app/gui/components"
 	"github.com/RugiSerl/simulisation/app/settings"
@@ -17,6 +20,10 @@ var (
 	myGame      *Game.Game
 	Background  rl.Texture2D
 )
+
+func init() {
+	rl.SetCallbackFunc(Run)
+}
 
 // fonction principale
 func Run() {
@@ -34,16 +41,25 @@ func Run() {
 func load() {
 	settings.LoadSettings()
 	rl.SetConfigFlags(rl.FlagWindowResizable)
+	var screenWidth, screenHeight int32
+	switch runtime.GOOS {
+	case "android":
+		screenWidth = 960
+		screenHeight = 560
+	default:
+		screenWidth = 960
+		screenHeight = 560
+	}
 
-	rl.InitWindow(960, 560, "Simulisation")
-	rl.SetWindowIcon(*rl.LoadImage("assets/person.png"))
+	rl.InitWindow(screenWidth, screenHeight, "Simulisation")
+	rl.SetWindowIcon(*rl.LoadImage(assets.AssetPath("person.png")))
 	rl.SetTargetFPS(int32(settings.GameSettings.VisualSettings.MaxFps))
 	rl.SetExitKey(rl.KeyBackspace)
 
 	myGame = Game.NewGame()
 	myInterface = gui.NewInterface()
 
-	Entity.TextureEntite = rl.LoadTexture("assets/person.png")
+	Entity.TextureEntite = rl.LoadTexture(assets.AssetPath("person.png"))
 	rl.SetTextureFilter(Entity.TextureEntite, rl.FilterBilinear)
 
 	stats.InitFont()

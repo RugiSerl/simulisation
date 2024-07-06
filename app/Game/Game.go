@@ -7,9 +7,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"runtime"
 
 	"github.com/RugiSerl/simulisation/app/Game/Entity"
 	"github.com/RugiSerl/simulisation/app/Game/material"
+	"github.com/RugiSerl/simulisation/app/assets"
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui"
@@ -78,12 +80,12 @@ func NewGame() *Game {
 	g.Camera3D.Fovy = 60.0
 	g.Camera3D.Projection = rl.CameraPerspective
 
-	blurShader = graphic.InitShader("assets/blur.fs")
+	blurShader = graphic.InitShader(assets.AssetPath("blur.fs"))
 	blurAmount = 4
 	blurShader.SetValueFromUniformName("size", blurAmount, rl.ShaderUniformFloat)
 	textureRender = rl.LoadRenderTexture(1920, 1080)
 
-	Background = rl.LoadTexture("assets/background.png")
+	Background = rl.LoadTexture(assets.AssetPath("background.png"))
 	rl.SetTextureFilter(Background, rl.FilterBilinear)
 
 	g.materials = []material.IMaterial{}
@@ -97,8 +99,13 @@ func NewGame() *Game {
 
 // Cette fonction est appelée à chaque frame et s'occupe de montrer graphiquement l'état du jeu, ainsi que de mettre à jour les entités
 func (g *Game) Update() {
+	switch runtime.GOOS {
+	case "android":
+		g.updateCameraAndroid()
+	default:
+		g.UpdateCamera()
 
-	g.UpdateCamera()
+	}
 	//tout les éléments du jeu sont rendus sur le renderer
 	rl.BeginTextureMode(textureRender)
 
@@ -125,7 +132,10 @@ func (g *Game) Update() {
 	if global.SettingsOpen {
 		blurShader.End()
 	}
-	g.saveLoadPanel.Update()
+	// unusable on android
+	if runtime.GOOS != "android" {
+		g.saveLoadPanel.Update()
+	}
 
 }
 
@@ -335,6 +345,10 @@ func (g *Game) UpdateCamera() {
 			g.Camera.Zoom = 1
 		}
 	}
+}
+
+func (g *Game) updateCameraAndroid() {
+	g.Camera.Target = rl.Vector2Add(g.Camera.Target, rl.Vector2Scale(rl.GetMouseDelta(), -0.2))
 
 }
 

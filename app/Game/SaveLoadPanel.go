@@ -1,6 +1,7 @@
 package Game
 
 import (
+	"github.com/RugiSerl/simulisation/app/assets"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui/components"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -20,8 +21,8 @@ type SaveLoadPanel struct {
 func NewSaveLoadPanel() *SaveLoadPanel {
 	s := new(SaveLoadPanel)
 
-	s.SaveButton = components.NewImageButton(graphic.NewVector2(0, 0), rl.LoadTexture("assets/save2.png"), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM)
-	s.LoadButton = components.NewImageButton(graphic.NewVector2(0, 0), rl.LoadTexture("assets/load.png"), graphic.ANCHOR_RIGHT, graphic.ANCHOR_BOTTOM)
+	s.SaveButton = components.NewImageButton(graphic.NewVector2(0, 0), rl.LoadTexture(assets.AssetPath("save2.png")), graphic.ANCHOR_LEFT, graphic.ANCHOR_BOTTOM)
+	s.LoadButton = components.NewImageButton(graphic.NewVector2(0, 0), rl.LoadTexture(assets.AssetPath("load.png")), graphic.ANCHOR_RIGHT, graphic.ANCHOR_BOTTOM)
 
 	return s
 }

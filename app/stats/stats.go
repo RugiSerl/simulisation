@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/RugiSerl/simulisation/app/Game"
+	"github.com/RugiSerl/simulisation/app/assets"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -18,7 +19,7 @@ const TEXT_SIZE = 20
 const TEXT_SPACING = 0
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx(assets.AssetPath("VarelaRound-Regular.ttf"), TEXT_SIZE, []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 

@@ -3,6 +3,7 @@ package gui
 // Par Raphaël
 
 import (
+	"github.com/RugiSerl/simulisation/app/assets"
 	"github.com/RugiSerl/simulisation/app/global"
 	"github.com/RugiSerl/simulisation/app/graphic"
 	"github.com/RugiSerl/simulisation/app/gui/components"
@@ -28,7 +29,7 @@ var (
 )
 
 func InitFont() {
-	font = rl.LoadFontEx("assets/VarelaRound-Regular.ttf", TEXT_SIZE, []rune("'\"ÉâéèàabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
+	font = rl.LoadFontEx(assets.AssetPath("VarelaRound-Regular.ttf"), TEXT_SIZE, []rune("'\"ÉâéèàabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:0123456789.- ()"))
 	rl.SetTextureFilter(font.Texture, rl.FilterBilinear)
 }
 
@@ -48,7 +49,7 @@ func NewInterface() *UserInterface {
 	InitFont()
 	u := new(UserInterface)
 	u.rectOffset = 0
-	u.openSettings = components.NewImageButton(graphic.NewVector2(20, 20), rl.LoadTexture("assets/menu.png"), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
+	u.openSettings = components.NewImageButton(graphic.NewVector2(20, 20), rl.LoadTexture(assets.AssetPath("menu.png")), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
 
 	u.InitSettingsPanel()
 
@@ -59,7 +60,7 @@ func NewInterface() *UserInterface {
 // initialise les paramètres à afficher et leur propriétés
 func (u *UserInterface) InitSettingsPanel() {
 
-	u.closeSettings = components.NewImageButton(graphic.NewVector2(20, 20), rl.LoadTexture("assets/close.png"), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
+	u.closeSettings = components.NewImageButton(graphic.NewVector2(20, 20), rl.LoadTexture(assets.AssetPath("close.png")), graphic.ANCHOR_RIGHT, graphic.ANCHOR_TOP)
 
 	position := graphic.NewVector2(0, 15)
 	parameteres := components.NewSetting("Paramètres", components.TYPE_NO_COMPONENT, font, TEXT_SIZE, position, graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
@@ -190,7 +191,7 @@ func (u *UserInterface) InitSettingsPanel() {
 
 	u.settings = []*components.Setting{parameteres, gamerule, gamerule, UpdateAge, Uncollide, ReactMaterial, Reproduce, Move, Kill, visualSettings, GradientEntities, Mode3d, DisplaySensibilityZone, MaxFps, DisplayStats, ClearBackground, Background, entitySettings, linearMove, GoToClosestNeightbour, UnCollideAgressive, radiusSensivity, Speed, ChildMaximumDifference, MaximumAge, BaseProbabilityReproduction, BaseProbabilityKill, materialSettings, InteractionSpeed, UserInputSettings, SpawnRandomValeurMorale, EntityValeurMoraleOnSpawn, DeleteRadius, SpawnMaterial}
 
-	u.saveSettings = components.NewImageButton(position, rl.LoadTexture("assets/save.png"), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
+	u.saveSettings = components.NewImageButton(position, rl.LoadTexture(assets.AssetPath("save.png")), graphic.ANCHOR_HORIZONTAL_MiDDLE, graphic.ANCHOR_TOP)
 
 }
 
